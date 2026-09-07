@@ -219,7 +219,8 @@
     "resultCountOne": "1 Betrieb",
     "positionLabel": "Standort: {{name}}",
     "filterCount": "{{count}} Filter aktiv",
-    "resetFilters": "Filter zurücksetzen"
+    "resetFilters": "Filter zurücksetzen",
+    "credit": "© OpenStreetMap"
   },
   "categories": {
     "restaurant": "Restaurant",
@@ -1534,5 +1535,27 @@
     "title": "Kein Kontakt zum Server.",
     "text": "Deshalb bleibt hier gerade alles leer. Sobald er wieder antwortet, ist alles da.",
     "retry": "Erneut versuchen"
+  },
+  "landing": {
+    "eyebrow": "Im Aufbau — schon zum Ansehen",
+    "title": "Sieh, was es zu essen gibt.",
+    "lead": "Kurze Videos aus Restaurants in deiner Nähe. Mit Speisekarte, Öffnungszeiten und Bewertungen — an einem Ort, ohne fünf Tabs.",
+    "ctaPrimary": "Karte öffnen",
+    "ctaSecondary": "Wie es funktioniert",
+    "servingTitle": "Auf einen Blick, was serviert wird",
+    "servingLead": "Nur Getränke? Vegan? Fisch? Das steht als Symbolzeile über jedem Betrieb — nicht im dritten Absatz einer Beschreibung.",
+    "menuTitle": "Die Speisekarte, wie sie im Lokal hängt",
+    "menuLead": "Eine eigene Seite je Betrieb: Kategorien, Preise, Allergene. Zum Weitergeben per Link oder QR-Code am Tisch.",
+    "videoTitle": "Videos von Gästen, nicht aus der Werbung",
+    "videoLead": "Jedes Video hängt an einem Betrieb und einer Bewertung. Wer filmt, war da.",
+    "featuresTitle": "Was du damit machst",
+    "gastroTitle": "Sie führen ein Lokal?",
+    "gastroLead": "Betrieb eintragen, Speisekarte pflegen, auf Bewertungen antworten. Der QR-Code für den Tisch ist dabei.",
+    "gastroCta": "Betrieb eintragen",
+    "gastroMore": "Mehr für Gastronomen",
+    "closeTitle": "Genug gelesen.",
+    "closeLead": "Die Karte ist schon da. Zum Ansehen braucht es kein Konto.",
+    "closeCta": "Zur Karte",
+    "closeSecondary": "Konto anlegen"
   }
 }

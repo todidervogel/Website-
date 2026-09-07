@@ -17,7 +17,8 @@
     "pruefen:routen": "node tools/routen-sweep.mjs",
     "pruefen:verhalten": "node tools/verhalten.mjs",
     "bilder": "node tools/bilder.mjs",
-    "pruefen:verbindung": "node tools/verbindung.mjs"
+    "pruefen:verbindung": "node tools/verbindung.mjs",
+    "pruefen:karte": "node tools/karte-pruefen.mjs"
   },
   "dependencies": {
     "@capacitor/core": "^6.2.2",

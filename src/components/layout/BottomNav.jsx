@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom'
 import { MapPin, Plus, Search, SquarePlay, User } from 'lucide-react'
 import { useDesignState } from '../../lib/design-state'
+import { useSession } from '../../lib/session'
 import { t } from '../../design/i18n'
 
 /**
@@ -15,6 +16,7 @@ import { t } from '../../design/i18n'
  */
 export function BottomNav({ dark }) {
   const { isApp, isDesktop, pureMap } = useDesignState()
+  const { loggedIn } = useSession()
 
   if (isDesktop || pureMap) return null
 
@@ -31,7 +33,8 @@ export function BottomNav({ dark }) {
         <span className="t-tiny">{t('bottomNav.map')}</span>
       </NavLink>
 
-      {isApp && (
+      {/* Auch auf der Webseite — aber nur angemeldet. */}
+      {(isApp || loggedIn) && (
         <NavLink to="/upload" className={active}>
           <span className="nav-capture"><Plus size={22} /></span>
           <span className="t-tiny">{t('bottomNav.capture')}</span>

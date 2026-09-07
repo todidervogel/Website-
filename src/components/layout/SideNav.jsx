@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom'
 import { MapPin, Plus, Search, SquarePlay, User } from 'lucide-react'
 import { useDesignState } from '../../lib/design-state'
+import { useSession } from '../../lib/session'
 import { t } from '../../design/i18n'
 
 /**
@@ -15,6 +16,7 @@ import { t } from '../../design/i18n'
  */
 export function SideNav({ dark }) {
   const { isApp } = useDesignState()
+  const { loggedIn } = useSession()
   const active = ({ isActive }) => (isActive ? 'is-active' : '')
 
   const Punkt = ({ to, icon: Icon, children, className = '' }) => (
@@ -30,8 +32,12 @@ export function SideNav({ dark }) {
       <Punkt to="/karte" icon={MapPin}>{t('bottomNav.map')}</Punkt>
       <Punkt to="/suche" icon={Search}>{t('bottomNav.search')}</Punkt>
 
-      {/* Aufnehmen gehört zur App — auf einer Internetseite gibt es keine Kamera am Gerät. */}
-      {isApp && (
+      {/*
+        * Hochladen geht auch auf der Webseite — nur angemeldet. Vorher war der
+        * Punkt der App vorbehalten; wer am Rechner eine Bewertung schreiben
+        * wollte, fand keinen Weg dorthin.
+        */}
+      {(isApp || loggedIn) && (
         <Punkt to="/upload" icon={Plus} className="side-nav-capture">{t('bottomNav.capture')}</Punkt>
       )}
       <Punkt to="/profil" icon={User}>{t('bottomNav.profile')}</Punkt>

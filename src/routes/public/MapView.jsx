@@ -7,7 +7,8 @@ import { Button, Chip, FilterChip, SkeletonRow, EmptyState, Checkbox, Radio, Ico
 import { PlaceRow } from '../../components/PlaceRowConnected'
 import { BarePage } from '../../components/layout'
 import { useDesignState, useVariant } from '../../lib/design-state'
-import { api, formatDistance, toMapPercent, useQuery } from '../../lib/store'
+import { api, formatDistance, useQuery } from '../../lib/store'
+import { MapTiles } from '../../components/MapTiles'
 import { openSentence } from '../../lib/hours-text'
 import { RADIUS_OPTIONS, PRICE_LEVELS } from '../../design/config'
 import { SERVING_KEYS } from '../../design/vocabulary'
@@ -26,6 +27,11 @@ const spanFor = (radiusKm) => Math.max(2, radiusKm * 1.6)
 /** C.2 — Kartenansicht */
 export default function MapView() {
   const { position, radiusKm, setRadiusKm, pureMap, setPureMap, isMobile } = useDesignState()
+  /*
+   * Die Projektion kommt vom Kartenschirm — nur er weiß, wie breit er ist,
+   * und ohne dieselbe Rechnung säßen die Marker neben ihren Kacheln.
+   */
+  const [projizieren, setProjizieren] = useState(null)
 
   const [query, setQuery] = useState('')
   const [openNow, setOpenNow] = useState(false)
@@ -98,6 +104,7 @@ export default function MapView() {
           {!pureMap && !isMobile && <aside className="map-list">{results}</aside>}
 
           <div className="map-canvas">
+            <MapTiles center={position} spanKm={spanFor(radiusKm)} onProject={setProjizieren} />
             {pureMap && (
               <span className="map-pure-exit">
                 <IconButton icon={ChevronLeft} label={t('map.pureModeOff')} tone="glass" onClick={() => setPureMap(false)} />
@@ -223,16 +230,15 @@ export default function MapView() {
             )}
 
             {/* Marker — Position aus den echten Koordinaten gerechnet */}
-            {!loading && list.map((p) => {
-              const { top, left } = toMapPercent(p, position, spanFor(radiusKm))
-              if (top < -5 || top > 105 || left < -5 || left > 105) return null
+            {!loading && projizieren && list.map((p) => {
+              const { top, left } = projizieren(p)
               return (
                 <button
                   key={p.id}
                   type="button"
                   className="marker"
                   data-selected={selected === p.id}
-                  style={{ top: `${top}%`, left: `${left}%` }}
+                  style={{ top, left }}
                   aria-label={p.name}
                   onClick={() => setSelected(selected === p.id ? null : p.id)}
                 >

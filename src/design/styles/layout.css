@@ -520,3 +520,111 @@
 .feed-serving .serving-chip {
   background: rgba(255, 255, 255, .14); border-color: transparent; color: rgba(255, 255, 255, .82);
 }
+
+/* ==========================================================================
+   Kartenkacheln
+   ==========================================================================
+   Liegen unter den Markern. Bleiben sie aus (kein Netz), sieht man weiter
+   den Rasterhintergrund von `.map-canvas` — die Marker sitzen trotzdem
+   richtig, weil sie aus derselben Rechnung kommen.
+   ========================================================================== */
+.map-tiles { position: absolute; inset: 0; overflow: hidden; }
+.map-tile[hidden] { display: none; }
+.map-tile {
+  position: absolute;
+  max-width: none;                 /* sonst greift die globale Bildregel */
+  user-select: none;
+  pointer-events: none;
+}
+
+/*
+ * Nachweis der Quelle. So klein und ruhig wie möglich — verlangt ist er
+ * trotzdem: Die Kacheln stehen unter der ODbL, und die will genannt werden.
+ */
+.map-credit {
+  position: absolute; right: 0; bottom: 0; z-index: 1;
+  padding: 1px var(--sp-2);
+  background: rgba(255, 255, 255, .7);
+  border-top-left-radius: var(--r-control);
+  font-size: 10px; line-height: 15px; color: var(--text-secondary);
+}
+
+/*
+ * Im Dunkelmodus gibt es von OpenStreetMap keine dunklen Kacheln. Umdrehen
+ * und den Farbkreis zurückdrehen kommt einer dunklen Karte nahe genug —
+ * Grün bleibt Grün, Wasser bleibt blau.
+ */
+:root[data-theme='dark'] .map-tile {
+  filter: invert(1) hue-rotate(180deg) brightness(.92) contrast(.9) saturate(.8);
+}
+:root[data-theme='dark'] .map-credit { background: rgba(0, 0, 0, .5); }
+
+/* ==========================================================================
+   Präsentationsseite
+   ==========================================================================
+   Die Seite vor der Anwendung. Sie hat bewusst andere Maße als der Rest:
+   größere Schrift, mehr Luft, breitere Abschnitte. Wer hier landet, kennt
+   das Produkt noch nicht.
+   ========================================================================== */
+
+.lp-hero { padding-block: var(--sp-12) var(--sp-8); }
+.lp-eyebrow {
+  display: inline-flex; align-items: center; gap: var(--sp-2);
+  padding: 4px var(--sp-3); margin-bottom: var(--sp-4);
+  border: 1px solid var(--border); border-radius: var(--r-pill);
+  font-size: 13px; line-height: 18px; color: var(--text-secondary);
+}
+.lp-title {
+  font-size: 34px; line-height: 40px; font-weight: 700; letter-spacing: -0.03em;
+  max-width: 16ch;
+}
+.lp-lead {
+  margin-top: var(--sp-4); max-width: 46ch;
+  font-size: 17px; line-height: 26px; color: var(--text-secondary);
+}
+.lp-cta { display: flex; flex-wrap: wrap; gap: var(--sp-3); margin-top: var(--sp-6); }
+
+.lp-section { padding-block: var(--sp-12); border-top: 1px solid var(--border); }
+.lp-section-head { max-width: 52ch; margin-bottom: var(--sp-8); }
+.lp-section-head h2 { font-size: 26px; line-height: 32px; letter-spacing: -0.02em; }
+.lp-section-head p { margin-top: var(--sp-2); color: var(--text-secondary); }
+
+.lp-grid { display: grid; gap: var(--sp-6); grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+.lp-feature h3 { margin-top: var(--sp-3); }
+.lp-feature p { margin-top: var(--sp-1); color: var(--text-secondary); }
+.lp-feature-icon {
+  width: 44px; height: 44px; border-radius: var(--r-control);
+  display: grid; place-items: center;
+  background: var(--accent-soft, var(--bg-light-alt)); color: var(--accent);
+}
+
+/* Der Schluss: eine Karte, die zur Anwendung führt. */
+.lp-close {
+  margin-block: var(--sp-12);
+  padding: var(--sp-12) var(--sp-8);
+  border-radius: var(--r-card);
+  background: var(--bg-dark); color: var(--text-on-dark);
+  text-align: center;
+}
+.lp-close h2 { font-size: 26px; line-height: 32px; }
+.lp-close p { margin-top: var(--sp-2); color: var(--text-on-dark-dim); }
+.lp-close .lp-cta { justify-content: center; }
+
+@media (min-width: 1024px) {
+  .lp-hero { padding-block: var(--sp-16) var(--sp-12); }
+  .lp-title { font-size: 52px; line-height: 58px; }
+  .lp-lead { font-size: 19px; line-height: 30px; }
+  .lp-section-head h2 { font-size: 32px; line-height: 40px; }
+  .lp-close h2 { font-size: 32px; line-height: 40px; }
+}
+
+/* Kopfbereich der Präsentationsseite: Text und Karte nebeneinander. */
+.lp-hero-grid { display: grid; gap: var(--sp-8); }
+.lp-hero-map {
+  height: 280px; border-radius: var(--r-card); overflow: hidden;
+  border: 1px solid var(--border);
+}
+@media (min-width: 900px) {
+  .lp-hero-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: var(--sp-12); }
+  .lp-hero-map { height: 420px; }
+}

@@ -1,17 +1,30 @@
 import { useState } from 'react'
-import { ChevronRight, Compass, Info, MapPin, Navigation, UtensilsCrossed } from 'lucide-react'
+import { ChevronRight, Compass, Info, MapPin, Navigation, QrCode, UtensilsCrossed } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Button, IconButton, Skeleton, VideoTile } from '../../design/ui'
+import { Button, IconButton, ServingRow, Skeleton, VideoTile } from '../../design/ui'
 import { Page } from '../../components/layout'
 import { useDesignState, useVariant } from '../../lib/design-state'
-import { api, toMapPercent, useQuery } from '../../lib/store'
+import { api, useQuery } from '../../lib/store'
+import { MapTiles } from '../../components/MapTiles'
 import { t } from '../../design/i18n'
 
-/** C.1 — Startseite */
+/**
+ * C.1 — Die Seite vor der Anwendung.
+ *
+ * Das ist keine Startseite der App, sondern eine Präsentationsseite: Wer hier
+ * ankommt, kennt das Produkt noch nicht. Deshalb ohne Seitenleiste und ohne
+ * untere Leiste — die gehören in die Anwendung, nicht davor. Von hier führen
+ * Knöpfe hinein.
+ *
+ * Der Aufbau folgt dem, was solche Seiten üblicherweise leisten müssen:
+ * behaupten (Kopfbereich), zeigen (echte Daten statt Bildern), erklären
+ * (drei Merkmale), die zweite Zielgruppe abholen (Gastronomie), abschließen.
+ */
 export default function Home() {
   const { position, radiusKm, setPosition } = useDesignState()
   const navigate = useNavigate()
   const [where, setWhere] = useState('')
+  const [projizieren, setProjizieren] = useState(null)
 
   const { data: feed, loading: feedLoading } = useVariant(
     useQuery(() => api.videos.feed({ position, radiusKm: Math.max(radiusKm, 10) }), [position, radiusKm], {
@@ -22,7 +35,6 @@ export default function Home() {
     useQuery(() => api.places.nearby(position, 12), [position], { initial: [] }),
   )
 
-  const isLoading = feedLoading
   const tiles = (feed?.items ?? []).slice(0, 8)
   const markers = nearby ?? []
 
@@ -38,14 +50,17 @@ export default function Home() {
   }
 
   return (
-    <Page title={t('home.title')}>
-      {/* Abschnitt 1 — Kopfbereich */}
-      <section className="section" style={{ maxWidth: 720 }}>
-        <h1 className="t-display">{t('home.title')}</h1>
-        <p className="t-body c-secondary" style={{ marginTop: 'var(--sp-3)' }}>{t('home.subtitle')}</p>
+    <Page title={t('home.title')} bottomNav={false}>
+      {/* --- Behaupten --------------------------------------------------- */}
+      <section className="lp-hero">
+       <div className="lp-hero-grid">
+        <div className="lp-hero-text">
+        <span className="lp-eyebrow">{t('landing.eyebrow')}</span>
+        <h1 className="lp-title">{t('landing.title')}</h1>
+        <p className="lp-lead">{t('landing.lead')}</p>
 
-        <form className="row-wrap" style={{ marginTop: 'var(--sp-6)', gap: 'var(--sp-2)' }} onSubmit={goToPlace}>
-          <div className="input-affix grow" style={{ minWidth: 260 }}>
+        <form className="row-wrap" style={{ marginTop: 'var(--sp-6)', gap: 'var(--sp-2)', maxWidth: 560 }} onSubmit={goToPlace}>
+          <div className="input-affix grow" style={{ minWidth: 240 }}>
             <span className="affix"><MapPin size={18} /></span>
             <input
               className="input"
@@ -60,93 +75,133 @@ export default function Home() {
           </div>
           <Button type="submit" variant="primary">{t('home.go')}</Button>
         </form>
-      </section>
 
-      {/* Abschnitt 2 — Videovorschau */}
-      <section style={{ paddingBottom: 'var(--sp-12)' }}>
-        <div className="row-between" style={{ marginBottom: 'var(--sp-4)' }}>
-          <h2 className="t-h2">{t('home.popularTitle')}</h2>
-          <IconButton icon={ChevronRight} label={t('home.popularNext')} to="/feed" />
+        {/*
+          * „Losgehen“ führt schon zur Karte — ein zweiter Knopf daneben, der
+          * dasselbe tut, macht die Entscheidung nur schwerer. Übrig bleibt der
+          * Weg für die andere Zielgruppe.
+          */}
+        <p className="t-body" style={{ marginTop: 'var(--sp-4)' }}>
+          <Link to="/fuer-gastronomen" className="c-accent">{t('landing.gastroMore')}</Link>
+        </p>
         </div>
 
-        {isLoading ? (
-          <div className="video-rail">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <Skeleton key={i} w={180} h={320} radius="var(--r-card)" style={{ flex: 'none' }} />
-            ))}
-          </div>
-        ) : tiles.length === 0 ? (
-          <div className="card card-flat" style={{ padding: 'var(--sp-8)', textAlign: 'center' }}>
-            <p className="t-body c-secondary">{t('feed.emptyText')}</p>
-          </div>
-        ) : (
-          <div className="video-rail">
-            {tiles.map((v) => (
+        {/*
+          * Rechts keine Bühnengrafik, sondern die Karte mit echten Betrieben.
+          * Auf dem Handy fällt sie unter den Text.
+          */}
+        <div className="lp-hero-map map-canvas">
+          <MapTiles center={position} spanKm={6} onProject={setProjizieren} />
+          {!mapLoading && projizieren && markers.map((p) => (
+            <span key={p.id} className="marker" style={{ top: projizieren(p).top, left: projizieren(p).left }}>
+              <span className={p.videoCount > 0 ? 'marker-video' : 'marker-dot'}>
+                <UtensilsCrossed size={p.videoCount > 0 ? 16 : 11} />
+              </span>
+            </span>
+          ))}
+        </div>
+       </div>
+      </section>
+
+      {/* --- Zeigen: echte Videos, keine Bühnenbilder --------------------- */}
+      <section className="lp-section">
+        <div className="lp-section-head">
+          <h2>{t('landing.videoTitle')}</h2>
+          <p>{t('landing.videoLead')}</p>
+        </div>
+
+        <div className="video-grid">
+          {feedLoading
+            ? Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} h={220} radius="var(--r-card)" />)
+            : tiles.map((v) => (
               <VideoTile
                 key={v.id}
-                to={`/v/${v.id}`}
-                title={v.place?.name}
-                subtitle={v.place?.distance}
-                views={v.views.toLocaleString('de-DE')}
+                video={v}
+                onClick={() => navigate(`/v/${v.id}`)}
               />
             ))}
-          </div>
-        )}
-      </section>
-
-      {/* Abschnitt 3 — Kartenvorschau */}
-      <section style={{ paddingBottom: 'var(--sp-12)' }}>
-        <h2 className="t-h2" style={{ marginBottom: 'var(--sp-4)' }}>{t('home.mapTitle')}</h2>
-        <div className="map-canvas" style={{ height: 400, borderRadius: 'var(--r-card)', overflow: 'hidden' }}>
-          {!mapLoading && markers.map((p) => {
-            const { top, left } = toMapPercent(p, position, 14)
-            if (top < 0 || top > 100 || left < 0 || left > 100) return null
-            return (
-              <span key={p.id} className="marker" style={{ top: `${top}%`, left: `${left}%` }}>
-                <span className={p.videoCount > 0 ? 'marker-video' : 'marker-dot'}>
-                  <UtensilsCrossed size={p.videoCount > 0 ? 16 : 11} />
-                </span>
-              </span>
-            )
-          })}
-          <div style={{ position: 'absolute', inset: 0, display: 'grid', placeItems: 'center' }}>
-            <Button variant="primary" to="/karte">{t('home.openMap')}</Button>
-          </div>
-          <div className="map-attribution">{t('footer.mapData')}</div>
         </div>
+
       </section>
 
-      {/* Abschnitt 4 — So funktioniert's */}
-      <section style={{ paddingBottom: 'var(--sp-12)' }}>
-        <h2 className="t-h2" style={{ marginBottom: 'var(--sp-6)' }}>{t('home.howTitle')}</h2>
-        <div style={{ display: 'grid', gap: 'var(--sp-6)', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))' }}>
+      {/* --- Zeigen: das Unterscheidungsmerkmal --------------------------- */}
+      <section className="lp-section">
+        <div className="lp-section-head">
+          <h2>{t('landing.servingTitle')}</h2>
+          <p>{t('landing.servingLead')}</p>
+        </div>
+        {/*
+          * Nicht als Bild erklärt, sondern mit dem Baustein selbst. Was hier
+          * steht, steht später genauso an jedem Betrieb.
+          */}
+        <div className="card" style={{ padding: 'var(--sp-6)', display: 'grid', gap: 'var(--sp-4)' }}>
           {[
-            [Compass, 'discoverTitle', 'discoverText'],
-            [Info, 'informTitle', 'informText'],
-            [Navigation, 'goTitle', 'goText'],
-          ].map(([Icon, titleKey, textKey]) => (
-            <div key={titleKey}>
-              <Icon size={28} className="c-accent" />
-              <h3 className="t-h3" style={{ marginTop: 'var(--sp-3)' }}>{t(`home.how.${titleKey}`)}</h3>
-              <p className="t-body c-secondary" style={{ marginTop: 'var(--sp-1)' }}>{t(`home.how.${textKey}`)}</p>
+            ['Trattoria Bella', ['fleisch', 'fisch', 'vegetarisch', 'suesses']],
+            ['Grünkern', ['vegan', 'vegetarisch', 'glutenfrei']],
+            ['Bar Nordlicht', ['getraenke']],
+          ].map(([name, serving]) => (
+            <div key={name} className="row-between" style={{ gap: 'var(--sp-4)', flexWrap: 'wrap' }}>
+              <span className="t-h3">{name}</span>
+              <ServingRow serving={serving} size="md" />
             </div>
           ))}
         </div>
       </section>
 
-      {/* Abschnitt 5 — Für Gastronomen */}
-      <section
-        className="card card-flat"
-        style={{ padding: 'var(--sp-8)', marginBottom: 'var(--sp-12)' }}
-      >
-        <h2 className="t-h2">{t('home.gastroTitle')}</h2>
-        <p className="t-body c-secondary" style={{ marginTop: 'var(--sp-2)', maxWidth: 560 }}>{t('home.gastroText')}</p>
-        <Button variant="primary" to="/gastro/eintragen" style={{ marginTop: 'var(--sp-4)' }}>
-          {t('home.gastroCta')}
-        </Button>
-        <p className="t-small c-secondary" style={{ marginTop: 'var(--sp-3)' }}>
-          <Link to="/fuer-gastronomen" className="c-accent">{t('header.forRestaurants')}</Link>
-        </p>
+      {/* --- Erklären ---------------------------------------------------- */}
+      <section className="lp-section">
+        <div className="lp-section-head">
+          <h2>{t('landing.featuresTitle')}</h2>
+        </div>
+        <div className="lp-grid">
+          {[
+            [Compass, 'discoverTitle', 'discoverText'],
+            [Info, 'informTitle', 'informText'],
+            [Navigation, 'goTitle', 'goText'],
+          ].map(([Icon, titleKey, textKey]) => (
+            <div key={titleKey} className="lp-feature">
+              <span className="lp-feature-icon"><Icon size={22} /></span>
+              <h3 className="t-h3">{t(`home.how.${titleKey}`)}</h3>
+              <p className="t-body">{t(`home.how.${textKey}`)}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* --- Die zweite Zielgruppe --------------------------------------- */}
+      <section className="lp-section">
+        <div className="lp-grid" style={{ alignItems: 'center' }}>
+          <div>
+            <h2 className="t-h2">{t('landing.gastroTitle')}</h2>
+            <p className="t-body c-secondary" style={{ marginTop: 'var(--sp-2)' }}>{t('landing.gastroLead')}</p>
+            <div className="lp-cta">
+              <Button variant="primary" to="/gastro/eintragen">{t('landing.gastroCta')}</Button>
+              <Button variant="secondary" to="/fuer-gastronomen">{t('landing.gastroMore')}</Button>
+            </div>
+          </div>
+          <div className="card" style={{ padding: 'var(--sp-6)' }}>
+            <span className="lp-feature-icon"><QrCode size={22} /></span>
+            <h3 className="t-h3" style={{ marginTop: 'var(--sp-3)' }}>{t('landing.menuTitle')}</h3>
+            <p className="t-body c-secondary" style={{ marginTop: 'var(--sp-1)' }}>{t('landing.menuLead')}</p>
+            <Link
+              to="/g/trattoria-bella/speisekarte"
+              className="row c-accent"
+              style={{ marginTop: 'var(--sp-4)', textDecoration: 'none', gap: 4 }}
+            >
+              {t('menu.title')} <ChevronRight size={16} />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* --- Abschließen -------------------------------------------------- */}
+      <section className="lp-close">
+        <h2>{t('landing.closeTitle')}</h2>
+        <p>{t('landing.closeLead')}</p>
+        <div className="lp-cta">
+          <Button variant="primary" to="/karte">{t('landing.closeCta')}</Button>
+          <Button variant="secondary" to="/registrieren">{t('landing.closeSecondary')}</Button>
+        </div>
       </section>
     </Page>
   )
