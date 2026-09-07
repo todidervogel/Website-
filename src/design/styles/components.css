@@ -419,3 +419,28 @@ body.map-pure { overflow: hidden; }
 
 /* Auslöser blinkt, solange „aufgenommen" wird */
 .capture-shutter.is-recording { background: var(--danger); animation: pulse 1.2s ease-in-out infinite; }
+
+/*
+ * Band bei fehlender Verbindung — siehe ConnectionBanner in der Website.
+ *
+ * Auf dem Handy untereinander: Text und Knopf nebeneinander lassen dem Text
+ * gut 180px, und der Satz zerfällt in vier Zeilen.
+ */
+.connection-banner {
+  display: grid; gap: var(--sp-2);
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  padding: var(--sp-3) var(--gutter);
+  background: var(--danger-soft); color: var(--text-primary);
+  border-bottom: 1px solid var(--border);
+  font-size: 13px; line-height: 18px;
+}
+.connection-banner .connection-icon { color: var(--danger); margin-top: 1px; }
+.connection-banner .btn { grid-column: 2; justify-self: start; }
+
+@media (min-width: 640px) {
+  .connection-banner { grid-template-columns: auto 1fr auto; align-items: center; }
+  .connection-banner .btn { grid-column: auto; }
+}
+@keyframes dreh { to { transform: rotate(360deg); } }
+.spin { animation: dreh 900ms linear infinite; }

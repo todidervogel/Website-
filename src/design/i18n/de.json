@@ -1529,5 +1529,10 @@
     "violence": "Gewalt",
     "copyright": "Urheberrecht",
     "wrong": "Falsche Informationen"
+  },
+  "connection": {
+    "title": "Kein Kontakt zum Server.",
+    "text": "Deshalb bleibt hier gerade alles leer. Sobald er wieder antwortet, ist alles da.",
+    "retry": "Erneut versuchen"
   }
 }

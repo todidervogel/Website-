@@ -5,6 +5,7 @@ import { Footer } from './Footer'
 import { BottomNav } from './BottomNav'
 import { SideNav } from './SideNav'
 import { BuildBanner, CookieBanner } from './Banners'
+import { ConnectionBanner } from './ConnectionBanner'
 import { useDesignState } from '../../lib/design-state'
 
 /** Setzt den Seitentitel und scrollt bei Seitenwechsel nach oben. */
@@ -24,6 +25,7 @@ export function Page({ title, children, footer = true, bottomNav = true, headerS
   const { isWeb } = useDesignState()
   return (
     <div className={`app-shell ${bottomNav ? 'has-side-nav' : ''}`}>
+      <ConnectionBanner />
       <BuildBanner />
       <Header suffix={headerSuffix} minimal={minimalHeader} />
       <div className="shell-body">
@@ -51,6 +53,7 @@ export function BarePage({ title, children, bottomNav = true, headerSuffix, mini
 
   return (
     <div className={`app-shell ${bottomNav && !bare ? 'has-side-nav' : ''}`}>
+      {!bare && <ConnectionBanner />}
       {!bare && <BuildBanner />}
       {!bare && <Header suffix={headerSuffix} minimal={minimalHeader} />}
       <div className="shell-body">
@@ -78,6 +81,7 @@ export function FullscreenPage({ title, children, bottomNav = true, dark = true 
       className={`fullheight ${bottomNav ? 'has-side-nav is-fullscreen' : ''}`}
       style={{ background: dark ? 'var(--bg-dark)' : 'var(--bg-light)' }}
     >
+      <ConnectionBanner />
       {bottomNav && <SideNav dark={dark} />}
       {children}
       {bottomNav && <BottomNav dark={dark} />}

@@ -1,6 +1,7 @@
 import { hasCall, invoke, listCalls, setStore } from '../../domain'
 import { createLocalStore } from './local-store'
 import { changed } from './events'
+import { verbindungDa, verbindungWeg } from './connection'
 
 /**
  * Der Zugang zur Fachlogik — in zwei Betriebsarten.
@@ -90,14 +91,33 @@ export function getToken() {
 }
 
 export async function request(path, { method = 'GET', body } = {}) {
-  const res = await fetch(`${SERVER}${path}`, {
-    method,
-    headers: {
-      ...(body ? { 'content-type': 'application/json' } : {}),
-      ...(getToken() ? { authorization: `Bearer ${getToken()}` } : {}),
-    },
-    body: body ? JSON.stringify(body) : undefined,
-  })
+  let res
+  try {
+    res = await fetch(`${SERVER}${path}`, {
+      method,
+      headers: {
+        ...(body ? { 'content-type': 'application/json' } : {}),
+        ...(getToken() ? { authorization: `Bearer ${getToken()}` } : {}),
+      },
+      body: body ? JSON.stringify(body) : undefined,
+    })
+  } catch (fehler) {
+    /*
+     * Hier landet alles, was gar nicht erst ankommt: Server aus, WLAN weg,
+     * ngrok-Tunnel abgelaufen. Das ist etwas anderes als „der Server sagt
+     * nein“ und muss auch anders aussehen.
+     */
+    verbindungWeg()
+    throw Object.assign(new Error('Keine Verbindung'), { offline: true, ursache: fehler })
+  }
+
+  /* Ein Server, der mit 5xx antwortet, ist auch nicht benutzbar. */
+  if (res.status >= 500) {
+    verbindungWeg()
+    throw Object.assign(new Error(`HTTP ${res.status}`), { offline: true, status: res.status })
+  }
+
+  verbindungDa()
 
   const data = await res.json().catch(() => ({}))
   if (!res.ok) throw Object.assign(new Error(data.error ?? `HTTP ${res.status}`), { status: res.status })

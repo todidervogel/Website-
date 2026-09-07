@@ -2,7 +2,8 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { subscribe, currentVersion } from './events'
 
 export { api, api as default, call, MODE, SERVER, resetLocalData, useLocalData, setAccount, getAccount, setToken, getToken, request } from './api'
-export { subscribe } from './events'
+export { subscribe, changed } from './events'
+export { istOffline, offlineSeit, beiVerbindungswechsel } from './connection'
 export { distanceKm, formatDistance, toMapPercent } from '../../domain/geo'
 export { DAY_KEYS, dayKeyOf, formatMinutes, formatDay, weekRows, openState, openLabel } from '../../domain/hours'
 

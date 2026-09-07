@@ -16,7 +16,8 @@
     "pruefen:i18n": "node tools/i18n-check.mjs",
     "pruefen:routen": "node tools/routen-sweep.mjs",
     "pruefen:verhalten": "node tools/verhalten.mjs",
-    "bilder": "node tools/bilder.mjs"
+    "bilder": "node tools/bilder.mjs",
+    "pruefen:verbindung": "node tools/verbindung.mjs"
   },
   "dependencies": {
     "@capacitor/core": "^6.2.2",
