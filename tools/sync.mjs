@@ -32,6 +32,8 @@ const QUELLEN = {
     teile: [
       ['src/domain', '.'],
       ['src/data/seed.js', 'seed.js'],
+      /* Die echten Betriebe aus OpenStreetMap — seed.js importiert sie. */
+      ['src/data/orte.js', 'orte.js'],
     ],
     /* Auf dem Server liegt der Ausgangsbestand eine Ebene höher. */
     nacharbeit: (ziel) => {
