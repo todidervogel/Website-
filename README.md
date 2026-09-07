@@ -121,13 +121,14 @@ gar nicht an ihn heran.
 
 Damit die Seite einfach als Adresse aufrufbar ist — auch am Handy.
 
-Einmalig: **Settings → Pages → Source: „GitHub Actions"**. Danach baut jeder
-Push auf `main` die Seite neu; von Hand geht es über **Actions → „Webseite
-veröffentlichen" → Run workflow**. Die Adresse lautet
+Läuft schon:
 
-```
-https://<konto>.github.io/Website-/
-```
+> **<https://todidervogel.github.io/Website-/>**
+
+Jeder Push auf `main` baut die Seite neu; von Hand geht es über **Actions →
+„Webseite veröffentlichen" → Run workflow**. (Wer das in einem anderen
+Repository nachbaut, muss Pages einmal einschalten: **Settings → Pages →
+Source: „GitHub Actions"**.)
 
 Zwei Dinge, die dabei nicht offensichtlich sind:
 
