@@ -117,6 +117,33 @@ Der Dunkelmodus steht auf **Automatisch** und folgt dem Gerät. Der Umschalter
 sitzt in der Kopfleiste — auch auf der Anmeldeseite, sonst käme man in der App
 gar nicht an ihn heran.
 
+## Ohne Rechner veröffentlichen (GitHub Pages)
+
+Damit die Seite einfach als Adresse aufrufbar ist — auch am Handy.
+
+Einmalig: **Settings → Pages → Source: „GitHub Actions"**. Danach baut jeder
+Push auf `main` die Seite neu; von Hand geht es über **Actions → „Webseite
+veröffentlichen" → Run workflow**. Die Adresse lautet
+
+```
+https://<konto>.github.io/Website-/
+```
+
+Zwei Dinge, die dabei nicht offensichtlich sind:
+
+- Pages liefert nur Dateien aus. Die Adressen der Unterseiten entstehen erst
+  im Browser, deshalb legt der Ablauf `404.html` als Kopie von `index.html` an
+  — sonst gäbe jeder direkte Aufruf von `/karte` einen Fehler.
+- Der Pfad ist nicht `/`, sondern `/Website-/`. Der Bau setzt `VITE_BASE`
+  entsprechend, und `main.jsx` reicht das als `basename` an den Router weiter.
+
+**Wichtig:** So veröffentlicht läuft die Seite im **Alleinbetrieb**, also mit
+den Beispieldaten im Browser des Besuchers. Wer sie gegen einen Server laufen
+lassen will, braucht einen von außen erreichbaren Server und trägt dessen
+Adresse beim Start des Ablaufs im Feld **api** ein (oder dauerhaft als
+Repository-Variable `VITE_API` unter Settings → Secrets and variables →
+Actions → Variables).
+
 ## Prüfen
 
 ```bash
