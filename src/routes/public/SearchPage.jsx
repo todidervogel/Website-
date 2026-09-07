@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { MapPin, Search as SearchIcon, UtensilsCrossed, X } from 'lucide-react'
-import { Avatar, Badge, Button, Chip, EmptyState, FilterChip, ServingPicker, SkeletonRow, Stars, Tabs, Thumb, Checkbox, Radio,  } from '../../design/ui'
+import { Avatar, Badge, Button, Chip, EmptyState, FilterChip, ServingPicker, SkeletonRow, SkeletonTile, Stars, Tabs, Thumb, VideoTile, Checkbox, Radio,  } from '../../design/ui'
 import { PlaceRow } from '../../components/PlaceRowConnected'
 import { Page } from '../../components/layout'
 import { useDesignState } from '../../lib/design-state'
@@ -25,6 +25,7 @@ const CATEGORIES = ['restaurant', 'cafe', 'bar', 'imbiss']
 
 /** C.5 — Suchergebnisse */
 export default function SearchPage() {
+  const navigate = useNavigate()
   const [params, setParams] = useSearchParams()
   const { position, radiusKm, setRadiusKm, setPosition } = useDesignState()
   const [query, setQuery] = useState(params.get('q') ?? '')
@@ -34,6 +35,24 @@ export default function SearchPage() {
   const [prices, setPrices] = useState([])
   const [ratingKey, setRatingKey] = useState('all')
   const [history, setHistory] = useState([])
+
+  /*
+   * Vorschläge für die leere Suche. Sie laufen nur, solange nichts getippt ist
+   * — wer sucht, will Treffer sehen und keine Anregungen.
+   */
+  const { data: entdeckenDaten, loading: entdeckenLaedt } = useQuery(
+    () => api.videos.feed({ position, radiusKm: Math.max(radiusKm, 25) }),
+    [position, radiusKm, query.length === 0],
+    { initial: { items: [] }, enabled: query.length === 0 },
+  )
+  const entdecken = (entdeckenDaten?.items ?? []).slice(0, 12)
+
+  const { data: naheBetriebeDaten } = useQuery(
+    () => api.places.nearby(position, 12),
+    [position, query.length === 0],
+    { initial: [], enabled: query.length === 0 },
+  )
+  const naheBetriebe = naheBetriebeDaten ?? []
 
   /* Erst tippen lassen, dann suchen — sonst rennt die Abfrage jedem Zeichen hinterher. */
   const [debounced, setDebounced] = useState(query)
@@ -141,6 +160,41 @@ export default function SearchPage() {
               {searchPopular.map((p) => <Chip key={p} onClick={() => setQuery(p)}>{p}</Chip>)}
             </div>
           </div>
+
+          {/*
+            * Vorschläge statt leerer Fläche. Unter der Suchzeile stand bisher
+            * nichts als Weiß — dabei ist genau das die Stelle, an der man sich
+            * umsieht, ohne zu wissen wonach. Instagram macht daraus sein
+            * Explore: ein Raster mit Sachen aus der Gegend.
+            */}
+          <div>
+            <h2 className="t-small c-secondary" style={{ marginBottom: 'var(--sp-2)' }}>{t('search.discover')}</h2>
+            {entdeckenLaedt ? (
+              <div className="video-grid">
+                {Array.from({ length: 6 }).map((_, i) => <SkeletonTile key={i} />)}
+              </div>
+            ) : entdecken.length > 0 ? (
+              <div className="video-grid">
+                {entdecken.map((v) => (
+                  <VideoTile key={v.id} video={v} onClick={() => navigate(`/v/${v.id}`)} />
+                ))}
+              </div>
+            ) : (
+              <p className="t-small c-secondary">{t('search.discoverEmpty')}</p>
+            )}
+          </div>
+
+          {/* Und die Betriebe drumherum — nicht jeder sucht ein Video. */}
+          {naheBetriebe.length > 0 && (
+            <div>
+              <h2 className="t-small c-secondary" style={{ marginBottom: 'var(--sp-2)' }}>{t('search.nearbyPlaces')}</h2>
+              <div className="list-group">
+                {naheBetriebe.slice(0, 6).map((betrieb) => (
+                  <PlaceRow key={betrieb.id} place={betrieb} showSave />
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       ) : (
         <>

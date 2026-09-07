@@ -46,14 +46,22 @@ export default function Login() {
           {(id) => <PasswordInput id={id} autoComplete="current-password" {...form.field('password')} />}
         </Field>
 
-        {/* Der Link steht unter dem Feld, nicht daneben — sonst klebt er am Label. */}
-        <p className="login-forgot">
-          <Link to="/passwort-vergessen" className="c-accent t-small">{t('auth.login.forgot')}</Link>
-        </p>
-
         <Button type="submit" variant="primary" full loading={form.submitting}>
           {t('auth.login.submit')}
         </Button>
+
+        {/*
+          * „Passwort vergessen?" steht unter dem Anmelde-Knopf, mittig.
+          *
+          * So machen es Instagram, Spotify, Netflix und Apple — aus einem
+          * guten Grund: Zwischen Passwortfeld und Knopf eingeklemmt trennt der
+          * Link das Formular von seiner Aktion und klebt an beidem. Unter dem
+          * Knopf ist er das, was er ist: der Ausweg, wenn der normale Weg
+          * nicht klappt.
+          */}
+        <p className="login-forgot">
+          <Link to="/passwort-vergessen" className="c-accent t-small">{t('auth.login.forgot')}</Link>
+        </p>
 
         <div className="row" style={{ gap: 'var(--sp-3)' }}>
           <hr className="divider grow" />

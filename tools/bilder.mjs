@@ -29,7 +29,7 @@ const SCREENS = [
   ['start', '/', null, 'main'],
   ['feed', '/feed', 'u1', '.fullheight'],
   ['karte', '/karte', null, '.map-canvas'],
-  ['suche', '/suchen', null, 'main'],
+  ['suche', '/suche', null, 'main'],
   ['gastro-seite', '/g/trattoria-bella', null, 'main'],
   ['speisekarte', '/g/trattoria-bella/speisekarte', null, 'main'],
   ['bewertungen', '/g/trattoria-bella/bewertungen', null, 'main'],

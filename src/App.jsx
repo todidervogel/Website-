@@ -7,7 +7,8 @@ import { ToastProvider } from './design/ui'
 import { LoginGate } from './components/LoginGate'
 
 /* Öffentlich (TEIL C) */
-import Home from './routes/public/Home'
+import Landing from './routes/public/Landing'
+import { Start } from './routes/public/Start'
 import MapView from './routes/public/MapView'
 import Feed from './routes/public/Feed'
 import SearchPage from './routes/public/SearchPage'
@@ -72,7 +73,7 @@ export default function App() {
           <RouteGuard>
             <Routes>
               {/* Öffentlich */}
-              <Route path="/" element={<Home />} />
+              <Route path="/" element={<Start landing={<Landing />} />} />
               <Route path="/karte" element={<MapView />} />
               <Route path="/feed" element={<Feed />} />
               <Route path="/suche" element={<SearchPage />} />

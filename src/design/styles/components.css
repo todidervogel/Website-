@@ -407,17 +407,23 @@ body.map-pure { overflow: hidden; }
 /* Der „Passwort vergessen?"-Link gehört unter das Feld, mit eigenem Abstand.
    Vorher hing er über einem negativen Rand direkt am Label. */
 /*
- * „Passwort vergessen?" sitzt unter dem Feld, nicht neben dem Label.
+ * „Passwort vergessen?" steht unter dem Anmelde-Knopf, mittig — so wie es
+ * Instagram, Spotify, Netflix und Apple halten.
  *
- * Der Abstand hebt den Spaltenabstand der Form (16px) auf und setzt einen
- * eigenen: nah genug am Passwortfeld, dass die Zeile erkennbar dazugehört,
- * aber mit Luft nach oben und unten. Vorher zog ein negativer Abstand sie an
- * das Feld heran — dann klebte sie zwischen Auge und Anmeldeknopf.
+ * Zwischen Passwortfeld und Knopf war es zweimal falsch: Es trennte das
+ * Formular von seiner Aktion und klebte an beidem. Unter dem Knopf braucht es
+ * keinen Trick mit negativen Abständen mehr, und der Ausweg steht dort, wo man
+ * ihn sucht — nachdem der normale Weg nicht geklappt hat.
  */
 .login-forgot {
-  margin-top: calc(var(--sp-4) * -1 + var(--sp-3));
-  margin-bottom: var(--sp-1);
-  text-align: right;
+  /*
+   * Kein Sonderabstand. Die Zeile ist ein gewöhnliches Element im Formular
+   * und bekommt denselben Abstand wie alles andere darin.
+   *
+   * (Ein zusätzlicher Rand nach unten brächte hier nichts: Benachbarte
+   * senkrechte Ränder fallen zusammen, es zählt der größere.)
+   */
+  text-align: center;
 }
 .login-forgot a { text-decoration: none; }
 .login-forgot a:hover { text-decoration: underline; }

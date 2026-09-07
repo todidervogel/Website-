@@ -298,9 +298,41 @@ await test('Profil bearbeiten wird gespeichert', webUser, async (page) => {
   await page.waitForSelector('text=Max Geändert')
 })
 
-await test('Profil zeigt beim Laden eine Ladeanzeige', webUser, async (page) => {
-  await page.goto(`${BASE}/p/lisa_k`, { waitUntil: 'commit' })
-  await page.waitForSelector('.skeleton, .spin-badge', { timeout: 4000 })
+/*
+ * „Ladeanzeige beim Laden" stand früher hier. Der Test hing daran, dass die
+ * Fassade im Alleinbetrieb absichtlich verzögerte — dieses Entwicklerstück ist
+ * weg, und damit ist der Ladezustand hier zu kurz zum Nachweisen: Die Daten
+ * liegen im selben Browser, es gibt nichts zu warten.
+ *
+ * Die Prüfung ist nach `gegen-server.mjs` gewandert. Dort gibt es einen echten
+ * Aufruf, der sich verzögern lässt — und damit einen echten Ladezustand.
+ */
+
+/* --- Wo die Anwendung anfängt -------------------------------------------- */
+
+/*
+ * Die Präsentationsseite soll nur Besuchern ohne Konto begegnen. Wer
+ * angemeldet ist, will seinen Feed sehen — und in der App gibt es die Seite
+ * gar nicht.
+ */
+await test('Ohne Anmeldung zeigt die Startseite die Präsentation', web, async (page) => {
+  await page.goto(`${BASE}/`)
+  await page.waitForSelector('.lp-hero')
+})
+
+await test('Angemeldet führt die Startseite direkt in den Feed', webUser, async (page) => {
+  await page.goto(`${BASE}/`)
+  await page.waitForURL('**/feed')
+})
+
+await test('In der App führt die Startseite direkt in den Feed', appUser, async (page) => {
+  await page.goto(`${BASE}/`)
+  await page.waitForURL('**/feed')
+})
+
+await test('Die Suche schlägt ohne Eingabe etwas vor', web, async (page) => {
+  await page.goto(`${BASE}/suche`)
+  await page.waitForSelector('.video-grid .video-tile, .video-grid .thumb-placeholder')
 })
 
 await browser.close()

@@ -159,6 +159,32 @@ await fetch(`${API}/api/reset`, { method: 'POST' }).catch(() => {})
   await admin.ctx.close()
 }
 
+/* --- Ladezustand --------------------------------------------------------- */
+
+/*
+ * Diese Prüfung stand früher in `verhalten.mjs`. Sie hing daran, dass die
+ * Fassade im Alleinbetrieb absichtlich verzögerte — ein Entwicklerstück, das
+ * mit Runde 8 weggefallen ist. Hier gibt es einen echten Aufruf, und der lässt
+ * sich verzögern: Damit wird wirklich geprüft, was gezeigt wird, solange die
+ * Daten unterwegs sind.
+ */
+{
+  const { page, ctx } = await seite()
+  await ctx.route(`${API}/api/rpc`, async (route) => {
+    await new Promise((fertig) => setTimeout(fertig, 600))
+    await route.continue()
+  })
+  try {
+    await page.goto(`${WEB}/p/lisa_k`, { waitUntil: 'commit' })
+    await page.waitForSelector('.skeleton, .spin-badge, .spinner', { timeout: 8000 })
+    check('Während die Daten unterwegs sind, erscheint eine Ladeanzeige', true)
+  } catch (fehler) {
+    check('Während die Daten unterwegs sind, erscheint eine Ladeanzeige', false,
+      fehler.message.split('\n')[0])
+  }
+  await ctx.close()
+}
+
 await browser.close()
 
 const failed = results.filter(([ok]) => !ok)

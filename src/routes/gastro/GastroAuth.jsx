@@ -40,13 +40,14 @@ export function GastroLogin() {
           {(id) => <PasswordInput id={id} autoComplete="current-password" {...form.field('password')} />}
         </Field>
 
-        <p className="login-forgot">
-          <Link to="/passwort-vergessen" className="c-accent t-small">{t('auth.login.forgot')}</Link>
-        </p>
-
         <Button type="submit" variant="primary" full loading={form.submitting}>
           {t('auth.login.submit')}
         </Button>
+
+        {/* Wie auf der Anmeldeseite: unter dem Knopf, nicht davor eingeklemmt. */}
+        <p className="login-forgot">
+          <Link to="/passwort-vergessen" className="c-accent t-small">{t('auth.login.forgot')}</Link>
+        </p>
 
         <hr className="divider" />
 

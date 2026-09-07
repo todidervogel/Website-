@@ -16,11 +16,16 @@ import { t } from '../../design/i18n'
  * untere Leiste — die gehören in die Anwendung, nicht davor. Von hier führen
  * Knöpfe hinein.
  *
+ * **Sie erscheint nur für Besucher ohne Konto, und nur im Browser.** Wer
+ * angemeldet ist, kommt unter `/` direkt in den Feed; in der App gibt es sie
+ * gar nicht. Genau so hält es Instagram: Wer eingeloggt ist, will seinen Feed
+ * sehen und keine Broschüre.
+ *
  * Der Aufbau folgt dem, was solche Seiten üblicherweise leisten müssen:
  * behaupten (Kopfbereich), zeigen (echte Daten statt Bildern), erklären
  * (drei Merkmale), die zweite Zielgruppe abholen (Gastronomie), abschließen.
  */
-export default function Home() {
+export default function Landing() {
   const { position, radiusKm, setPosition } = useDesignState()
   const navigate = useNavigate()
   const [where, setWhere] = useState('')

@@ -340,7 +340,10 @@
     "follow": "Folgen",
     "requested": "Angefragt",
     "following": "Folgt",
-    "profileMeta": "{{videos}} Videos · {{reviews}} Bewertungen"
+    "profileMeta": "{{videos}} Videos · {{reviews}} Bewertungen",
+    "discover": "Entdecken",
+    "discoverEmpty": "In deinem Umkreis wurde noch nichts hochgeladen. Stell den Umkreis größer.",
+    "nearbyPlaces": "In deiner Nähe"
   },
   "feed": {
     "tabNearby": "Umkreis",
