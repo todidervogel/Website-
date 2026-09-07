@@ -39,6 +39,15 @@ for (const testCase of CASES) {
     else localStorage.removeItem('app-session')
   }, [testCase.platform, testCase.theme, testCase.user])
 
+  /*
+   * Kartenkacheln gar nicht erst anfragen. Sie kommen von außen und haben mit
+   * dem Programm nichts zu tun; wo der Zugang gesperrt ist, wartet jeder
+   * Kartenaufruf sonst auf vierzig Zeitüberschreitungen und der Durchlauf
+   * dauert Minuten statt Sekunden. Die Karte fällt dann auf ihren
+   * Rasterhintergrund zurück — genau wie ohne Netz auf dem Gerät.
+   */
+  await context.route('**/tile.openstreetmap.org/**', (route) => route.abort())
+
   const page = await context.newPage()
   page.setDefaultTimeout(15000)
   let current = ''

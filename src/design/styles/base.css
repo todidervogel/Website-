@@ -109,3 +109,48 @@ a { color: inherit; }
     scroll-behavior: auto !important;
   }
 }
+
+/* ==========================================================================
+   iOS und Safari
+   ==========================================================================
+   Sachen, die nur auf dem iPhone auffallen — und dort sofort.
+   ========================================================================== */
+
+html {
+  /*
+   * Safari vergrößert im Querformat eigenmächtig die Schrift. Danach passen
+   * Zeilenumbrüche und Höhen nicht mehr zu dem, was gestaltet wurde.
+   */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  /* Der graue Kasten beim Antippen wirkt auf einer eigenen App wie ein Fehler. */
+  -webkit-tap-highlight-color: transparent;
+}
+
+/*
+ * Ein Eingabefeld unter 16px lässt Safari beim Hineintippen hineinzoomen — die
+ * Seite bleibt danach vergrößert stehen. 16px verhindert das. Am Rechner gibt
+ * es das Verhalten nicht, dort bleibt die kleinere Schrift.
+ */
+@media (max-width: 1023px) {
+  .input, .textarea, .select { font-size: 16px; }
+}
+
+/*
+ * Auf dem Startbildschirm läuft die Seite unter der Statusleiste durch
+ * (`black-translucent`). Ohne diesen Abstand läge die Kopfleiste unter der Uhr.
+ */
+@supports (padding: env(safe-area-inset-top)) {
+  .header { padding-top: env(safe-area-inset-top, 0px); }
+  .feed-top { padding-top: calc(var(--sp-4) + env(safe-area-inset-top, 0px)); }
+  .build-banner { padding-top: calc(var(--sp-3) + env(safe-area-inset-top, 0px)); }
+}
+
+/*
+ * Gummiband-Effekt: Wer im Feed nach unten wischt, soll nicht die ganze Seite
+ * mitziehen.
+ */
+.feed, .capture, .map-page { overscroll-behavior: none; }

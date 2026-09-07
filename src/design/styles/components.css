@@ -406,8 +406,17 @@ body.map-pure { overflow: hidden; }
 
 /* Der „Passwort vergessen?"-Link gehört unter das Feld, mit eigenem Abstand.
    Vorher hing er über einem negativen Rand direkt am Label. */
+/*
+ * „Passwort vergessen?" sitzt unter dem Feld, nicht neben dem Label.
+ *
+ * Der Abstand hebt den Spaltenabstand der Form (16px) auf und setzt einen
+ * eigenen: nah genug am Passwortfeld, dass die Zeile erkennbar dazugehört,
+ * aber mit Luft nach oben und unten. Vorher zog ein negativer Abstand sie an
+ * das Feld heran — dann klebte sie zwischen Auge und Anmeldeknopf.
+ */
 .login-forgot {
-  margin-top: calc(var(--sp-4) * -1 + var(--sp-2));
+  margin-top: calc(var(--sp-4) * -1 + var(--sp-3));
+  margin-bottom: var(--sp-1);
   text-align: right;
 }
 .login-forgot a { text-decoration: none; }

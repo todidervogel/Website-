@@ -65,6 +65,9 @@ for (const [breitenName, viewport] of Object.entries(BREITEN)) {
       else localStorage.removeItem('app-session')
     }, { user })
 
+    /* Kacheln nicht anfragen — siehe routen-sweep.mjs. */
+    await context.route('**/tile.openstreetmap.org/**', (route) => route.abort())
+
     const page = await context.newPage()
     const fehler = []
     page.on('pageerror', (e) => fehler.push(e.message))
