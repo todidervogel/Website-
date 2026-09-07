@@ -93,7 +93,8 @@
     "map": "Karte",
     "capture": "Aufnehmen",
     "search": "Suche",
-    "profile": "Profil"
+    "profile": "Profil",
+    "mainLabel": "Hauptnavigation"
   },
   "footer": {
     "colBrand": "{{app}}",

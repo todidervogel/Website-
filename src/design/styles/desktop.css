@@ -1,0 +1,274 @@
+/* ==========================================================================
+   Desktop — ab 1024px eine eigene Anordnung, kein gezogenes Handy
+   ==========================================================================
+
+   Der Bruch verlief bisher nicht zwischen alt und neu, sondern zwischen
+   Konsole und öffentlichem Screen: Die Verwaltung hatte eine Seitenleiste,
+   der Feed nicht. Diese Datei zieht das nach.
+
+   Aufbau am Rechner:
+
+       ┌─────────────────────────────────────────┐
+       │ Kopfleiste (Marke · Suche · Konto)      │
+       ├───────────┬─────────────────────────────┤
+       │ Seiten-   │  Inhalt, mittig, begrenzt   │
+       │ leiste    │                             │
+       │ 240px     │                             │
+       └───────────┴─────────────────────────────┘
+
+   Unterhalb von 1024px passiert hier nichts — dort gilt weiter das
+   Handy-Layout mit der unteren Leiste.
+   ========================================================================== */
+
+:root {
+  --sidenav: 240px;
+  --sidenav-narrow: 76px;
+}
+
+/* --- Die Seitenleiste ----------------------------------------------------- */
+
+/*
+ * `display: contents` heißt: Auf dem Handy ist dieser Kasten nicht da, seine
+ * Kinder verhalten sich, als wäre er nie geschrieben worden. Erst am Rechner
+ * wird er zur Zeile aus Leiste und Inhalt. So braucht das Handy-Layout keine
+ * einzige Ausnahme.
+ */
+.shell-body { display: contents; }
+.side-nav { display: none; }
+
+@media (min-width: 1024px) {
+  .has-side-nav .shell-body {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .side-nav {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-1);
+    flex: none;
+    width: var(--sidenav-narrow);
+    /* Klebt unter der Kopfleiste, statt mit der Seite wegzuscrollen. */
+    position: sticky;
+    top: var(--header-h);
+    /*
+     * Nur so hoch wie ihr Inhalt. Eine Leiste auf volle Bildschirmhöhe würde
+     * unten abgeschnitten, sobald über der Kopfleiste noch ein Banner steht —
+     * und genau dort sitzt der Punkt „Profil“.
+     */
+    max-height: calc(100vh - var(--header-h));
+    max-height: calc(100dvh - var(--header-h));
+    padding: var(--sp-4) var(--sp-2);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .has-side-nav .app-main { flex: 1 1 auto; min-width: 0; }
+
+  .side-nav a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--sp-3);
+    padding: var(--sp-3);
+    border-radius: var(--r-control);
+    color: var(--text-secondary);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 120ms ease, color 120ms ease;
+  }
+  .side-nav a:hover { background: var(--bg-light-alt); color: var(--text-primary); }
+  .side-nav a.is-active { color: var(--accent); font-weight: 600; }
+  .side-nav svg { flex: none; }
+
+  /* Schmale Leiste: nur Symbole. */
+  .side-nav .side-nav-label { display: none; }
+
+  .side-nav .side-nav-capture { background: var(--accent); color: #fff; }
+  .side-nav .side-nav-capture:hover { background: var(--accent); color: #fff; opacity: 0.92; }
+
+}
+
+/* Ab 1280px ist Platz für Beschriftungen. */
+@media (min-width: 1280px) {
+  .side-nav { width: var(--sidenav); padding-inline: var(--sp-3); }
+  .side-nav a { justify-content: flex-start; }
+  .side-nav .side-nav-label { display: inline; }
+}
+
+/* --- Breiten, die zum Inhalt passen --------------------------------------- */
+
+/*
+ * Eine Zeile Fließtext wird ab etwa 75 Zeichen unlesbar. Deshalb bekommt
+ * nicht jeder Screen dieselbe Breite: Ein Raster darf breit sein, ein
+ * Formular nicht.
+ */
+@media (min-width: 1024px) {
+  .container-form { max-width: 480px; }
+  .container-read { max-width: 680px; }
+  .container-feed { max-width: 900px; }
+}
+
+/* --- Profil: nebeneinander statt untereinander ---------------------------- */
+
+/*
+ * Auf dem Handy untereinander und mittig — das ist dort richtig. Am Rechner
+ * nebeneinander: Bild links, alles Übrige rechts, linksbündig. Sonst steht ein
+ * 96px-Bild einsam in der Mitte von 1200px.
+ */
+.profile-head {
+  display: grid;
+  gap: var(--sp-3);
+  justify-items: center;
+  text-align: center;
+  padding-block: var(--sp-8);
+}
+.profile-head-body { display: grid; gap: var(--sp-3); justify-items: center; }
+.profile-stats { display: flex; gap: var(--sp-6); flex-wrap: wrap; justify-content: center; }
+.profile-bio { max-width: 460px; }
+.profile-head-actions { justify-content: center; }
+
+@media (min-width: 1024px) {
+  .profile-head {
+    grid-template-columns: 168px 1fr;
+    gap: var(--sp-8);
+    align-items: start;
+    justify-items: start;
+    text-align: left;
+    padding-block: var(--sp-12);
+  }
+  .profile-head-body { justify-items: start; }
+  .profile-head-actions { justify-content: flex-start; }
+  .profile-head .profile-avatar { justify-self: start; }
+  .profile-head .profile-stats { justify-content: flex-start; gap: var(--sp-8); }
+  .profile-head .profile-bio { max-width: 60ch; }
+}
+
+/* --- Betriebsseite: zwei Spalten ------------------------------------------ */
+
+/*
+ * Links das, was man liest — Beschreibung, Videos, Bewertungen.
+ * Rechts das, was man nachschlägt — offen bis wann, Adresse, Telefon.
+ * Die rechte Spalte bleibt stehen, damit die Adresse beim Scrollen
+ * nicht verschwindet.
+ */
+@media (min-width: 1024px) {
+  .place-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 340px;
+    gap: var(--sp-8);
+    align-items: start;
+  }
+  .place-aside {
+    position: sticky;
+    top: calc(var(--header-h, 64px) + var(--sp-4));
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+  }
+}
+
+/* --- Raster: Kacheln, die nicht ins Riesenhafte wachsen ------------------- */
+
+@media (min-width: 1024px) {
+  .video-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: var(--sp-3); }
+  .card-grid  { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--sp-4); }
+}
+
+/* --- Karte: die Liste bekommt eine vernünftige Breite ---------------------- */
+
+@media (min-width: 1024px) {
+  .map-list { width: 380px; }
+}
+@media (min-width: 1440px) {
+  .map-list { width: 440px; }
+}
+
+/* --- Feed: ein Bild, kein Panorama ---------------------------------------- */
+
+/*
+ * Ein Hochkant-Video auf 1440px Breite zu ziehen ergibt eine schwarze Fläche
+ * mit einem Streifen Text unten. Am Rechner bekommt es deshalb einen Rahmen im
+ * Seitenverhältnis 9:16 — und alles andere richtet sich an diesem Rahmen aus,
+ * nicht am Bildschirmrand.
+ *
+ * Die Maße stehen einmal als Variablen an `.feed`; die Elemente sind
+ * Geschwister, kein Kind eines Rahmens, und rechnen sich über die Variablen
+ * trotzdem alle auf dieselbe Kante.
+ *
+ * Wichtig sind **beide** Randabstände: Sobald links eine Seitenleiste steht,
+ * ist der Rahmen nicht mehr mittig im Fenster, und „links“ lässt sich nicht
+ * mehr als „rechts“ wiederverwenden.
+ *
+ * Nebenbei behoben: Die Blätterknöpfe standen bei `right: sp-3; top: 50%`,
+ * die Aktionsleiste bei `right: sp-3; bottom: 190px`. Auf 900px Höhe war das
+ * dieselbe Stelle — der Avatar lag auf der Zählung „1 von 5“.
+ */
+@media (min-width: 1024px) {
+  .feed {
+    --nav-b: 0px;
+    --rahmen-h: min(calc(100dvh - var(--sp-16)), 880px);
+    --rahmen-b: calc(var(--rahmen-h) * 9 / 16);
+    --rahmen-oben: calc((100dvh - var(--rahmen-h)) / 2);
+    --frei: calc((100vw - var(--nav-b) - var(--rahmen-b)) / 2);
+    --rahmen-links: calc(var(--nav-b) + var(--frei));
+    --rahmen-rechts: var(--frei);
+  }
+  .is-fullscreen .feed { --nav-b: var(--sidenav-narrow); }
+
+  .feed-video {
+    inset: auto;
+    top: var(--rahmen-oben);
+    left: var(--rahmen-links);
+    width: var(--rahmen-b);
+    height: var(--rahmen-h);
+    border-radius: var(--r-card);
+    overflow: hidden;
+  }
+
+  /* Beschriftung und Restaurantleiste sitzen im unteren Teil des Rahmens. */
+  .feed-bottom {
+    left: var(--rahmen-links);
+    right: var(--rahmen-rechts);
+    bottom: var(--rahmen-oben);
+    padding: var(--sp-4);
+  }
+  .feed-caption-block { max-width: 100%; }
+
+  /* Aktionen rechts neben dem Rahmen, Blättern links davon. */
+  .feed-rail {
+    right: calc(var(--rahmen-rechts) - 64px);
+    bottom: calc(var(--rahmen-oben) + var(--sp-6));
+  }
+  .feed-paging {
+    right: auto;
+    left: calc(var(--rahmen-links) - 64px);
+    top: 50%;
+  }
+
+  /* Der Kopf mit den Reitern richtet sich am Inhalt aus, nicht am Fenster. */
+  .is-fullscreen .feed-top { left: var(--sidenav-narrow); }
+
+  /* Der leere Zustand bleibt mittig auf der ganzen Fläche. */
+  .feed-stage { inset: 0; }
+
+  .is-fullscreen .side-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    height: 100dvh;
+    max-height: none;
+    z-index: 20;
+  }
+  .side-nav-dark { background: transparent; border-right-color: rgba(255, 255, 255, .12); }
+  .side-nav-dark a { color: var(--text-on-dark-dim); }
+  .side-nav-dark a:hover { background: rgba(255, 255, 255, .1); color: #fff; }
+  .side-nav-dark a.is-active { color: #fff; }
+}
+
+@media (min-width: 1280px) {
+  .is-fullscreen .feed { --nav-b: var(--sidenav); }
+  .is-fullscreen .feed-top { left: var(--sidenav); }
+}

@@ -57,6 +57,7 @@
 
   /* A.3 — Maße */
   --content-max: 1120px;
+  --header-h: 64px;            /* Höhe der Kopfleiste — die Seitenleiste klebt darunter */
   --gutter: 16px;              /* Mobil */
   --control-h: 44px;
 

@@ -35,13 +35,18 @@ export function RatingCompact({ rating, onDark, average }) {
     [t('rating.service'), rating.service],
     [t('rating.price'), rating.price],
   ]
+  /*
+   * Kein Trennpunkt zwischen den Werten. In einer schmalen Liste bricht die
+   * Zeile nach dem zweiten Wert um, und der Punkt bleibt allein am Zeilenende
+   * stehen — „4,0 Service ·“. Der Abstand trennt genauso gut und kann nicht
+   * hängen bleiben.
+   */
   return (
     <span className={`rating-compact ${onDark ? 'c-on-dark' : ''}`}>
-      {items.map(([label, value], i) => (
+      {items.map(([label, value]) => (
         <span key={label} className="rating-item">
           <Star size={12} className="star-filled" strokeWidth={0} style={{ display: 'inline', verticalAlign: '-1px' }} />
           {' '}{fmt(value, average)} {label}
-          {i < items.length - 1 && <span className="dot" aria-hidden="true"> ·</span>}
         </span>
       ))}
     </span>

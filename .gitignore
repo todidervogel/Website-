@@ -3,3 +3,4 @@ dist/
 .website/
 *.local
 .DS_Store
+bilder/

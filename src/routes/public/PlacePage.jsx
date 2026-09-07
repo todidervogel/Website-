@@ -109,6 +109,15 @@ export default function PlacePage() {
       </div>
 
       <div className="container">
+       {/*
+         * Am Rechner zwei Spalten: links, was man liest — Name, Bewertung,
+         * Videos, Speisekarte. Rechts, was man nachschlägt — offen bis wann,
+         * Adresse, Telefon. Die rechte Spalte bleibt beim Scrollen stehen.
+         * Auf dem Handy fällt das Raster in sich zusammen und es bleibt eine
+         * Spalte in genau dieser Reihenfolge.
+         */}
+       <div className="place-layout">
+        <div className="place-main">
         <section style={{ paddingTop: 'var(--sp-4)' }} className="stack-3">
           <div className="row-wrap" style={{ gap: 'var(--sp-2)' }}>
             <h1 className="t-h1">{place.name}</h1>
@@ -136,49 +145,21 @@ export default function PlacePage() {
 
           <RatingFull rating={place.rating} count={place.reviewCount || undefined} />
 
-          <div>
-            <button
-              type="button"
-              className="row"
-              style={{ background: 'none', border: 0, padding: 0, cursor: 'pointer', gap: 4 }}
-              aria-expanded={hoursOpen}
-              onClick={() => setHoursOpen((o) => !o)}
-            >
-              <span className="t-body" style={{ color: place.open ? 'var(--success)' : 'var(--text-secondary)', fontWeight: 600 }}>
-                {openSentence(place)}
-              </span>
-              <ChevronDown size={16} style={{ transform: hoursOpen ? 'rotate(180deg)' : 'none' }} />
-            </button>
-            {hoursOpen && <HoursTable hours={place.hours} />}
-          </div>
-
-          <div className="row" style={{ alignItems: 'flex-start' }}>
-            <MapPin size={18} className="c-secondary" style={{ flex: 'none', marginTop: 2 }} />
-            <span className="t-body">{place.address}, {place.zip} {place.city}</span>
-          </div>
-          <div className="mini-map"><MapPin size={22} /></div>
-
-          {place.phone && (
-            <a className="row" href={`tel:${place.phone}`} style={{ textDecoration: 'none' }}>
-              <Phone size={18} className="c-secondary" />
-              <span className="t-body">{place.phone}</span>
-            </a>
-          )}
-          {place.website && (
-            <a className="row" href={`https://${place.website}`} style={{ textDecoration: 'none' }}>
-              <Globe size={18} className="c-secondary" />
-              <span className="t-body c-accent">{place.website}</span>
-            </a>
-          )}
         </section>
 
+        {/*
+          * Speichern und Teilen sitzen auf dem Handy schon als Symbole im
+          * Titelbild. Sie hier ein zweites Mal zu zeigen, drückt fünf Knöpfe
+          * auf 390px zusammen — dann passt „Speisekarte“ nicht mehr in seinen
+          * Knopf und läuft heraus. Am Rechner ist Platz, dort stehen alle.
+          */}
         <div className="action-bar">
           {MVP_STAGE >= 2 && <Button variant="primary" onClick={() => toast(t('toast.noAction'), 'info')}>{t('place.order')}</Button>}
           <Button variant="secondary" icon={UtensilsCrossed} to={`/g/${place.slug}/speisekarte`}>{t('menu.title')}</Button>
           <Button variant="secondary" icon={Navigation} onClick={() => toast(t('toast.noAction'), 'info')}>{t('place.route')}</Button>
           <Button variant="secondary" icon={Phone} href={place.phone ? `tel:${place.phone}` : undefined}>{t('place.call')}</Button>
-          <Button variant="secondary" icon={Bookmark} onClick={toggleSave}>{t('place.save')}</Button>
-          <Button variant="secondary" icon={Share2} onClick={() => toast(t('toast.linkCopied'))}>{t('common.share')}</Button>
+          <Button className="action-extra" variant="secondary" icon={Bookmark} onClick={toggleSave}>{t('place.save')}</Button>
+          <Button className="action-extra" variant="secondary" icon={Share2} onClick={() => toast(t('toast.linkCopied'))}>{t('common.share')}</Button>
         </div>
 
         <Tabs items={TABS} value={tab} onChange={setTab} />
@@ -189,6 +170,46 @@ export default function PlacePage() {
           {tab === 'reviews' && <ReviewsTab place={place} />}
           {tab === 'info' && <InfoTab place={place} onReport={() => setReportOpen(true)} />}
         </div>
+        </div>
+
+        <aside className="place-aside">
+          <div className="card place-facts stack-3">
+            <div>
+              <button
+                type="button"
+                className="row place-hours-toggle"
+                aria-expanded={hoursOpen}
+                onClick={() => setHoursOpen((o) => !o)}
+              >
+                <span className="t-body" style={{ color: place.open ? 'var(--success)' : 'var(--text-secondary)', fontWeight: 600 }}>
+                  {openSentence(place)}
+                </span>
+                <ChevronDown size={16} style={{ transform: hoursOpen ? 'rotate(180deg)' : 'none' }} />
+              </button>
+              {hoursOpen && <HoursTable hours={place.hours} />}
+            </div>
+
+            <div className="row" style={{ alignItems: 'flex-start' }}>
+              <MapPin size={18} className="c-secondary" style={{ flex: 'none', marginTop: 2 }} />
+              <span className="t-body">{place.address}, {place.zip} {place.city}</span>
+            </div>
+            <div className="mini-map"><MapPin size={22} /></div>
+
+            {place.phone && (
+              <a className="row" href={`tel:${place.phone}`} style={{ textDecoration: 'none' }}>
+                <Phone size={18} className="c-secondary" />
+                <span className="t-body">{place.phone}</span>
+              </a>
+            )}
+            {place.website && (
+              <a className="row" href={`https://${place.website}`} style={{ textDecoration: 'none' }}>
+                <Globe size={18} className="c-secondary" />
+                <span className="t-body c-accent grow truncate">{place.website}</span>
+              </a>
+            )}
+          </div>
+        </aside>
+       </div>
       </div>
 
       <ReportPlaceDialog open={reportOpen} onClose={() => setReportOpen(false)} place={place} />

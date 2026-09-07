@@ -156,9 +156,15 @@
 .chip-static { cursor: default; }
 .chip-static:hover { border-color: var(--border); }
 
+/*
+ * Wie bei den Reitern: Die Zeile scrollt, aber ein hart abgeschnittener Chip
+ * sieht nach Fehler aus. Die Maske macht daraus einen Hinweis.
+ */
 .chip-scroll {
   display: flex; gap: var(--sp-2); overflow-x: auto; padding-bottom: var(--sp-1);
   scrollbar-width: none; -ms-overflow-style: none;
+  mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent);
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent);
 }
 .chip-scroll::-webkit-scrollbar { display: none; }
 
@@ -196,10 +202,9 @@
 
 .rating-full { display: grid; grid-template-columns: auto auto auto; justify-content: start;
   gap: var(--sp-2) var(--sp-4); align-items: center; }
-.rating-compact { display: flex; flex-wrap: wrap; column-gap: 5px; row-gap: 2px; align-items: center;
+.rating-compact { display: flex; flex-wrap: wrap; column-gap: var(--sp-3); row-gap: 2px; align-items: center;
   font-size: 13px; line-height: 18px; }
 .rating-compact .rating-item { white-space: nowrap; }
-.rating-compact .dot { color: var(--text-tertiary); }
 
 /* Antippbare Sterne (E.5) */
 .star-input { display: inline-flex; gap: var(--sp-1); }
@@ -293,8 +298,17 @@
 .menu-actions { display: flex; gap: var(--sp-2); padding: var(--sp-2); border-top: 1px solid var(--border); margin-top: var(--sp-2); }
 
 /* Reiter */
+/*
+ * Die Reiterzeile scrollt, wenn sie nicht passt. Ohne einen weichen Rand sieht
+ * ein abgeschnittenes Wort nach Fehler aus statt nach „hier geht es weiter“ —
+ * die Maske blendet die Kante aus.
+ */
 .tabs { display: flex; gap: var(--sp-1); border-bottom: 1px solid var(--border); overflow-x: auto;
-  scrollbar-width: none; }
+  scrollbar-width: none;
+  mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent);
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent); }
+/* Passt alles hinein, soll auch nichts ausgeblendet werden. */
+@media (min-width: 1024px) { .tabs { mask-image: none; -webkit-mask-image: none; } }
 .tabs::-webkit-scrollbar { display: none; }
 .tab {
   padding: var(--sp-3) var(--sp-4); border: 0; background: transparent; cursor: pointer;

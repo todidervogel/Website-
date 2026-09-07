@@ -15,7 +15,8 @@
     "sync": "npm run sync:design && npm run sync:domain",
     "pruefen:i18n": "node tools/i18n-check.mjs",
     "pruefen:routen": "node tools/routen-sweep.mjs",
-    "pruefen:verhalten": "node tools/verhalten.mjs"
+    "pruefen:verhalten": "node tools/verhalten.mjs",
+    "bilder": "node tools/bilder.mjs"
   },
   "dependencies": {
     "@capacitor/core": "^6.2.2",

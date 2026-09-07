@@ -21,8 +21,16 @@ const TABS = [
 export function OwnProfile() {
   const [params] = useSearchParams()
   const [tab, setTab] = useState(params.get('tab') === 'saved' ? 'saved' : 'videos')
-  const { user, loggedIn, userId } = useSession()
+  const { user: sessionUser, loggedIn, userId } = useSession()
   const toast = useToast()
+  /*
+   * Der Nutzer aus der Sitzung ist der rohe Datensatz — ohne Zahlen. Videos,
+   * Follower und Folgt werden bei jeder Abfrage frisch gezählt und stehen
+   * deshalb nur am abgeleiteten Nutzer. Ohne diese Abfrage blieben die drei
+   * Zahlen leer, und darunter stünde nur „Videos Follower Folgt“.
+   */
+  const { data: derived } = useQuery(() => api.users.byId(userId), [userId], { enabled: loggedIn })
+  const user = derived ?? sessionUser
 
   if (!loggedIn) {
     return (
@@ -167,31 +175,33 @@ export function PublicProfile() {
 
 function ProfileHeader({ user, actions, loading }) {
   return (
-    <section
-      style={{ paddingBlock: 'var(--sp-8)', display: 'grid', gap: 'var(--sp-3)', justifyItems: 'center', textAlign: 'center' }}
-    >
+    <section className="profile-head">
       {loading || !user ? (
         <>
           <Skeleton w={96} h={96} radius="50%" />
-          <Skeleton w={160} h={20} />
-          <Skeleton w={220} h={12} />
-          <Spinner label={t('common.loading')} />
+          <div className="profile-head-body">
+            <Skeleton w={160} h={20} />
+            <Skeleton w={220} h={12} />
+            <Spinner label={t('common.loading')} />
+          </div>
         </>
       ) : (
         <>
-          <Avatar name={user.username} size={96} />
-          <div>
-            <h1 className="t-h1">@{user.username}</h1>
-            <p className="t-body c-secondary">{user.name}</p>
+          <span className="profile-avatar"><Avatar name={user.username} size={96} /></span>
+          <div className="profile-head-body">
+            <div>
+              <h1 className="t-h1">@{user.username}</h1>
+              <p className="t-body c-secondary">{user.name}</p>
+            </div>
+            <div className="profile-stats">
+              <span className="t-body"><strong>{user.videoCount ?? 0}</strong> <span className="c-secondary">{t('profile.counts.videos')}</span></span>
+              <span className="t-body"><strong>{user.followerCount ?? 0}</strong> <span className="c-secondary">{t('profile.counts.followers')}</span></span>
+              <span className="t-body"><strong>{user.followingCount ?? 0}</strong> <span className="c-secondary">{t('profile.counts.following')}</span></span>
+            </div>
+            {user.bio && <p className="t-body clamp-3 profile-bio">{user.bio}</p>}
+            {user.private && <Badge icon={Lock}>{t('common.privateProfile')}</Badge>}
+            <div className="row-wrap profile-head-actions">{actions}</div>
           </div>
-          {user.bio && <p className="t-body clamp-3" style={{ maxWidth: 460 }}>{user.bio}</p>}
-          <div className="row" style={{ gap: 'var(--sp-6)' }}>
-            <span className="t-body"><strong>{user.videoCount}</strong> <span className="c-secondary">{t('profile.counts.videos')}</span></span>
-            <span className="t-body"><strong>{user.followerCount}</strong> <span className="c-secondary">{t('profile.counts.followers')}</span></span>
-            <span className="t-body"><strong>{user.followingCount}</strong> <span className="c-secondary">{t('profile.counts.following')}</span></span>
-          </div>
-          {user.private && <Badge icon={Lock}>{t('common.privateProfile')}</Badge>}
-          <div className="row-wrap" style={{ justifyContent: 'center' }}>{actions}</div>
         </>
       )}
     </section>

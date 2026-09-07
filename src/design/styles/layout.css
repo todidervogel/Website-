@@ -243,14 +243,20 @@
     padding: var(--sp-2) var(--gutter); border-top: 1px solid var(--border); border-bottom: 0;
     box-shadow: var(--shadow-float); }
 }
-/* Auf schmalen Bildschirmen passen vier Buttons nur nebeneinander, wenn das
+/* Auf schmalen Bildschirmen passen die Buttons nur nebeneinander, wenn das
    Symbol über der Beschriftung steht. */
 @media (max-width: 639px) {
   .action-bar .btn {
     flex-direction: column; gap: 2px; height: 54px; padding-inline: var(--sp-1);
     font-size: 11px; line-height: 15px;
+    min-width: 0;               /* sonst wächst der Knopf über seine Spalte hinaus */
   }
+  /* Lange Wörter wie „Speisekarte“ werden gekürzt statt herauszulaufen. */
+  .action-bar .btn > span { max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
 }
+/* Doppelt vorhandene Aktionen — Speichern und Teilen stehen auf dem Handy
+   bereits als Symbole im Titelbild — fallen auf schmalen Bildschirmen weg. */
+@media (max-width: 1023px) { .action-bar .action-extra { display: none; } }
 .mini-map { height: 160px; border-radius: var(--r-card); border: 1px solid var(--border);
   background:
     repeating-linear-gradient(0deg, var(--map-grid) 0 1px, transparent 1px 32px),

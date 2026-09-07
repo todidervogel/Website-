@@ -21,7 +21,7 @@ export function BottomNav({ dark }) {
   const active = ({ isActive }) => (isActive ? 'is-active' : '')
 
   return (
-    <nav className={`bottom-nav ${dark ? 'bottom-nav-dark' : ''}`} aria-label="Hauptnavigation">
+    <nav className={`bottom-nav ${dark ? 'bottom-nav-dark' : ''}`} aria-label={t('bottomNav.mainLabel')}>
       <NavLink to="/feed" className={active}>
         <SquarePlay size={22} />
         <span className="t-tiny">{t('bottomNav.feed')}</span>

@@ -6,6 +6,7 @@ import './design/styles/tokens.css'
 import './design/styles/base.css'
 import './design/styles/components.css'
 import './design/styles/layout.css'
+import './design/styles/desktop.css'
 
 /**
  * Der Router muss wissen, unter welchem Pfad die Seite liegt.

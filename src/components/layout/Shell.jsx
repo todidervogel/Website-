@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom'
 import { Header } from './Header'
 import { Footer } from './Footer'
 import { BottomNav } from './BottomNav'
+import { SideNav } from './SideNav'
 import { BuildBanner, CookieBanner } from './Banners'
 import { useDesignState } from '../../lib/design-state'
 
@@ -22,12 +23,15 @@ export function Page({ title, children, footer = true, bottomNav = true, headerS
   useScreen(title)
   const { isWeb } = useDesignState()
   return (
-    <div className="app-shell">
+    <div className={`app-shell ${bottomNav ? 'has-side-nav' : ''}`}>
       <BuildBanner />
       <Header suffix={headerSuffix} minimal={minimalHeader} />
-      <main className={`app-main ${bottomNav ? 'has-bottom-nav' : ''}`}>
-        {wide ? children : <div className="container">{children}</div>}
-      </main>
+      <div className="shell-body">
+        {bottomNav && <SideNav />}
+        <main className={`app-main ${bottomNav ? 'has-bottom-nav' : ''}`}>
+          {wide ? children : <div className="container">{children}</div>}
+        </main>
+      </div>
       {footer && isWeb && <Footer />}
       {bottomNav && <BottomNav />}
       <CookieBanner />
@@ -46,10 +50,13 @@ export function BarePage({ title, children, bottomNav = true, headerSuffix, mini
   const bare = chrome === false || pureMap
 
   return (
-    <div className="app-shell">
+    <div className={`app-shell ${bottomNav && !bare ? 'has-side-nav' : ''}`}>
       {!bare && <BuildBanner />}
       {!bare && <Header suffix={headerSuffix} minimal={minimalHeader} />}
-      <main className={`app-main ${bottomNav && !bare ? 'has-bottom-nav' : ''}`}>{children}</main>
+      <div className="shell-body">
+        {bottomNav && !bare && <SideNav />}
+        <main className={`app-main ${bottomNav && !bare ? 'has-bottom-nav' : ''}`}>{children}</main>
+      </div>
       {bottomNav && <BottomNav />}
       {!bare && <CookieBanner />}
     </div>
@@ -61,8 +68,17 @@ export function BarePage({ title, children, bottomNav = true, headerSuffix, mini
  */
 export function FullscreenPage({ title, children, bottomNav = true, dark = true }) {
   useScreen(title)
+  /*
+   * Die Seitenleiste muss hier mit. Ab 1024px blendet das CSS die untere
+   * Leiste aus — ohne Ersatz käme man vom Feed nur noch mit dem Zurück-Knopf
+   * des Browsers weg.
+   */
   return (
-    <div className="fullheight" style={{ background: dark ? 'var(--bg-dark)' : 'var(--bg-light)' }}>
+    <div
+      className={`fullheight ${bottomNav ? 'has-side-nav is-fullscreen' : ''}`}
+      style={{ background: dark ? 'var(--bg-dark)' : 'var(--bg-light)' }}
+    >
+      {bottomNav && <SideNav dark={dark} />}
       {children}
       {bottomNav && <BottomNav dark={dark} />}
     </div>
