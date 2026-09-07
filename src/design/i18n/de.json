@@ -1,0 +1,1532 @@
+{
+  "app": {
+    "name": "{{app}}",
+    "tagline": "Sieh, was es zu essen gibt."
+  },
+  "common": {
+    "back": "Zurück",
+    "next": "Weiter",
+    "cancel": "Abbrechen",
+    "save": "Speichern",
+    "saveSelection": "Auswahl speichern",
+    "apply": "Anwenden",
+    "reset": "Zurücksetzen",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "rename": "Umbenennen",
+    "share": "Teilen",
+    "report": "Melden",
+    "view": "Ansehen",
+    "close": "Schließen",
+    "open": "Öffnen",
+    "search": "Suchen",
+    "filter": "Filter",
+    "all": "Alle",
+    "more": "mehr",
+    "showAll": "Alle ansehen",
+    "skip": "Überspringen",
+    "later": "Später erledigen",
+    "optional": "optional",
+    "loading": "Wird geladen …",
+    "comingSoon": "Bald verfügbar",
+    "soonBadge": "Bald",
+    "verified": "Verifiziert",
+    "onSite": "Vor Ort",
+    "privateProfile": "Privates Profil",
+    "yes": "Ja",
+    "no": "Nein",
+    "dontKnow": "Weiß nicht",
+    "or": "oder",
+    "km": "km",
+    "radius": "Umkreis",
+    "radiusValue": "Umkreis: {{value}} km",
+    "category": "Kategorie",
+    "rating": "Bewertung",
+    "price": "Preis",
+    "openNow": "Jetzt geöffnet",
+    "onlyWithVideos": "Nur mit Videos",
+    "sortNewest": "Neueste",
+    "language": "Sprache",
+    "german": "Deutsch",
+    "english": "Englisch",
+    "characters": "{{count}}/{{max}} Zeichen",
+    "requiredMark": "Pflichtfeld",
+    "retry": "Erneut versuchen",
+    "loadingLabel": "Wird geladen",
+    "empty": "—",
+    "add": "Hinzufügen",
+    "remove": "Entfernen",
+    "confirm": "Bestätigen",
+    "done": "Fertig",
+    "saving": "Wird gespeichert …",
+    "saved": "Gespeichert",
+    "of": "von",
+    "moveUp": "Nach oben",
+    "moveDown": "Nach unten",
+    "copy": "Kopieren",
+    "print": "Drucken",
+    "download": "Herunterladen",
+    "clear": "Leeren",
+    "noResults": "Keine Treffer",
+    "servingLabel": "Angebot",
+    "show": "Anzeigen",
+    "hide": "Ausblenden",
+    "removed": "Entfernt"
+  },
+  "header": {
+    "searchPlaceholder": "Restaurant, Gericht oder Ort suchen",
+    "forRestaurants": "Für Gastronomen",
+    "login": "Anmelden",
+    "register": "Registrieren",
+    "notifications": "Benachrichtigungen",
+    "menu": "Menü",
+    "avatarMenu": {
+      "profile": "Mein Profil",
+      "saved": "Gespeichert",
+      "settings": "Einstellungen",
+      "help": "Hilfe",
+      "logout": "Abmelden"
+    }
+  },
+  "bottomNav": {
+    "feed": "Feed",
+    "map": "Karte",
+    "capture": "Aufnehmen",
+    "search": "Suche",
+    "profile": "Profil"
+  },
+  "footer": {
+    "colBrand": "{{app}}",
+    "about": "Über uns",
+    "press": "Presse",
+    "careers": "Karriere",
+    "colDiscover": "Entdecken",
+    "feed": "Feed",
+    "map": "Karte",
+    "cities": "Städte",
+    "colGastro": "Für Gastronomen",
+    "addBusiness": "Betrieb eintragen",
+    "pricing": "Preise",
+    "gastroHelp": "Hilfe für Gastronomen",
+    "colLegal": "Rechtliches",
+    "imprint": "Impressum",
+    "privacy": "Datenschutz",
+    "terms": "AGB",
+    "cookies": "Cookie-Einstellungen",
+    "guidelines": "Community-Richtlinien",
+    "copyright": "© 2026 {{app}}",
+    "mapData": "Kartendaten © OpenStreetMap-Mitwirkende"
+  },
+  "buildBanner": {
+    "strong": "{{app}} befindet sich im Aufbau.",
+    "text": "Du kannst dich schon umsehen — Videos und Bewertungen kommen bald.",
+    "link": "Mehr erfahren",
+    "dismiss": "Banner schließen"
+  },
+  "toast": {
+    "saved": "Gespeichert",
+    "linkCopied": "Link kopiert",
+    "reportReceived": "Meldung eingegangen",
+    "error": "Etwas ist schiefgelaufen. Bitte versuch es erneut.",
+    "reportThanks": "Danke! Wir sehen uns das an.",
+    "noAction": "Nur Design — hier passiert nichts."
+  },
+  "rating": {
+    "food": "Essen",
+    "service": "Service",
+    "price": "Preis",
+    "priceValue": "Preis-Leistung",
+    "none": "Noch nicht bewertet",
+    "fromCount": "Aus {{count}} Bewertungen",
+    "scale": {
+      "1": "Schlecht",
+      "2": "Geht so",
+      "3": "Okay",
+      "4": "Gut",
+      "5": "Super"
+    }
+  },
+  "hours": {
+    "openUntil": "Jetzt geöffnet · bis {{time}}",
+    "closedUntil": "Geschlossen · öffnet {{day}} {{time}}",
+    "tomorrow": "morgen",
+    "closed": "Geschlossen",
+    "openLabel": "Geöffnet",
+    "from": "von",
+    "to": "bis",
+    "addSpan": "+ Zweite Zeitspanne",
+    "applyAll": "Für alle Tage übernehmen",
+    "days": {
+      "mo": "Montag",
+      "di": "Dienstag",
+      "mi": "Mittwoch",
+      "do": "Donnerstag",
+      "fr": "Freitag",
+      "sa": "Samstag",
+      "so": "Sonntag"
+    },
+    "today": "heute"
+  },
+  "home": {
+    "title": "Sieh, was es zu essen gibt.",
+    "subtitle": "Echte Videos aus Restaurants in deiner Nähe. Mit Speisekarte, Öffnungszeiten und Bewertungen — alles an einem Ort.",
+    "locationPlaceholder": "Wo bist du?",
+    "useLocation": "Standort verwenden",
+    "go": "Losgehen",
+    "popularTitle": "Gerade beliebt",
+    "popularNext": "Weiterblättern",
+    "mapTitle": "Alles in deiner Nähe",
+    "openMap": "Karte öffnen",
+    "howTitle": "So funktioniert's",
+    "how": {
+      "discoverTitle": "Entdecken",
+      "discoverText": "Wisch dich durch Videos von Restaurants in deiner Umgebung.",
+      "informTitle": "Informieren",
+      "informText": "Speisekarte, Öffnungszeiten, Bewertungen pro Gericht — alles auf einer Seite.",
+      "goTitle": "Hingehen",
+      "goText": "Route öffnen, anrufen oder direkt bestellen."
+    },
+    "gastroTitle": "Du betreibst ein Restaurant?",
+    "gastroText": "Übernimm dein Profil, lade Videos hoch und zeig, was bei dir auf den Teller kommt. Kostenlos.",
+    "gastroCta": "Profil übernehmen"
+  },
+  "map": {
+    "title": "Karte",
+    "searchHere": "Hier suchen",
+    "centerOnMe": "Auf meinen Standort zentrieren",
+    "radiusMenuTitle": "Umkreis",
+    "categoryMenuTitle": "Kategorie",
+    "ratingMenuTitle": "Bewertung",
+    "priceMenuTitle": "Preis",
+    "ratingOptions": {
+      "all": "Alle",
+      "from3": "ab 3 Sternen",
+      "from4": "ab 4 Sternen",
+      "from45": "ab 4,5 Sternen"
+    },
+    "resultCount": "{{count}} Betriebe",
+    "save": "Speichern",
+    "emptyTitle": "Nichts gefunden",
+    "emptyText": "Versuch es mit einem größeren Umkreis oder anderen Filtern.",
+    "emptyCta": "Umkreis auf 25 km erweitern",
+    "servingMenuTitle": "Angebot",
+    "pureMode": "Nur Karte",
+    "pureModeOn": "Karte im Vollbild",
+    "pureModeOff": "Leisten wieder einblenden",
+    "pureHint": "Blendet Kopf- und Fußleiste aus.",
+    "listSheet": "Trefferliste",
+    "resultCountOne": "1 Betrieb",
+    "positionLabel": "Standort: {{name}}",
+    "filterCount": "{{count}} Filter aktiv",
+    "resetFilters": "Filter zurücksetzen"
+  },
+  "categories": {
+    "restaurant": "Restaurant",
+    "cafe": "Café",
+    "bar": "Bar",
+    "imbiss": "Imbiss",
+    "baeckerei": "Bäckerei",
+    "eisdiele": "Eisdiele",
+    "pub": "Pub",
+    "sonstiges": "Sonstiges"
+  },
+  "place": {
+    "unverifiedNotice": "Dieses Profil wurde automatisch aus öffentlichen Daten erstellt und noch nicht vom Betrieb bestätigt.",
+    "unverifiedLink": "Ist das dein Betrieb?",
+    "route": "Route",
+    "call": "Anrufen",
+    "save": "Speichern",
+    "share": "Teilen",
+    "order": "Bestellen",
+    "tabs": {
+      "videos": "Videos",
+      "dishes": "Gerichte",
+      "reviews": "Bewertungen",
+      "info": "Infos"
+    },
+    "videosEmptyTitle": "Noch keine Videos",
+    "videosEmptyText": "Sei die erste Person, die hier ein Video hochlädt.",
+    "videosEmptyCta": "Video hochladen",
+    "dishesSort": "Beliebteste",
+    "dishesSortOptions": {
+      "popular": "Beliebteste",
+      "best": "Beste Bewertung",
+      "priceAsc": "Preis aufsteigend",
+      "priceDesc": "Preis absteigend"
+    },
+    "dishesEmptyTitle": "Noch keine Gerichte hinterlegt.",
+    "dishesEmptyText": "Der Betrieb hat noch keine Speisekarte eingetragen.",
+    "reviewFilters": {
+      "all": "Alle",
+      "withVideo": "Mit Video",
+      "verified": "Verifiziert vor Ort"
+    },
+    "reviewsEmptyTitle": "Noch keine Bewertungen",
+    "reviewsEmptyText": "Sei die erste Person, die hier bewertet.",
+    "features": "Merkmale",
+    "address": "Adresse",
+    "phone": "Telefon",
+    "website": "Webseite",
+    "reportProblem": "Problem melden",
+    "groupSize": "Zu {{size}}",
+    "groupTwo": "Zu zweit",
+    "foodHot": "Essen war heiß",
+    "qrBanner": "Du bist bei {{name}}. Lade ein Video hoch und bewerte dein Essen.",
+    "qrCta": "Loslegen",
+    "groupSizes": {
+      "1": "Allein",
+      "2": "Zu zweit",
+      "3": "Zu dritt",
+      "4": "Zu viert",
+      "5": "Zu fünft",
+      "6": "Zu sechst"
+    },
+    "groupSizeMany": "Zu {{size}}",
+    "menuTab": "Speisekarte",
+    "fullMenu": "Ganze Speisekarte ansehen",
+    "menuCount": "{{count}} Gerichte auf der Karte",
+    "servingTitle": "Angebot",
+    "reportSent": "Danke, wir prüfen das.",
+    "closedReported": "Gäste haben gemeldet, dass dieser Betrieb dauerhaft geschlossen ist. Wir prüfen das gerade.",
+    "closingNotice": "Dieser Betrieb hat dauerhaft geschlossen.",
+    "notFoundTitle": "Betrieb nicht gefunden",
+    "notFoundText": "Diese Seite gibt es nicht mehr oder die Adresse stimmt nicht."
+  },
+  "features": {
+    "barrierefrei": "Barrierefrei",
+    "aussenplaetze": "Außenplätze",
+    "vegetarisch": "Vegetarisch",
+    "vegan": "Vegan",
+    "glutenfrei": "Glutenfrei",
+    "hunde": "Hunde erlaubt",
+    "wlan": "WLAN",
+    "reservierung": "Reservierung möglich",
+    "kartenzahlung": "Kartenzahlung",
+    "parkplaetze": "Parkplätze",
+    "lieferung": "Lieferung",
+    "abholung": "Abholung"
+  },
+  "reportPlace": {
+    "title": "Was stimmt hier nicht?",
+    "reasons": {
+      "closed": "Der Betrieb ist dauerhaft geschlossen",
+      "address": "Die Adresse ist falsch",
+      "hours": "Die Öffnungszeiten stimmen nicht",
+      "contact": "Telefonnummer oder Webseite ist falsch",
+      "notExist": "Der Betrieb existiert nicht",
+      "other": "Etwas anderes"
+    },
+    "explanationLabel": "Erklärung (optional)",
+    "explanationPlaceholder": "Was genau stimmt nicht?",
+    "hint": "Wir prüfen jede Meldung. Danke, dass du mithilfst.",
+    "submit": "Meldung senden"
+  },
+  "search": {
+    "title": "Suche",
+    "placeholder": "Restaurant, Gericht oder Ort suchen",
+    "tabs": {
+      "dishes": "Gerichte",
+      "places": "Restaurants",
+      "locations": "Orte",
+      "profiles": "Profile"
+    },
+    "recent": "Zuletzt gesucht",
+    "removeRecent": "Aus dem Verlauf entfernen",
+    "popularNearby": "Beliebt in deiner Nähe",
+    "emptyTitle": "Keine Treffer für „{{query}}“",
+    "emptyText": "Prüf die Schreibweise oder such nach etwas anderem.",
+    "follow": "Folgen",
+    "requested": "Angefragt",
+    "following": "Folgt",
+    "profileMeta": "{{videos}} Videos · {{reviews}} Bewertungen"
+  },
+  "feed": {
+    "tabNearby": "Umkreis",
+    "tabFriends": "Freunde",
+    "settings": "Einstellungen",
+    "like": "Gefällt mir",
+    "comment": "Kommentare",
+    "save": "Speichern",
+    "share": "Teilen",
+    "moreOptions": "Weitere Optionen",
+    "follow": "Folgen",
+    "menu": {
+      "notInterested": "Nicht interessiert",
+      "copyLink": "Link kopieren",
+      "reportVideo": "Video melden",
+      "blockAuthor": "Autor blockieren"
+    },
+    "settingsTitle": "Umkreis",
+    "onlyRated": "Nur Videos mit Bewertung zeigen",
+    "coldStart": "In deiner Nähe gibt es noch wenige Videos. Wir zeigen dir Inhalte aus einem größeren Umkreis.",
+    "coldStartCta": "Karte öffnen",
+    "emptyTitle": "Hier ist noch nichts",
+    "emptyText": "In deinem Umkreis wurden noch keine Videos hochgeladen.",
+    "emptyCta": "Karte ansehen",
+    "emptyCtaSecondary": "Umkreis erweitern",
+    "widened": "Wenig Inhalte in deiner Nähe — wir zeigen dir einen größeren Umkreis.",
+    "liked": "Gemerkt",
+    "seen": "Schon gesehen",
+    "ofCount": "{{current}} von {{total}}"
+  },
+  "videoDetail": {
+    "follow": "Folgen",
+    "comments": "Kommentare",
+    "commentsSoon": "Kommentare kommen bald.",
+    "report": "Melden"
+  },
+  "auth": {
+    "register": {
+      "title": "Konto erstellen",
+      "subtitle": "Kostenlos. Dauert eine Minute.",
+      "email": "E-Mail-Adresse",
+      "emailPlaceholder": "name@beispiel.de",
+      "phone": "Handynummer",
+      "phonePlaceholder": "151 23456789",
+      "phoneHint": "Wir nutzen sie nur zur Bestätigung deines Kontos.",
+      "username": "Benutzername",
+      "usernamePlaceholder": "deinname",
+      "usernameHint": "3–20 Zeichen, nur Buchstaben, Zahlen, Punkt und Unterstrich.",
+      "password": "Passwort",
+      "passwordHint": "Mindestens 8 Zeichen.",
+      "showPassword": "Passwort einblenden",
+      "strength": {
+        "label": "Passwortstärke",
+        "weak": "Schwach",
+        "medium": "Mittel",
+        "strong": "Stark"
+      },
+      "birthday": "Geburtsdatum",
+      "day": "Tag",
+      "month": "Monat",
+      "year": "Jahr",
+      "birthdayHint": "Du musst mindestens 16 Jahre alt sein.",
+      "acceptTerms": "Ich akzeptiere die {{terms}} und habe die {{privacy}} gelesen.",
+      "acceptLocation": "{{app}} darf meinen Standort verwenden, um mir Inhalte in meiner Nähe zu zeigen.",
+      "acceptNews": "Ich möchte gelegentlich E-Mails zu Neuigkeiten erhalten.",
+      "submit": "Konto erstellen",
+      "haveAccount": "Du hast schon ein Konto?",
+      "loginLink": "Anmelden",
+      "errors": {
+        "email": "Bitte gib eine gültige E-Mail-Adresse ein.",
+        "usernameTaken": "Dieser Benutzername ist schon vergeben.",
+        "passwordShort": "Das Passwort ist zu kurz.",
+        "age": "Du musst mindestens 16 Jahre alt sein, um {{app}} zu nutzen.",
+        "terms": "Bitte akzeptiere die AGB."
+      }
+    },
+    "code": {
+      "title": "Code eingeben",
+      "text": "Wir haben dir einen 6-stelligen Code an {{phone}} geschickt.",
+      "submit": "Bestätigen",
+      "notReceived": "Code nicht bekommen?",
+      "resend": "Erneut senden",
+      "resendIn": "Erneut senden in {{time}}",
+      "changeNumber": "Nummer ändern"
+    },
+    "login": {
+      "title": "Willkommen zurück",
+      "identifier": "E-Mail oder Benutzername",
+      "password": "Passwort",
+      "forgot": "Passwort vergessen?",
+      "submit": "Anmelden",
+      "gastro": "Als Gastronom anmelden",
+      "noAccount": "Noch kein Konto?",
+      "registerLink": "Registrieren"
+    },
+    "forgot": {
+      "title": "Passwort zurücksetzen",
+      "text": "Gib deine E-Mail-Adresse ein. Wir schicken dir einen Link.",
+      "submit": "Link senden",
+      "sentTitle": "E-Mail unterwegs",
+      "sentText": "Falls ein Konto zu dieser Adresse existiert, findest du den Link gleich in deinem Postfach.",
+      "backToLogin": "Zurück zur Anmeldung"
+    },
+    "newPassword": {
+      "title": "Neues Passwort wählen",
+      "password": "Neues Passwort",
+      "repeat": "Passwort wiederholen",
+      "submit": "Passwort speichern"
+    },
+    "gate": {
+      "title": "Dafür brauchst du ein Konto",
+      "text": "Melde dich an, um zu liken, zu folgen und Inhalte zu speichern.",
+      "login": "Anmelden",
+      "register": "Konto erstellen"
+    },
+    "errors": {
+      "unknownAccount": "Zu dieser E-Mail oder diesem Benutzernamen gibt es kein Konto.",
+      "wrongPassword": "Das Passwort stimmt nicht.",
+      "blocked": "Dieses Konto ist gesperrt. Melde dich beim Support.",
+      "accountExists": "Diese E-Mail oder dieser Benutzername ist schon vergeben.",
+      "noPendingRegistration": "Es läuft gerade keine Registrierung. Fang bitte von vorn an.",
+      "wrongCode": "Der Code stimmt nicht."
+    },
+    "demoHint": "Testzugänge: max@beispiel.de · chef@trattoria-bella.de · ana@intern — Passwort steht im Design-Panel.",
+    "codeHint": "Im Test lautet der Code 123456.",
+    "loggedOut": "Du bist abgemeldet.",
+    "forgotTestHint": "Im Testbetrieb verschicken wir keine E-Mails. Melde dich an und ändere das Passwort in den Einstellungen.",
+    "newPasswordNeedsLogin": "Zum Ändern des Passworts musst du angemeldet sein."
+  },
+  "upload": {
+    "capture": {
+      "cancel": "Abbrechen",
+      "flash": "Blitz",
+      "switch": "Kamera wechseln",
+      "timer": "Zeitgeber",
+      "speed": "Geschwindigkeit",
+      "gallery": "Hochladen",
+      "next": "Weiter",
+      "maxLength": "Maximal 60 Sekunden",
+      "shutterHint": "Gedrückt halten zum Aufnehmen"
+    },
+    "trim": {
+      "title": "Zuschneiden",
+      "selected": "Ausgewählt: {{from}} – {{to}} ({{seconds}} Sek.)",
+      "tools": {
+        "music": "Musik",
+        "text": "Text",
+        "filter": "Filter",
+        "sticker": "Sticker"
+      }
+    },
+    "place": {
+      "title": "Wo warst du?",
+      "subtitle": "Jedes Video gehört zu einem Betrieb.",
+      "searchPlaceholder": "Restaurant suchen",
+      "nearby": "In deiner Nähe",
+      "onSiteNotice": "Du bist vor Ort. Dein Video wird als verifiziert markiert und häufiger angezeigt.",
+      "missing": "Mein Restaurant ist nicht dabei"
+    },
+    "missing": {
+      "title": "Betrieb nicht gefunden?",
+      "text": "Sag uns Bescheid — wir tragen ihn nach. Du kannst dein Video danach hochladen.",
+      "name": "Name des Betriebs",
+      "namePlaceholder": "z. B. Trattoria Bella",
+      "address": "Adresse",
+      "addressPlaceholder": "Straße, Hausnummer, Ort",
+      "type": "Art des Betriebs",
+      "note": "Anmerkung (optional)",
+      "hint": "Wir prüfen deinen Vorschlag. Das kann ein paar Tage dauern.",
+      "submit": "Vorschlag senden"
+    },
+    "review": {
+      "title": "Wie war's?",
+      "subtitle": "Alles freiwillig — aber Videos mit Bewertung werden deutlich häufiger gezeigt.",
+      "hotLabel": "War das Essen heiß serviert?",
+      "groupLabel": "Zu wievielt wart ihr?",
+      "dishesLabel": "Was habt ihr bestellt?",
+      "dishesPlaceholder": "Gericht suchen oder eintippen",
+      "addDish": "+ Gericht hinzufügen",
+      "dishHint": "Kein passendes Gericht? Tipp es einfach ein.",
+      "removeDish": "Gericht entfernen",
+      "textLabel": "Erzähl mehr (optional)",
+      "textPlaceholder": "Was hat dir gefallen? Was nicht?",
+      "skipDialog": {
+        "title": "Ohne Bewertung weiter?",
+        "text": "Videos mit Bewertung werden im Feed deutlich häufiger angezeigt. Es dauert nur 20 Sekunden.",
+        "confirm": "Trotzdem überspringen",
+        "cancel": "Zurück zur Bewertung"
+      }
+    },
+    "publish": {
+      "title": "Veröffentlichen",
+      "captionLabel": "Bildunterschrift",
+      "captionPlaceholder": "Beschreib dein Erlebnis…",
+      "summaryChange": "Ändern",
+      "verifiedOnSite": "Vor Ort verifiziert",
+      "dishesRated": "{{count}} Gerichte bewertet",
+      "visibilityLabel": "Wer darf das Video sehen?",
+      "visibility": {
+        "publicTitle": "Öffentlich",
+        "publicText": "Jeder kann dein Video sehen.",
+        "friendsTitle": "Nur Freunde",
+        "friendsText": "Nur Leute, die dir folgen und die du bestätigt hast.",
+        "privateTitle": "Nur ich",
+        "privateText": "Niemand außer dir."
+      },
+      "allowComments": "Kommentare erlauben",
+      "consent": "Achte darauf, dass keine fremden Personen erkennbar sind, die nicht einverstanden sind. Mit dem Hochladen bestätigst du unsere {{guidelines}}.",
+      "submit": "Veröffentlichen",
+      "doneTitle": "Danke!",
+      "doneText": "Dein Video wird geprüft und ist bald sichtbar. Das dauert meist unter 24 Stunden.",
+      "doneProfile": "Zum Profil",
+      "doneAgain": "Noch ein Video"
+    },
+    "steps": "Schritt {{current}} von {{total}}",
+    "missingVideo": "Bitte nimm zuerst ein Video auf oder wähle eines aus.",
+    "missingPlace": "Bitte wähle einen Betrieb.",
+    "published": "Dein Video liegt zur Prüfung bereit.",
+    "savedDraft": "Entwurf gespeichert.",
+    "reviewSkipped": "Ohne Bewertung wird dein Video seltener gezeigt."
+  },
+  "profile": {
+    "counts": {
+      "videos": "Videos",
+      "followers": "Follower",
+      "following": "Folgt"
+    },
+    "edit": "Profil bearbeiten",
+    "settings": "Einstellungen",
+    "follow": "Folgen",
+    "requested": "Angefragt",
+    "following": "Folgt",
+    "block": "Blockieren",
+    "tabs": {
+      "videos": "Videos",
+      "reviews": "Bewertungen",
+      "saved": "Gespeichert"
+    },
+    "savedTabs": {
+      "videos": "Videos",
+      "places": "Restaurants"
+    },
+    "privateTitle": "Dieses Profil ist privat",
+    "privateText": "Folge {{username}}, um Videos und Bewertungen zu sehen.",
+    "empty": {
+      "videosTitle": "Noch keine Videos",
+      "videosText": "Zeig, was du isst.",
+      "videosCta": "Erstes Video hochladen",
+      "reviewsTitle": "Noch keine Bewertungen",
+      "reviewsText": "Deine Bewertungen erscheinen hier.",
+      "savedTitle": "Nichts gespeichert",
+      "savedText": "Tippe auf das Lesezeichen, um Videos und Restaurants hier zu sammeln."
+    },
+    "editPage": {
+      "title": "Profil bearbeiten",
+      "changeImage": "Ändern",
+      "removeImage": "Bild entfernen",
+      "displayName": "Anzeigename",
+      "username": "Benutzername",
+      "usernameHint": "Änderbar alle 30 Tage.",
+      "bio": "Biografie",
+      "website": "Webseite (optional)",
+      "websitePlaceholder": "https://"
+    },
+    "guestTitle": "Noch nicht angemeldet",
+    "guestText": "Melde dich an, um dein Profil, deine Videos, Bewertungen und gespeicherten Orte zu sehen."
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "sections": {
+      "account": "Konto",
+      "privacy": "Privatsphäre",
+      "content": "Inhalte",
+      "notifications": "Benachrichtigungen",
+      "data": "Daten",
+      "legal": "Rechtliches",
+      "help": "Hilfe"
+    },
+    "editProfile": "Profil bearbeiten",
+    "email": "E-Mail-Adresse",
+    "phone": "Handynummer",
+    "changePassword": "Passwort ändern",
+    "privateProfile": "Privates Profil",
+    "privateProfileHint": "Nur bestätigte Follower sehen deine Inhalte.",
+    "discoverable": "Wer darf mich finden",
+    "discoverableOptions": {
+      "all": "Alle",
+      "contacts": "Nur Kontakte",
+      "none": "Niemand"
+    },
+    "blocked": "Blockierte Konten",
+    "location": "Standortdaten",
+    "locationHint": "Wird für Inhalte in deiner Nähe benötigt.",
+    "defaultRadius": "Standard-Umkreis",
+    "language": "Sprache",
+    "videoQuality": "Videoqualität",
+    "videoQualityOptions": {
+      "auto": "Automatisch",
+      "saver": "Datensparend",
+      "high": "Hoch"
+    },
+    "autoplayMobile": "Über Mobilfunk automatisch abspielen",
+    "notifyFollowers": "Neue Follower",
+    "notifyLikes": "Gefällt mir",
+    "notifyComments": "Kommentare",
+    "notifyReplies": "Antworten von Restaurants",
+    "notifyNews": "Neuigkeiten von {{app}}",
+    "downloadData": "Meine Daten herunterladen",
+    "cookies": "Cookie-Einstellungen",
+    "guidelines": "Community-Richtlinien",
+    "terms": "Nutzungsbedingungen",
+    "privacy": "Datenschutzerklärung",
+    "imprint": "Impressum",
+    "helpCenter": "Hilfebereich",
+    "reportProblem": "Problem melden",
+    "about": "Über {{app}}",
+    "version": "Version 0.1.0",
+    "logout": "Abmelden",
+    "deleteAccount": "Konto löschen",
+    "deleteDialog": {
+      "title": "Konto endgültig löschen?",
+      "intro": "Das kann nicht rückgängig gemacht werden. Folgendes passiert:",
+      "b1": "Dein Profil und deine Videos werden entfernt.",
+      "b2": "Deine Bewertungen bleiben anonym erhalten, damit die Durchschnittswerte der Betriebe stimmen.",
+      "b3": "Gespeicherte Inhalte gehen verloren.",
+      "confirmLabel": "Gib zur Bestätigung „LÖSCHEN“ ein",
+      "confirmPlaceholder": "LÖSCHEN",
+      "submit": "Konto löschen"
+    },
+    "dataPage": {
+      "title": "Meine Daten",
+      "text": "Du bekommst eine Datei mit deinem Profil, deinen Videos, Bewertungen und gespeicherten Inhalten.",
+      "profile": "Profildaten",
+      "videos": "Videos",
+      "reviews": "Bewertungen",
+      "saved": "Gespeichertes",
+      "activity": "Aktivitätsverlauf",
+      "submit": "Datei anfordern",
+      "hint": "Wir schicken dir einen Download-Link per E-Mail. Das kann bis zu 48 Stunden dauern."
+    },
+    "appearance": "Darstellung",
+    "appearanceHint": "Der Dunkelmodus gilt für die App.",
+    "appearanceOptions": {
+      "auto": "Automatisch",
+      "light": "Hell",
+      "dark": "Dunkel"
+    },
+    "appearanceAuto": "Automatisch",
+    "appearanceHintAll": "Gilt für Website und App. „Automatisch“ folgt deinem Gerät.",
+    "logoutConfirm": "Wirklich abmelden?",
+    "exportReady": "Deine Daten wurden heruntergeladen.",
+    "accountDeleted": "Dein Konto wurde gelöscht.",
+    "savedProfile": "Profil gespeichert."
+  },
+  "notifications": {
+    "title": "Benachrichtigungen",
+    "markAllRead": "Alle als gelesen markieren",
+    "followBack": "Zurückfolgen",
+    "emptyTitle": "Keine Benachrichtigungen",
+    "emptyText": "Hier siehst du, was bei dir passiert.",
+    "why": "Warum?"
+  },
+  "reportContent": {
+    "title": "Was möchtest du melden?",
+    "reasons": {
+      "spam": "Spam oder Werbung",
+      "hate": "Beleidigend oder hasserfüllt",
+      "fake": "Gefälschte Bewertung",
+      "wrong": "Falsche Informationen",
+      "violence": "Gewalt oder gefährliche Inhalte",
+      "sexual": "Sexuelle Inhalte",
+      "copyright": "Urheberrechtsverletzung",
+      "other": "Etwas anderes"
+    },
+    "explanationLabel": "Erklärung (optional)",
+    "hint": "Deine Meldung ist anonym. Wir prüfen sie so schnell wie möglich.",
+    "submit": "Melden"
+  },
+  "gastro": {
+    "brandSuffix": "für Gastronomen",
+    "login": {
+      "title": "Anmeldung für Gastronomen",
+      "text": "Melde dich mit den Zugangsdaten an, die du von uns per E-Mail bekommen hast.",
+      "noAccess": "Noch keine Zugangsdaten?",
+      "claimLink": "Betrieb eintragen"
+    },
+    "welcome": {
+      "title": "Willkommen bei {{app}}",
+      "text": "Bitte vergib zuerst ein eigenes Passwort.",
+      "accept": "Ich akzeptiere die {{terms}}.",
+      "termsLink": "Nutzungsbedingungen für Gastronomen"
+    },
+    "setup": {
+      "step": "Schritt {{current}} von {{total}}",
+      "s1Title": "Stimmen diese Angaben?",
+      "s1Source": "Diese Daten stammen aus OpenStreetMap.",
+      "s1Confirm": "Ja, stimmt",
+      "s1Deny": "Etwas stimmt nicht",
+      "s2Title": "Profil ausfüllen",
+      "descriptionLabel": "Beschreibung",
+      "descriptionPlaceholder": "Erzähl kurz, was deinen Betrieb ausmacht…",
+      "coverLabel": "Titelbild",
+      "dropImage": "Bild hierher ziehen oder",
+      "dropChoose": "auswählen",
+      "imageHint": "JPG oder PNG, mindestens 1200 × 600 px",
+      "featuresLabel": "Merkmale",
+      "s3Title": "Öffnungszeiten",
+      "s4Title": "Erstes Video",
+      "dropVideo": "Video hierher ziehen oder",
+      "videoHint": "Hochformat 9:16, maximal 60 Sekunden, maximal 100 MB",
+      "uploadLater": "Später hochladen",
+      "doneTitle": "Fertig!",
+      "doneText": "Dein Profil ist online. Du kannst es jederzeit ändern.",
+      "doneView": "Profil ansehen",
+      "doneDashboard": "Zum Dashboard"
+    },
+    "nav": {
+      "overview": "Übersicht",
+      "videos": "Videos",
+      "menu": "Speisekarte",
+      "reviews": "Bewertungen",
+      "profile": "Profil",
+      "qr": "QR-Codes",
+      "settings": "Einstellungen"
+    },
+    "dashboard": {
+      "unverified": "Dein Betrieb ist noch nicht verifiziert.",
+      "verifyNow": "Jetzt verifizieren",
+      "kpiViews": "Videoaufrufe",
+      "kpiViewsSub": "letzte 30 Tage",
+      "kpiReviews": "Bewertungen",
+      "kpiReviewsSub": "neu diese Woche",
+      "kpiFood": "Ø Essen",
+      "kpiProfile": "Profilaufrufe",
+      "latestReviews": "Neueste Bewertungen",
+      "yourVideos": "Deine Videos",
+      "uploadVideo": "Video hochladen",
+      "tasks": "Aufgaben",
+      "taskList": {
+        "profile": "Profil bestätigt",
+        "cover": "Titelbild hochgeladen",
+        "menu": "Speisekarte eingetragen",
+        "video": "Erstes Video hochgeladen",
+        "qr": "QR-Code aufgehängt"
+      },
+      "emptyTitle": "Noch keine Daten",
+      "emptyText": "Sobald Gäste dein Profil besuchen, siehst du hier deine Zahlen."
+    },
+    "videos": {
+      "title": "Videos",
+      "upload": "Video hochladen",
+      "filters": {
+        "all": "Alle",
+        "published": "Veröffentlicht",
+        "review": "In Prüfung",
+        "rejected": "Abgelehnt"
+      },
+      "menu": {
+        "view": "Ansehen",
+        "editCaption": "Bildunterschrift bearbeiten",
+        "hide": "Verbergen",
+        "delete": "Löschen"
+      },
+      "rejectedReason": "Grund: {{reason}}",
+      "appeal": "Einspruch",
+      "views": "{{count}} Aufrufe",
+      "dialogTitle": "Video hochladen",
+      "captionLabel": "Bildunterschrift",
+      "dishLabel": "Zugehöriges Gericht (optional)",
+      "reviewHint": "Videos werden vor der Veröffentlichung geprüft. Das dauert meist unter 24 Stunden.",
+      "submit": "Hochladen",
+      "emptyTitle": "Noch keine Videos",
+      "emptyText": "Zeig deinen Gästen, was bei dir auf den Teller kommt.",
+      "emptyCta": "Erstes Video hochladen",
+      "statusPending": "In Prüfung",
+      "statusPublished": "Veröffentlicht",
+      "statusRejected": "Abgelehnt"
+    },
+    "menu": {
+      "title": "Speisekarte",
+      "addCategory": "Kategorie hinzufügen",
+      "addDish": "Gericht hinzufügen",
+      "visible": "Sichtbar",
+      "dialogAdd": "Gericht hinzufügen",
+      "dialogEdit": "Gericht bearbeiten",
+      "nameLabel": "Name",
+      "namePlaceholder": "z. B. Pizza Margherita",
+      "descriptionLabel": "Beschreibung",
+      "priceLabel": "Preis",
+      "pricePlaceholder": "0,00",
+      "categoryLabel": "Kategorie",
+      "imageLabel": "Bild",
+      "tags": {
+        "vegetarisch": "Vegetarisch",
+        "vegan": "Vegan",
+        "glutenfrei": "Glutenfrei",
+        "scharf": "Scharf"
+      },
+      "allergensLabel": "Allergene (optional)",
+      "emptyTitle": "Noch keine Gerichte",
+      "emptyText": "Trag deine Gerichte ein, damit Gäste sie bewerten können.",
+      "emptyCta": "Erstes Gericht hinzufügen",
+      "categories": {
+        "vorspeisen": "Vorspeisen",
+        "hauptgerichte": "Hauptgerichte",
+        "desserts": "Desserts",
+        "getraenke": "Getränke"
+      },
+      "subtitle": "Was hier steht, sehen Gäste auf deiner Seite und auf der reinen Speisekarte.",
+      "viewPublic": "Als Gast ansehen",
+      "categoryName": "Name der Kategorie",
+      "categoryDescription": "Beschreibung (optional)",
+      "newCategory": "Neue Kategorie",
+      "deleteCategory": "Kategorie löschen",
+      "deleteCategoryConfirm": "Die Kategorie und alle {{count}} Gerichte darin werden gelöscht.",
+      "deleteDish": "Gericht löschen",
+      "dietLabel": "Kennzeichnung",
+      "spicyLabel": "Schärfe",
+      "availableLabel": "Heute verfügbar",
+      "popularLabel": "Als beliebt markieren",
+      "noteLabel": "Hinweis unter der Karte",
+      "notePlaceholder": "z. B. Alle Preise inkl. MwSt.",
+      "saved": "Speisekarte gespeichert.",
+      "dishAdded": "Gericht hinzugefügt.",
+      "dishRemoved": "Gericht gelöscht.",
+      "categoryAdded": "Kategorie angelegt."
+    },
+    "reviews": {
+      "title": "Bewertungen",
+      "distribution": "Verteilung",
+      "filters": {
+        "all": "Alle",
+        "unanswered": "Unbeantwortet",
+        "withVideo": "Mit Video",
+        "lowStars": "Nur 1–2 Sterne"
+      },
+      "reply": "Antworten",
+      "replyPlaceholder": "Antwort schreiben…",
+      "sendReply": "Antwort senden",
+      "answered": "Antwort des Betriebs",
+      "emptyTitle": "Noch keine Bewertungen",
+      "emptyText": "Häng deinen QR-Code auf, damit Gäste dich bewerten."
+    },
+    "reportReview": {
+      "title": "Bewertung beanstanden",
+      "text": "Wenn eine Bewertung falsche Tatsachen behauptet oder gegen unsere Richtlinien verstößt, prüfen wir sie.",
+      "reasons": {
+        "neverThere": "Der Gast war nachweislich nie bei uns",
+        "falseClaims": "Die Bewertung enthält falsche Tatsachenbehauptungen",
+        "hate": "Beleidigend oder hasserfüllt",
+        "mixup": "Verwechslung mit einem anderen Betrieb",
+        "blackmail": "Erpressungsversuch",
+        "other": "Etwas anderes"
+      },
+      "reasonLabel": "Begründung",
+      "reasonPlaceholder": "Beschreib möglichst genau, was nicht stimmt.",
+      "evidenceLabel": "Nachweise (optional)",
+      "evidenceHint": "PDF oder Bilder, maximal 5 Dateien",
+      "hint": "Wir melden uns innerhalb von 7 Tagen. Bis dahin bleibt die Bewertung sichtbar.",
+      "submit": "Beanstandung senden"
+    },
+    "profile": {
+      "title": "Profil",
+      "sectionBase": "Stammdaten",
+      "name": "Name des Betriebs",
+      "street": "Straße und Hausnummer",
+      "zip": "PLZ",
+      "city": "Ort",
+      "country": "Land",
+      "phone": "Telefonnummer",
+      "email": "E-Mail-Adresse",
+      "website": "Webseite",
+      "baseNotice": "Änderungen an Name und Adresse werden von uns geprüft.",
+      "sectionDescription": "Beschreibung",
+      "about": "Über uns",
+      "cuisine": "Küche",
+      "priceRange": "Preisklasse",
+      "sectionImages": "Bilder",
+      "cover": "Titelbild",
+      "replace": "Ersetzen",
+      "remove": "Entfernen",
+      "moreImages": "Weitere Bilder",
+      "moreImagesHint": "maximal 10",
+      "sectionHours": "Öffnungszeiten",
+      "addSpecialHours": "Sonderöffnungszeit hinzufügen",
+      "specialDialog": {
+        "title": "Sonderöffnungszeit",
+        "date": "Datum",
+        "closed": "Geschlossen",
+        "reason": "Anlass (optional)"
+      },
+      "sectionFeatures": "Merkmale",
+      "servingTitle": "Angebot"
+    },
+    "qr": {
+      "title": "QR-Codes",
+      "text": "Häng die Codes bei dir auf. Gäste scannen sie und landen direkt auf deinem Profil.",
+      "templateLabel": "Vorlage",
+      "templates": {
+        "a6Title": "Tischaufsteller A6",
+        "a6Text": "Kompakt für den Tisch",
+        "a4Title": "Aushang A4",
+        "a4Text": "Für Fenster oder Tür",
+        "stickerTitle": "Aufkleber rund",
+        "stickerText": "Für Speisekarte oder Rechnung",
+        "plainTitle": "Nur QR-Code",
+        "plainText": "Zum selbst Einbauen"
+      },
+      "textLabel": "Text auf dem Aushang",
+      "textPlaceholder": "Wie war's? Bewerte uns bei {{app}}",
+      "preview": "Vorschau",
+      "downloadPdf": "Als PDF herunterladen",
+      "downloadPng": "PNG herunterladen",
+      "targetLabel": "Wohin soll der Code führen?"
+    },
+    "settings": {
+      "title": "Einstellungen",
+      "sections": {
+        "access": "Zugang",
+        "verification": "Verifizierung",
+        "notifications": "Benachrichtigungen",
+        "business": "Betrieb",
+        "legal": "Rechtliches"
+      },
+      "changeEmail": "E-Mail-Adresse ändern",
+      "changePassword": "Passwort ändern",
+      "inviteStaff": "Weitere Mitarbeiter einladen",
+      "notVerified": "Nicht verifiziert",
+      "startVerification": "Verifizierung starten",
+      "verificationDialogText": "Die Verifizierung ist bald verfügbar. Wir melden uns bei dir.",
+      "verificationDialogOk": "Alles klar",
+      "notifyReview": "Neue Bewertung",
+      "notifyVideo": "Neues Video über meinen Betrieb",
+      "notifyModeration": "Video freigegeben oder abgelehnt",
+      "notifyNews": "Neuigkeiten von {{app}}",
+      "closeBusiness": "Betrieb als geschlossen melden",
+      "hideProfile": "Profil vorübergehend verbergen",
+      "hideProfileHint": "Dein Profil bleibt für Gäste unsichtbar, bis du es wieder aktivierst.",
+      "gastroTerms": "Nutzungsbedingungen für Gastronomen",
+      "dpa": "Auftragsverarbeitungsvertrag",
+      "privacy": "Datenschutzerklärung"
+    },
+    "close": {
+      "title": "Betrieb schließen",
+      "permanent": "Dauerhaft geschlossen",
+      "temporary": "Vorübergehend geschlossen",
+      "reopenLabel": "Voraussichtlich wieder geöffnet am",
+      "consequencesTitle": "Das passiert dann:",
+      "c1": "Dein Profil zeigt ab sofort „Dauerhaft geschlossen“.",
+      "c2": "Es bleibt 12 Monate lang sichtbar, damit Gäste nicht vergeblich vorbeikommen.",
+      "c3": "Danach wird es archiviert.",
+      "c4": "Deine Videos bleiben gespeichert, sind aber nicht mehr öffentlich.",
+      "c5": "Du kannst das innerhalb von 30 Tagen rückgängig machen.",
+      "reasonLabel": "Grund (optional)",
+      "reasons": {
+        "aufgabe": "Geschäftsaufgabe",
+        "umzug": "Umzug",
+        "verkauf": "Verkauf",
+        "renovierung": "Renovierung",
+        "other": "Etwas anderes"
+      },
+      "newAddress": "Neue Adresse (optional)",
+      "confirm": "Ich bestätige, dass ich berechtigt bin, diese Änderung vorzunehmen.",
+      "submit": "Betrieb schließen"
+    },
+    "landing": {
+      "title": "Zeig, was bei dir auf den Teller kommt.",
+      "subtitle": "Kostenloses Profil, Videos und echte Bewertungen von Gästen aus deiner Nachbarschaft.",
+      "cta": "Betrieb eintragen",
+      "login": "Anmelden",
+      "whyTitle": "Warum {{app}}",
+      "why": {
+        "foundTitle": "Gefunden werden",
+        "foundText": "Gäste in deiner Nähe entdecken dich über Videos, nicht über eine Liste.",
+        "oneTitle": "Alles an einem Ort",
+        "oneText": "Speisekarte, Öffnungszeiten, Bewertungen — ein Profil statt fünf Plattformen.",
+        "freeTitle": "Kostenlos starten",
+        "freeText": "Profil, Videos und Bewertungen kosten dich nichts."
+      },
+      "howTitle": "So geht's",
+      "steps": {
+        "s1": "Betrieb suchen",
+        "s2": "Profil übernehmen",
+        "s3": "Videos hochladen",
+        "s4": "QR-Code aufhängen"
+      },
+      "faqTitle": "Häufige Fragen",
+      "faq": {
+        "q1": "Was kostet das?",
+        "a1": "Profil, Videos und Bewertungen sind kostenlos. Kostenpflichtige Zusatzfunktionen kündigen wir rechtzeitig an.",
+        "q2": "Wer darf Videos über meinen Betrieb hochladen?",
+        "a2": "Gäste, die bei dir waren, und du selbst. Jedes Video wird vor der Veröffentlichung geprüft.",
+        "q3": "Kann ich Bewertungen löschen lassen?",
+        "a3": "Bewertungen, die falsche Tatsachen behaupten oder gegen unsere Richtlinien verstoßen, kannst du beanstanden. Wir prüfen jede Beanstandung.",
+        "q4": "Wie wird mein Betrieb verifiziert?",
+        "a4": "Über einen Code, den wir an die hinterlegte Adresse oder Telefonnummer deines Betriebs schicken.",
+        "q5": "Was passiert, wenn ich schließe?",
+        "a5": "Du meldest den Betrieb als geschlossen. Das Profil bleibt 12 Monate sichtbar und wird danach archiviert."
+      },
+      "readyTitle": "Bereit?"
+    },
+    "claim": {
+      "title": "Betrieb eintragen",
+      "text": "Such deinen Betrieb. Wenn er schon bei uns ist, kannst du ihn übernehmen.",
+      "searchPlaceholder": "Name deines Betriebs",
+      "cityLabel": "Ort",
+      "cityPlaceholder": "Stadt oder PLZ",
+      "isMine": "Das ist mein Betrieb",
+      "notFound": "Mein Betrieb ist nicht dabei — neu anlegen",
+      "formClaimTitle": "Betrieb übernehmen",
+      "formNewTitle": "Betrieb neu anlegen",
+      "yourName": "Dein Name",
+      "yourRole": "Deine Rolle",
+      "roles": {
+        "owner": "Inhaber:in",
+        "management": "Geschäftsführung",
+        "marketing": "Marketing",
+        "staff": "Mitarbeiter:in"
+      },
+      "email": "E-Mail-Adresse",
+      "emailHint": "Am besten eine offizielle Adresse deines Betriebs.",
+      "phone": "Telefonnummer",
+      "businessName": "Name des Betriebs",
+      "street": "Straße",
+      "zip": "PLZ",
+      "city": "Ort",
+      "type": "Art des Betriebs",
+      "authorized": "Ich bin berechtigt, diesen Betrieb zu vertreten.",
+      "acceptTerms": "Ich akzeptiere die {{terms}}.",
+      "submit": "Anfrage senden",
+      "doneTitle": "Anfrage eingegangen",
+      "doneText": "Wir prüfen deine Angaben und schicken dir Zugangsdaten per E-Mail. Das dauert meist 1–2 Werktage."
+    }
+  },
+  "admin": {
+    "nav": {
+      "overview": "Übersicht",
+      "videos": "Video-Freigabe",
+      "reports": "Meldungen",
+      "places": "Betriebe",
+      "invites": "Einladungen",
+      "users": "Nutzer",
+      "suggestions": "Vorschläge",
+      "log": "Protokoll"
+    },
+    "logout": "Abmelden",
+    "overview": {
+      "title": "Übersicht",
+      "kpi": {
+        "queue": "Videos in Prüfung",
+        "reports": "Offene Meldungen",
+        "claims": "Neue Betriebs-Anfragen",
+        "places": "Betriebe gesamt",
+        "users": "Nutzer gesamt",
+        "videos": "Videos gesamt"
+      },
+      "recent": "Zuletzt passiert",
+      "colTime": "Zeitstempel",
+      "colEvent": "Ereignis",
+      "colActor": "Akteur"
+    },
+    "videos": {
+      "title": "Video-Freigabe",
+      "queue": "Warteschlange",
+      "reported": "Gemeldet",
+      "since": "vor {{time}}",
+      "author": "Autor",
+      "place": "Betrieb",
+      "duration": "Dauer",
+      "rating": "Bewertung",
+      "caption": "Bildunterschrift",
+      "gps": "GPS-Verifizierung",
+      "approve": "Freigeben",
+      "reject": "Ablehnen",
+      "postpone": "Später",
+      "reasonLabel": "Grund",
+      "reasons": {
+        "spam": "Spam",
+        "hate": "Beleidigend",
+        "sexual": "Sexuelle Inhalte",
+        "violence": "Gewalt",
+        "copyright": "Urheberrecht",
+        "wrongPlace": "Falscher Betrieb",
+        "quality": "Schlechte Qualität",
+        "other": "Sonstiges"
+      },
+      "messageLabel": "Nachricht an den Autor",
+      "shortcuts": "F = Freigeben · A = Ablehnen · ↓ = Nächstes",
+      "emptyTitle": "Warteschlange leer",
+      "emptyText": "Aktuell wartet kein Video auf Freigabe."
+    },
+    "reports": {
+      "title": "Meldungen",
+      "cols": {
+        "date": "Datum",
+        "type": "Typ",
+        "object": "Betroffenes Objekt",
+        "reason": "Grund",
+        "count": "Anzahl Meldungen",
+        "status": "Status",
+        "action": "Aktion"
+      },
+      "status": {
+        "open": "Offen",
+        "review": "In Prüfung",
+        "done": "Erledigt",
+        "rejected": "Abgelehnt"
+      },
+      "types": {
+        "video": "Video",
+        "review": "Bewertung",
+        "profile": "Profil",
+        "place": "Betrieb"
+      },
+      "removeContent": "Inhalt entfernen",
+      "warnUser": "Nutzer verwarnen",
+      "banUser": "Nutzer sperren",
+      "dismiss": "Meldung abweisen",
+      "noteLabel": "Interne Notiz",
+      "closedTitle": "Sonderfall: Betrieb geschlossen",
+      "closedCount": "{{count}} unabhängige Meldungen",
+      "markClosed": "Als geschlossen markieren",
+      "requestCheck": "Prüfung vor Ort anfordern",
+      "emptyTitle": "Keine Meldungen"
+    },
+    "places": {
+      "title": "Betriebe",
+      "cols": {
+        "name": "Name",
+        "city": "Ort",
+        "status": "Status",
+        "claimedBy": "Übernommen von",
+        "videos": "Videos",
+        "reviews": "Bewertungen",
+        "lastActive": "Zuletzt aktiv"
+      },
+      "status": {
+        "unclaimed": "Nicht übernommen",
+        "pending": "Anfrage offen",
+        "verified": "Verifiziert",
+        "reportedClosed": "Geschlossen gemeldet",
+        "closing": "In Schließung",
+        "archived": "Archiviert"
+      },
+      "actions": {
+        "view": "Ansehen",
+        "edit": "Bearbeiten",
+        "verify": "Verifizieren",
+        "archive": "Archivieren"
+      }
+    },
+    "invites": {
+      "title": "Einladungen",
+      "send": "Einladungen versenden",
+      "cols": {
+        "place": "Betrieb",
+        "email": "E-Mail",
+        "sentAt": "Verschickt am",
+        "status": "Status",
+        "action": "Aktion"
+      },
+      "status": {
+        "sent": "Verschickt",
+        "opened": "Geöffnet",
+        "activated": "Aktiviert",
+        "bounced": "Unzustellbar",
+        "declined": "Abgelehnt"
+      },
+      "resend": "Erneut senden",
+      "dialogTitle": "Einladungen versenden",
+      "filterCity": "Stadt",
+      "filterCategory": "Kategorie",
+      "filterCount": "Anzahl",
+      "emailPreview": "Vorschau der E-Mail",
+      "senderLabel": "Absendername",
+      "sendNow": "Jetzt versenden",
+      "legalWarning": "Rechtlicher Hinweis: Werbe-E-Mails an Unternehmen ohne vorherige Einwilligung sind in Deutschland nach § 7 UWG grundsätzlich unzulässig. Vor dem Versand rechtlich prüfen lassen."
+    },
+    "users": {
+      "title": "Nutzer",
+      "cols": {
+        "username": "Benutzername",
+        "email": "E-Mail",
+        "registered": "Registriert",
+        "videos": "Videos",
+        "reviews": "Bewertungen",
+        "reportsAgainst": "Meldungen gegen",
+        "status": "Status"
+      },
+      "status": {
+        "active": "Aktiv",
+        "warned": "Verwarnt",
+        "banned": "Gesperrt"
+      },
+      "actions": {
+        "view": "Profil ansehen",
+        "warn": "Verwarnen",
+        "ban": "Sperren",
+        "unban": "Entsperren"
+      },
+      "banDialogTitle": "Nutzer sperren",
+      "durationLabel": "Dauer",
+      "durations": {
+        "h24": "24 Stunden",
+        "d7": "7 Tage",
+        "d30": "30 Tage",
+        "forever": "Dauerhaft"
+      },
+      "reasonLabel": "Grund",
+      "notifyUser": "Nutzer per E-Mail informieren"
+    },
+    "suggestions": {
+      "title": "Vorschläge",
+      "intro": "Von Nutzern gemeldete fehlende Betriebe.",
+      "cols": {
+        "name": "Name",
+        "address": "Adresse",
+        "type": "Art",
+        "reportedBy": "Gemeldet von",
+        "date": "Datum",
+        "status": "Status"
+      },
+      "status": {
+        "open": "Offen",
+        "created": "Angelegt",
+        "rejected": "Abgelehnt"
+      },
+      "create": "Betrieb anlegen",
+      "reject": "Ablehnen",
+      "rejectReasons": {
+        "notExist": "Existiert nicht",
+        "duplicate": "Dublette",
+        "notGastro": "Keine Gastronomie"
+      }
+    },
+    "log": {
+      "title": "Protokoll",
+      "cols": {
+        "time": "Zeitpunkt",
+        "admin": "Admin",
+        "action": "Aktion",
+        "object": "Objekt",
+        "note": "Notiz"
+      },
+      "filterAdmin": "Admin",
+      "filterRange": "Zeitraum"
+    }
+  },
+  "legal": {
+    "updatedAt": "Zuletzt aktualisiert am {{date}}",
+    "toc": "Inhalt",
+    "placeholder": "Dies ist ein Platzhaltertext für das Design. Der endgültige Rechtstext wird vor dem Start von einer Anwältin oder einem Anwalt geprüft und ersetzt diesen Abschnitt vollständig.",
+    "imprint": {
+      "title": "Impressum"
+    },
+    "privacy": {
+      "title": "Datenschutzerklärung"
+    },
+    "terms": {
+      "title": "Allgemeine Geschäftsbedingungen"
+    },
+    "gastroTerms": {
+      "title": "Nutzungsbedingungen für Gastronomen"
+    },
+    "guidelines": {
+      "title": "Community-Richtlinien"
+    },
+    "cookies": {
+      "title": "Cookie-Einstellungen",
+      "necessary": "Notwendig",
+      "necessaryText": "Für den Betrieb der Seite erforderlich. Lässt sich nicht abschalten.",
+      "statistics": "Statistik",
+      "statisticsText": "Hilft uns zu verstehen, wie {{app}} genutzt wird.",
+      "marketing": "Marketing",
+      "marketingText": "Wird derzeit nicht eingesetzt.",
+      "rejectAll": "Alle ablehnen",
+      "acceptAll": "Alle akzeptieren"
+    },
+    "banner": {
+      "title": "Cookies",
+      "text": "Wir verwenden nur technisch notwendige Cookies, damit {{app}} funktioniert.",
+      "more": "Mehr erfahren",
+      "settings": "Einstellungen",
+      "ok": "Alles klar"
+    }
+  },
+  "errors": {
+    "e404": {
+      "title": "Seite nicht gefunden",
+      "text": "Die Seite gibt es nicht oder sie wurde verschoben.",
+      "cta": "Zur Startseite",
+      "secondary": "Karte öffnen"
+    },
+    "e500": {
+      "title": "Da ist etwas schiefgelaufen",
+      "text": "Wir arbeiten daran. Versuch es gleich noch einmal.",
+      "cta": "Neu laden"
+    },
+    "offline": {
+      "title": "Keine Verbindung",
+      "text": "Prüf deine Internetverbindung.",
+      "cta": "Erneut versuchen"
+    },
+    "e403": {
+      "title": "Kein Zugriff",
+      "text": "Für diese Seite fehlen dir die Berechtigungen.",
+      "cta": "Zurück"
+    }
+  },
+  "dev": {
+    "title": "Design-Panel",
+    "note": "Nur Werkzeug — kein Bestandteil des Produkts.",
+    "state": "Zustand",
+    "states": {
+      "filled": "Gefüllt",
+      "empty": "Leer",
+      "loading": "Ladend"
+    },
+    "session": "Sitzung",
+    "sessions": {
+      "guest": "Gast",
+      "user": "Angemeldet"
+    },
+    "buildBanner": "Aufbau-Banner (B.5)",
+    "cookieBanner": "Cookie-Banner",
+    "screenIndex": "Alle Screens",
+    "open": "Design-Panel öffnen",
+    "platform": "Ziel",
+    "platforms": {
+      "web": "Website",
+      "app": "App"
+    },
+    "device": "Gerät",
+    "devices": {
+      "mobile": "Handy",
+      "desktop": "Rechner"
+    },
+    "theme": "Darstellung",
+    "themes": {
+      "light": "Hell",
+      "dark": "Dunkel",
+      "auto": "Auto"
+    },
+    "guestInApp": "Die App kennt keinen Gastmodus — ohne Anmeldung erscheint die Anmeldeseite.",
+    "deviceHint": "Folgt der Fensterbreite — zum Prüfen das Fenster schmaler ziehen.",
+    "role": "Rolle",
+    "roles": {
+      "guest": "Gast",
+      "user": "Nutzer",
+      "gastro": "Gastro",
+      "admin": "Admin"
+    },
+    "reset": "Daten zurücksetzen",
+    "resetHint": "Setzt alle Eingaben auf den Auslieferungsstand zurück.",
+    "resetDone": "Daten zurückgesetzt.",
+    "passwords": "Passwörter: Passwort123 · Gastro123 · Admin1234",
+    "pureMap": "Nur Karte",
+    "mode": "Betriebsart",
+    "modes": {
+      "local": "Allein im Browser",
+      "server": "Gegen den Server"
+    },
+    "rolesNeedLogin": "Im Serverbetrieb geht der Rollenwechsel über die Anmeldung."
+  },
+  "index": {
+    "title": "Alle Screens",
+    "subtitle": "Übersicht aller {{count}} Routen aus TEIL J. Jeder Screen lässt sich über das Design-Panel unten rechts in den Zuständen „gefüllt“, „leer“ und „ladend“ ansehen.",
+    "groups": {
+      "public": "Öffentlich",
+      "account": "Konto",
+      "user": "Nutzer",
+      "gastro": "Gastro",
+      "admin": "Admin",
+      "legal": "Rechtliches",
+      "errors": "Fehler"
+    }
+  },
+  "validation": {
+    "required": "Bitte ausfüllen.",
+    "email": "Bitte gib eine gültige E-Mail-Adresse ein.",
+    "phone": "Bitte gib eine gültige Handynummer ein.",
+    "username": "3–20 Zeichen, nur Kleinbuchstaben, Zahlen, Punkt und Unterstrich.",
+    "minLength": "Mindestens {{count}} Zeichen.",
+    "maxLength": "Höchstens {{count}} Zeichen.",
+    "passwordShort": "Das Passwort braucht mindestens 8 Zeichen.",
+    "passwordMix": "Bitte mindestens einen Buchstaben und eine Ziffer verwenden.",
+    "mismatch": "Die beiden Eingaben stimmen nicht überein.",
+    "date": "Bitte gib ein gültiges Datum ein.",
+    "minAge": "Du musst mindestens {{years}} Jahre alt sein.",
+    "number": "Bitte gib eine Zahl ein.",
+    "min": "Mindestens {{min}}.",
+    "max": "Höchstens {{max}}.",
+    "url": "Bitte gib eine gültige Adresse ein."
+  },
+  "theme": {
+    "label": "Darstellung",
+    "auto": "Automatisch",
+    "light": "Hell",
+    "dark": "Dunkel",
+    "toggle": "Darstellung wechseln",
+    "autoHint": "Folgt der Einstellung deines Geräts."
+  },
+  "serving": {
+    "label": "Angebot",
+    "hint": "Was gibt es hier?",
+    "onlyDrinks": "Nur Getränke",
+    "getraenke": "Getränke",
+    "fruehstueck": "Frühstück",
+    "vegan": "Vegan",
+    "vegetarisch": "Vegetarisch",
+    "fleisch": "Fleisch",
+    "fisch": "Fisch",
+    "meeresfruechte": "Meeresfrüchte",
+    "suess": "Süßes",
+    "halal": "Halal",
+    "glutenfrei": "Glutenfrei",
+    "filterTitle": "Angebot",
+    "filterHint": "Es werden nur Betriebe gezeigt, die alles Ausgewählte anbieten.",
+    "none": "Keine Angabe",
+    "editTitle": "Was bietet ihr an?",
+    "editHint": "Diese Angaben stehen ganz oben auf deiner Seite und in der Trefferliste."
+  },
+  "diet": {
+    "vegan": "Vegan",
+    "vegetarisch": "Vegetarisch",
+    "glutenfrei": "Glutenfrei"
+  },
+  "allergens": {
+    "label": "Allergene",
+    "short": "Allergene",
+    "hint": "Angaben nach Lebensmittelinformationsverordnung. Bei Unsicherheit bitte im Betrieb nachfragen.",
+    "none": "Keine Angabe",
+    "gluten": "Glutenhaltiges Getreide",
+    "krebstiere": "Krebstiere",
+    "ei": "Eier",
+    "fisch": "Fisch",
+    "erdnuss": "Erdnüsse",
+    "soja": "Soja",
+    "milch": "Milch",
+    "schalenfruechte": "Schalenfrüchte",
+    "sellerie": "Sellerie",
+    "senf": "Senf",
+    "sesam": "Sesam",
+    "sulfite": "Schwefeldioxid und Sulfite",
+    "lupine": "Lupinen",
+    "weichtiere": "Weichtiere"
+  },
+  "menu": {
+    "title": "Speisekarte",
+    "open": "Speisekarte ansehen",
+    "backToPlace": "Zur Seite von {{name}}",
+    "searchPlaceholder": "Gericht suchen",
+    "allCategories": "Alles",
+    "emptyTitle": "Noch keine Speisekarte",
+    "emptyText": "Dieser Betrieb hat noch keine Gerichte eingetragen.",
+    "emptySearch": "Kein Gericht passt zu „{{query}}“.",
+    "soldOut": "Heute nicht verfügbar",
+    "popular": "Beliebt",
+    "spicy": "Scharf",
+    "spicyLevel": "Schärfe {{level}} von 3",
+    "priceFrom": "ab {{price}}",
+    "itemCount": "{{count}} Gerichte",
+    "ratingCount": "{{count}} Bewertungen",
+    "legend": "Kennzeichnung",
+    "updatedHint": "Angaben ohne Gewähr. Maßgeblich ist die Karte vor Ort.",
+    "unconfirmed": "Diese Karte wurde von Gästen ergänzt und noch nicht vom Betrieb bestätigt.",
+    "confirmed": "Vom Betrieb gepflegt",
+    "print": "Drucken",
+    "share": "Karte teilen",
+    "jumpTo": "Springen zu",
+    "dishRating": "Bewertung der Gäste",
+    "noRating": "Noch nicht bewertet"
+  },
+  "review": {
+    "anonymous": "Gelöschtes Konto"
+  },
+  "reportReasons": {
+    "spam": "Spam oder Werbung",
+    "offensive": "Beleidigend",
+    "fake": "Gefälschte Bewertung",
+    "wrong_info": "Falsche Informationen",
+    "venue_closed": "Dauerhaft geschlossen",
+    "wrong_place": "Falscher Betrieb",
+    "other": "Sonstiges",
+    "hate": "Beleidigend",
+    "sexual": "Sexuelle Inhalte",
+    "violence": "Gewalt",
+    "copyright": "Urheberrecht",
+    "wrong": "Falsche Informationen"
+  }
+}

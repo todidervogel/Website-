@@ -1,0 +1,32 @@
+{
+  "name": "tellerrand-website",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Die Weboberfläche — läuft allein im Browser oder gegen den Server",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "build:app": "VITE_BASE=./ vite build",
+    "build:test": "VITE_LATENCY=400 vite build",
+    "preview": "vite preview",
+    "sync:design": "node tools/sync.mjs design",
+    "sync:domain": "node tools/sync.mjs domain",
+    "sync": "npm run sync:design && npm run sync:domain",
+    "pruefen:i18n": "node tools/i18n-check.mjs",
+    "pruefen:routen": "node tools/routen-sweep.mjs",
+    "pruefen:verhalten": "node tools/verhalten.mjs"
+  },
+  "dependencies": {
+    "@capacitor/core": "^6.2.2",
+    "lucide-react": "^0.446.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.1",
+    "playwright": "^1.63.0",
+    "vite": "^5.4.8"
+  }
+}

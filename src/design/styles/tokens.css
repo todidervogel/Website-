@@ -1,0 +1,117 @@
+/* ==========================================================================
+   TEIL A.1 — Farben
+   Einzige Quelle der Wahrheit. Keine Farbwerte direkt in Komponenten.
+   ========================================================================== */
+:root {
+  --bg-light: #FFFFFF;
+  --bg-light-alt: #F6F6F4;
+  --bg-dark: #0B0B0C;
+  --bg-dark-alt: #17171A;
+
+  --text-primary: #17171A;
+  --text-secondary: #6B6B72;
+  --text-tertiary: #9C9CA3;
+  --text-on-dark: #FFFFFF;
+  --text-on-dark-dim: #B4B4BC;
+
+  --accent: #E4572E;
+  --accent-hover: #C9451F;
+  --accent-soft: #FDEEE9;
+
+  --border: #E4E4E1;
+  --border-strong: #C9C9C4;
+
+  --success: #2E7D4F;
+  --warning: #B8860B;
+  --danger: #C2352B;
+  --danger-soft: #FBEBEA;
+
+  --star-filled: #E4A02E;
+  --star-empty: #D8D8D4;
+
+  /* Getönte Flächen für Badges und Hinweisbänder */
+  --tint-info-bg: #E7EFFA;
+  --tint-info-fg: #1F5FA8;
+  --tint-success-bg: #E7F1EB;
+  --tint-warning-bg: #F7F0DB;
+
+  /* Kartenflächen (C.2, C.3) */
+  --map-bg: #EFEFEA;
+  --map-grid: #E8E8E3;
+  --map-veil: rgba(255, 255, 255, 0.8);
+
+  /* A.3 — Abstandsraster */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+
+  /* A.3 — Eckenradius */
+  --r-control: 8px;   /* Buttons, Eingabefelder */
+  --r-card: 12px;     /* Karten, Bilder */
+  --r-pill: 999px;    /* Badges, Chips */
+
+  /* A.3 — Maße */
+  --content-max: 1120px;
+  --gutter: 16px;              /* Mobil */
+  --control-h: 44px;
+
+  /* Der einzige erlaubte Schatten */
+  --shadow-float: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+@media (min-width: 640px) {
+  :root { --gutter: 24px; }
+}
+
+/* ==========================================================================
+   Dunkelmodus — nur in der App (siehe src/lib/design-state.jsx).
+   Die Namen aus A.1 bleiben, damit die Spezifikation lesbar bleibt; getauscht
+   werden nur die Werte. "--bg-light" heißt also weiterhin "Grundfläche",
+   ist hier aber dunkel.
+   ========================================================================== */
+:root[data-theme='dark'] {
+  --bg-light: #131316;
+  --bg-light-alt: #1D1D21;
+  --bg-dark: #0B0B0C;
+  --bg-dark-alt: #17171A;
+
+  --text-primary: #F1F1F3;
+  --text-secondary: #A3A3AC;
+  --text-tertiary: #74747E;
+  --text-on-dark: #FFFFFF;
+  --text-on-dark-dim: #B4B4BC;
+
+  /* Etwas heller als im Hellmodus, damit der Akzent auf Dunkel lesbar bleibt */
+  --accent: #F2704A;
+  --accent-hover: #FF8763;
+  --accent-soft: #2E1A13;
+
+  --border: #2B2B31;
+  --border-strong: #3D3D45;
+
+  --success: #5CB584;
+  --warning: #D8AA47;
+  --danger: #E8756A;
+  --danger-soft: #2E1614;
+
+  --star-filled: #E9AE45;
+  --star-empty: #3D3D45;
+
+  --tint-info-bg: #16233A;
+  --tint-info-fg: #8FBBEE;
+  --tint-success-bg: #14261C;
+  --tint-warning-bg: #2A2415;
+
+  --map-bg: #1A1A1E;
+  --map-grid: #24242A;
+  --map-veil: rgba(0, 0, 0, 0.55);
+
+  --shadow-float: 0 2px 8px rgba(0, 0, 0, 0.4);
+
+  color-scheme: dark;
+}

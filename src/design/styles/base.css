@@ -1,0 +1,111 @@
+/* ==========================================================================
+   TEIL A.2 / A.3 — Typografie, Reset, Layout-Grundlagen
+   ========================================================================== */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body, #root { height: 100%; }
+
+body {
+  margin: 0;
+  /* Inter, wenn vorhanden — sonst die Systemschrift. Nichts wird nachgeladen. */
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 400;
+  color: var(--text-primary);
+  background: var(--bg-light);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img, svg, video { display: block; max-width: 100%; }
+button, input, select, textarea { font: inherit; color: inherit; }
+a { color: inherit; }
+
+/* --- Typografie-Skala ---------------------------------------------------- */
+.t-display   { font-size: 32px; line-height: 38px; font-weight: 600; letter-spacing: -0.01em; margin: 0; }
+.t-h1        { font-size: 24px; line-height: 30px; font-weight: 600; margin: 0; }
+.t-h2        { font-size: 19px; line-height: 26px; font-weight: 600; margin: 0; }
+.t-h3        { font-size: 16px; line-height: 22px; font-weight: 600; margin: 0; }
+.t-body      { font-size: 15px; line-height: 22px; font-weight: 400; margin: 0; }
+.t-body-bold { font-size: 15px; line-height: 22px; font-weight: 600; margin: 0; }
+.t-small     { font-size: 13px; line-height: 18px; font-weight: 400; margin: 0; }
+.t-tiny      { font-size: 11px; line-height: 15px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; margin: 0; }
+
+@media (min-width: 640px) {
+  .t-display { font-size: 44px; line-height: 50px; }
+}
+
+/* --- Textfarben ---------------------------------------------------------- */
+.c-primary   { color: var(--text-primary); }
+.c-secondary { color: var(--text-secondary); }
+.c-tertiary  { color: var(--text-tertiary); }
+.c-accent    { color: var(--accent); }
+.c-success   { color: var(--success); }
+.c-warning   { color: var(--warning); }
+.c-danger    { color: var(--danger); }
+.c-on-dark   { color: var(--text-on-dark); }
+.c-on-dark-dim { color: var(--text-on-dark-dim); }
+
+/* --- Layout -------------------------------------------------------------- */
+.container {
+  width: 100%;
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding-inline: var(--gutter);
+}
+.container-narrow { max-width: 720px; }
+
+.stack > * + *, .stack-4 > * + * { margin-top: var(--sp-4); }
+.stack-2 > * + * { margin-top: var(--sp-2); }
+.stack-3 > * + * { margin-top: var(--sp-3); }
+.stack-6 > * + * { margin-top: var(--sp-6); }
+.stack-8 > * + * { margin-top: var(--sp-8); }
+
+.row { display: flex; align-items: center; gap: var(--sp-3); }
+.row-between { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); }
+.row-wrap { display: flex; flex-wrap: wrap; gap: var(--sp-2); align-items: center; }
+.grow { flex: 1 1 auto; min-width: 0; }
+.spacer { flex: 1 1 auto; }
+
+.section { padding-block: var(--sp-12); }
+.section-alt { background: var(--bg-light-alt); }
+.divider { height: 1px; background: var(--border); border: 0; margin: 0; }
+
+.truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+
+.only-mobile { display: block; }
+.only-desktop { display: none; }
+@media (min-width: 1024px) {
+  .only-mobile { display: none; }
+  .only-desktop { display: block; }
+}
+
+/* Volle Bildschirmhöhe — vh als Rückfallebene für ältere WebViews. */
+.fullheight { min-height: 100vh; min-height: 100dvh; }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* Platz für die untere Navigationsleiste (B.3) */
+.has-bottom-nav { padding-bottom: 68px; }
+@media (min-width: 1024px) { .has-bottom-nav { padding-bottom: 0; } }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Wer im Betriebssystem weniger Bewegung eingestellt hat, bekommt sie auch hier nicht. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
