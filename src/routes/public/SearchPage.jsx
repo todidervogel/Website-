@@ -4,7 +4,7 @@ import { MapPin, Search as SearchIcon, UtensilsCrossed, X } from 'lucide-react'
 import { Avatar, Badge, Button, Chip, EmptyState, FilterChip, ServingPicker, SkeletonRow, Stars, Tabs, Thumb, Checkbox, Radio,  } from '../../design/ui'
 import { PlaceRow } from '../../components/PlaceRowConnected'
 import { Page } from '../../components/layout'
-import { useDesignState, useVariant } from '../../lib/design-state'
+import { useDesignState } from '../../lib/design-state'
 import { useRequireLogin } from '../../lib/auth'
 import { useSession } from '../../lib/session'
 import { api, useQuery } from '../../lib/store'
@@ -46,11 +46,10 @@ export default function SearchPage() {
     if (debounced) setParams({ q: debounced }, { replace: true })
   }, [debounced, setParams])
 
-  const { data, loading } = useVariant(
+  const { data, loading } = 
     useQuery(() => api.search.run(debounced, { position }), [debounced, position], {
       initial: { dishes: [], places: [], locations: [], profiles: [] },
-    }),
-  )
+    })
 
   /* Nachfiltern, was der Suchdienst nicht selbst weiß. */
   const filtered = useMemo(() => {

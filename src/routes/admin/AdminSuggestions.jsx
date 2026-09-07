@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { Lightbulb, MapPin } from 'lucide-react'
 import { Badge, Button, Card, EmptyState, Select, useToast } from '../../design/ui'
 import { AdminShell, AdminTable } from './AdminShell'
-import { useVariant } from '../../lib/design-state'
 import { api, useQuery } from '../../lib/store'
 import { t } from '../../design/i18n'
 
@@ -15,7 +14,7 @@ export default function AdminSuggestions() {
   const [rejectReason, setRejectReason] = useState('notExist')
   const toast = useToast()
 
-  const { data } = useVariant(useQuery(() => api.admin.suggestions(), [], { initial: [] }))
+  const { data } = useQuery(() => api.admin.suggestions(), [], { initial: [] })
   const rows = data ?? []
   const selected = rows.find((s) => s.id === selectedId) ?? null
 

@@ -4,7 +4,6 @@ import {
   Badge, Button, Card, Chip, EmptyState, Field, Select, Textarea, useToast,
 } from '../../design/ui'
 import { AdminShell, AdminTable } from './AdminShell'
-import { useVariant } from '../../lib/design-state'
 import { useSession } from '../../lib/session'
 import { api, useQuery } from '../../lib/store'
 import { t } from '../../design/i18n'
@@ -21,7 +20,7 @@ export default function AdminReports() {
   const [note, setNote] = useState('')
   const toast = useToast()
 
-  const { data } = useVariant(useQuery(() => api.reports.list(), [], { initial: [] }))
+  const { data } = useQuery(() => api.reports.list(), [], { initial: [] })
   const all = data ?? []
   const rows = all.filter((r) => r.status === filter)
   const selected = all.find((r) => r.id === selectedId) ?? null

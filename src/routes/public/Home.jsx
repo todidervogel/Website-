@@ -3,7 +3,7 @@ import { ChevronRight, Compass, Info, MapPin, Navigation, QrCode, UtensilsCrosse
 import { Link, useNavigate } from 'react-router-dom'
 import { Button, IconButton, ServingRow, Skeleton, VideoTile } from '../../design/ui'
 import { Page } from '../../components/layout'
-import { useDesignState, useVariant } from '../../lib/design-state'
+import { useDesignState } from '../../lib/design-state'
 import { api, useQuery } from '../../lib/store'
 import { MapTiles } from '../../components/MapTiles'
 import { t } from '../../design/i18n'
@@ -26,14 +26,12 @@ export default function Home() {
   const [where, setWhere] = useState('')
   const [projizieren, setProjizieren] = useState(null)
 
-  const { data: feed, loading: feedLoading } = useVariant(
+  const { data: feed, loading: feedLoading } = 
     useQuery(() => api.videos.feed({ position, radiusKm: Math.max(radiusKm, 10) }), [position, radiusKm], {
       initial: { items: [] },
-    }),
-  )
-  const { data: nearby, loading: mapLoading } = useVariant(
-    useQuery(() => api.places.nearby(position, 12), [position], { initial: [] }),
-  )
+    })
+  const { data: nearby, loading: mapLoading } = 
+    useQuery(() => api.places.nearby(position, 12), [position], { initial: [] })
 
   const tiles = (feed?.items ?? []).slice(0, 8)
   const markers = nearby ?? []

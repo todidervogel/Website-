@@ -4,7 +4,6 @@ import {
   Badge, Button, Card, EmptyState, Field, Select, Skeleton, Textarea, Thumb, useToast,
 } from '../../design/ui'
 import { AdminShell } from './AdminShell'
-import { useVariant } from '../../lib/design-state'
 import { api, useQuery } from '../../lib/store'
 import { t } from '../../design/i18n'
 
@@ -28,7 +27,7 @@ export default function AdminVideos() {
   const [busy, setBusy] = useState(false)
   const toast = useToast()
 
-  const { data, loading } = useVariant(useQuery(() => api.videos.pending(), [], { initial: [] }))
+  const { data, loading } = useQuery(() => api.videos.pending(), [], { initial: [] })
   const queue = data ?? []
   const video = queue.find((v) => v.id === selected) ?? queue[0]
 

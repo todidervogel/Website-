@@ -18,7 +18,7 @@ const OPEN_PATHS = [
   '/anmelden', '/registrieren', '/passwort-vergessen', '/passwort-neu',
   '/gastro/anmelden', '/gastro/willkommen', '/gastro/eintragen', '/fuer-gastronomen',
   '/impressum', '/datenschutz', '/agb', '/agb-gastro', '/richtlinien', '/cookies',
-  '/uebersicht', '/404', '/500', '/403', '/offline',
+  '/404', '/500', '/403', '/offline',
 ]
 
 /** Auf der Website erst nach Anmeldung erreichbar. */

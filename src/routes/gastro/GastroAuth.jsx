@@ -55,7 +55,6 @@ export function GastroLogin() {
           <Link to="/gastro/eintragen" className="c-accent">{t('gastro.login.claimLink')}</Link>
         </p>
 
-        <p className="t-tiny c-tertiary" style={{ textAlign: 'center' }}>{t('auth.demoHint')}</p>
       </form>
     </CenteredPage>
   )

@@ -5,7 +5,7 @@ import { Avatar, Button, Card, Chip, EmptyState, LoadingBlock, OnSiteBadge, Rati
 import { PlaceRow } from '../../components/PlaceRowConnected'
 import { Page } from '../../components/layout'
 import { ReportContentDialog } from '../dialogs/ReportContentDialog'
-import { useDesignState, useVariant } from '../../lib/design-state'
+import { useDesignState } from '../../lib/design-state'
 import { useRequireLogin } from '../../lib/auth'
 import { useSession } from '../../lib/session'
 import { api, useQuery } from '../../lib/store'
@@ -21,9 +21,8 @@ export default function VideoDetail() {
   const toast = useToast()
   const requireLogin = useRequireLogin()
 
-  const { data: video, loading } = useVariant(
-    useQuery(() => api.videos.byId(id, position), [id, position]),
-  )
+  const { data: video, loading } = 
+    useQuery(() => api.videos.byId(id, position), [id, position])
 
   if (loading) {
     return (

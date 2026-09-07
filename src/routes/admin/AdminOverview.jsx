@@ -1,13 +1,12 @@
 import { AdminShell, AdminTable } from './AdminShell'
 import { Kpi } from '../../components/layout'
 import { Skeleton } from '../../design/ui'
-import { useVariant } from '../../lib/design-state'
 import { api, useQuery } from '../../lib/store'
 import { t } from '../../design/i18n'
 
 /** G.2 — Admin-Übersicht */
 export default function AdminOverview() {
-  const { data, loading } = useVariant(useQuery(() => api.admin.overview(), []))
+  const { data, loading } = useQuery(() => api.admin.overview(), [])
   const k = data ?? { queue: 0, reports: 0, claims: 0, places: 0, users: 0, videos: 0, log: [] }
   const isLoading = loading
   const rows = k.log ?? []

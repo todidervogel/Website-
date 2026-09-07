@@ -2,7 +2,6 @@ import { Bell, CheckCircle2, Heart, MessageSquare, UserPlus, XCircle } from 'luc
 import { Link } from 'react-router-dom'
 import { Avatar, Button, EmptyState, Skeleton } from '../../design/ui'
 import { Page } from '../../components/layout'
-import { useVariant } from '../../lib/design-state'
 import { useSession } from '../../lib/session'
 import { api, useQuery } from '../../lib/store'
 import { t } from '../../design/i18n'
@@ -24,9 +23,8 @@ function ago(iso) {
 /** E.13 — Benachrichtigungen */
 export default function Notifications() {
   const { userId } = useSession()
-  const { data, loading } = useVariant(
-    useQuery(() => api.notifications.list(), [userId], { initial: [] }),
-  )
+  const { data, loading } = 
+    useQuery(() => api.notifications.list(), [userId], { initial: [] })
   const list = data ?? []
   const unread = list.filter((n) => n.unread).length
 

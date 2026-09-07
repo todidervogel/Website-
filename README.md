@@ -8,8 +8,7 @@ npm install
 npm run dev        # http://localhost:5173 — allein im Browser
 ```
 
-Zum Anmelden: `max@beispiel.de` / `Passwort123`. Weitere Zugänge weiter unten,
-oder unten rechts im Design-Panel über die Zeile **Rolle**.
+Zum Anmelden: `test@user.de` / `12345aA?`. Weitere Zugänge weiter unten.
 
 ## Die zwei Betriebsarten
 
@@ -21,7 +20,7 @@ oder unten rechts im Design-Panel über die Zeile **Rolle**.
 | Zwei Geräte | jedes für sich | sehen denselben Stand |
 | Wofür | Oberfläche ansehen und entwickeln | den MVP wirklich ausprobieren |
 
-Welche Betriebsart läuft, steht im Design-Panel unter **Betriebsart**.
+
 
 ### Den ganzen MVP starten
 
@@ -41,13 +40,19 @@ Alleinbetrieb nicht.
 
 Alles erfunden. Bestätigungscode bei der Registrierung: `123456`.
 
-| Rolle | E-Mail | Passwort | Landet auf |
+| Rolle | Anmeldung | Passwort | Landet auf |
 |---|---|---|---|
+| Verwaltung | `topic` | `admin` | `/admin` |
+| Gastro | `test@gastro.de` | `12345aA?` | `/gastro` |
+| Nutzer | `test@user.de` | `12345aA?` | `/feed` |
 | Nutzer | `max@beispiel.de` | `Passwort123` | `/feed` |
-| Nutzer | `lisa@beispiel.de` | `Passwort123` | `/feed` |
 | Gastro | `chef@trattoria-bella.de` | `Gastro123` | `/gastro` |
 | Gastro (erstes Login) | `hallo@morgenrot-cafe.de` | `Start1234` | `/gastro/willkommen` |
-| Admin | `ana@intern` | `Admin1234` | `/admin` |
+
+Angemeldet wird mit Benutzernamen **oder** E-Mail.
+
+**`admin` ist kein Passwort, sondern ein Platzhalter.** Vorläufig so bestellt;
+bevor die Anwendung echte Nutzerdaten sieht, muss dieser Zugang weg.
 
 ## Aufbau
 
@@ -103,12 +108,13 @@ beide Male in derselben Datei — `src/domain/calls.js`.
 
 ## Website und App
 
-Derselbe Code, zwei Ziele. `platform` wird über Capacitor erkannt und lässt
-sich im Design-Panel umschalten, um beides am Rechner anzusehen.
+Derselbe Code, zwei Ziele. `platform` wird über Capacitor erkannt.
 
 | | Website | App |
 |---|---|---|
 | Untere Leiste (mobil) | Feed · Karte · Suche · Profil | zusätzlich **Aufnehmen** |
+| Navigation am Rechner | Seitenleiste links, ab 1280px mit Beschriftung | dieselbe |
+| Aufnehmen | erst nach der Anmeldung | immer sichtbar |
 | Gastmodus | ja, zum Umsehen | **nein** — ohne Anmeldung die Anmeldeseite |
 | Fußzeile | ja | nein, Rechtstexte in den Einstellungen |
 | Dunkelmodus | ja | ja |
@@ -148,18 +154,31 @@ Actions → Variables).
 ## Prüfen
 
 ```bash
-npm run pruefen:i18n
-npm run build:test && npx vite preview --port 4173 --strictPort
-npm run pruefen:routen        # 275 Seitenaufrufe
+npm run pruefen:i18n          # fehlende Texte, ohne Browser
+npm run pruefen:karte         # die Kartenrechnung, ohne Browser
+
+npm run build && npx vite preview --port 4173 --strictPort
+npm run pruefen:routen        # jede Route in fünf Kombinationen
 npm run pruefen:verhalten     # 27 Abläufe
-node tools/gegen-server.mjs   # 7 Prüfungen im Serverbetrieb
+npm run bilder                # Bildschirmfotos in vier Breiten
+
+# Im Serverbetrieb, mit laufendem Server:
+VITE_API=http://localhost:4000 npm run build
+node tools/gegen-server.mjs   # 7 Prüfungen
+npm run pruefen:verbindung    # was passiert, wenn der Server wegbricht
 ```
+
+### `npm run bilder`
+
+Fotografiert alle wichtigen Screens in vier Breiten nach `bilder/` und meldet
+jeden waagerechten Überlauf. Der Zweck ist Hinsehen, nicht Regression: Aus dem
+CSS lässt sich nicht ablesen, ob ein Text aus seinem Feld läuft.
 
 ## Was noch fehlt
 
 - **Videos**: Aufnahme und Wiedergabe sind angedeutet.
-- **Karte**: Die Marker stehen an den richtigen Stellen, aber ohne Kacheln
-  darunter. MapLibre fehlt.
+- **Karte**: Kacheln von OpenStreetMap, Marker in derselben Projektion. Zum
+  Verschieben und Zoomen mit der Maus fehlt noch die Bedienung.
 - **GPS**: Die Position steht auf Prenzlauer Berg, verschiebbar über die
   Ortssuche.
 - **E-Mail und SMS**: Der Bestätigungscode ist immer `123456`, und „Passwort

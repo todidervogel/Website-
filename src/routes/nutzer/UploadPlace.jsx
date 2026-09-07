@@ -4,7 +4,7 @@ import { Check, Search, UtensilsCrossed, X } from 'lucide-react'
 import { Button, Notice, ServingRow, SkeletonRow, Thumb } from '../../design/ui'
 import { Page } from '../../components/layout'
 import { MissingPlaceDialog } from '../dialogs/MissingPlaceDialog'
-import { useDesignState, useVariant } from '../../lib/design-state'
+import { useDesignState } from '../../lib/design-state'
 import { useUpload } from '../../lib/upload'
 import { api, useQuery } from '../../lib/store'
 import { t } from '../../design/i18n'
@@ -20,9 +20,8 @@ export default function UploadPlace() {
   const [missingOpen, setMissingOpen] = useState(false)
   const navigate = useNavigate()
 
-  const { data, loading } = useVariant(
-    useQuery(() => api.places.nearby(position, 20), [position], { initial: [] }),
-  )
+  const { data, loading } = 
+    useQuery(() => api.places.nearby(position, 20), [position], { initial: [] })
 
   const list = useMemo(() => {
     const all = data ?? []

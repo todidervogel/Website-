@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { FileClock } from 'lucide-react'
 import { EmptyState, Input, Select } from '../../design/ui'
 import { AdminShell, AdminTable } from './AdminShell'
-import { useVariant } from '../../lib/design-state'
 import { api, useQuery } from '../../lib/store'
 import { t } from '../../design/i18n'
 
@@ -11,7 +10,7 @@ export default function AdminLog() {
   const [who, setWho] = useState('')
   const [day, setDay] = useState('')
 
-  const { data } = useVariant(useQuery(() => api.admin.auditLog(), [], { initial: [] }))
+  const { data } = useQuery(() => api.admin.auditLog(), [], { initial: [] })
   const rows = (data ?? [])
     .filter((l) => !who || l.admin === who)
     .filter((l) => !day || l.at.startsWith(day))

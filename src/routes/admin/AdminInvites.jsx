@@ -4,7 +4,6 @@ import {
   Badge, Button, Card, EmptyState, Field, Input, Modal, ModalActions, Notice, Select, useToast,
 } from '../../design/ui'
 import { AdminShell, AdminTable } from './AdminShell'
-import { useVariant } from '../../lib/design-state'
 import { api, useQuery } from '../../lib/store'
 import { rules, useForm } from '../../lib/form'
 import { t } from '../../design/i18n'
@@ -16,7 +15,7 @@ export default function AdminInvites() {
   const [open, setOpen] = useState(false)
   const toast = useToast()
 
-  const { data } = useVariant(useQuery(() => api.admin.invites(), [], { initial: [] }))
+  const { data } = useQuery(() => api.admin.invites(), [], { initial: [] })
   const { data: places } = useQuery(() => api.admin.places(), [], { initial: [] })
   const rows = data ?? []
 

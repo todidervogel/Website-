@@ -158,13 +158,6 @@ export function SessionProvider({ children }) {
     setLocalAccount((a) => ({ ...a, ...changes }))
   }, [account])
 
-  /** Nur für das Design-Panel: ohne Formular in eine Rolle springen. */
-  const switchTo = useCallback((userId) => {
-    if (SERVER) return
-    useLocalData()
-    setLocalAccount(userId ? domain.auth.accountOf(userId) : null)
-    changed()
-  }, [])
 
   const value = useMemo(() => ({
     user: account,
@@ -177,8 +170,8 @@ export function SessionProvider({ children }) {
     mustChangePassword: !!account?.mustChangePassword,
     pendingRegistration: pending,
     ready,
-    login, logout, startRegistration, confirmRegistration, changePassword, updateMe, switchTo,
-  }), [account, pending, ready, login, logout, startRegistration, confirmRegistration, changePassword, updateMe, switchTo])
+    login, logout, startRegistration, confirmRegistration, changePassword, updateMe,
+  }), [account, pending, ready, login, logout, startRegistration, confirmRegistration, changePassword, updateMe])
 
   return <SessionContext.Provider value={value}>{children}</SessionContext.Provider>
 }

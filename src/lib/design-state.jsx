@@ -12,7 +12,6 @@ import { DEFAULT_RADIUS } from '../design/config'
  *  pureMap   Vollbildkarte ohne Leisten
  *  position  aktueller Kartenmittelpunkt (später echtes GPS)
  *  radiusKm  eingestellter Umkreis
- *  state     nur für die Abnahme: gefüllt / leer / ladend erzwingen
  */
 const DesignStateContext = createContext(null)
 
@@ -85,7 +84,6 @@ export function DesignStateProvider({ children }) {
 
   const [buildBanner, setBuildBanner] = useState(stored.buildBanner ?? true)
   const [cookieBanner, setCookieBanner] = useState(stored.cookieBanner ?? false)
-  const [state, setState] = useState('filled')
 
   useEffect(() => {
     writeStore({ platform, theme, pureMap, position, radiusKm, buildBanner, cookieBanner })
@@ -113,7 +111,7 @@ export function DesignStateProvider({ children }) {
 
   const value = useMemo(
     () => ({
-      platform, setPlatform, isApp: platform === 'app', isWeb: platform === 'web',
+      platform, isApp: platform === 'app', isWeb: platform === 'web',
       device, setDevice, isMobile: device === 'mobile', isDesktop: device === 'desktop', os,
       theme, setTheme, darkMode,
       pureMap, setPureMap,
@@ -121,10 +119,8 @@ export function DesignStateProvider({ children }) {
       radiusKm, setRadiusKm,
       buildBanner, setBuildBanner,
       cookieBanner, setCookieBanner,
-      state, setState,
-      isEmpty: state === 'empty', isLoading: state === 'loading', isFilled: state === 'filled',
     }),
-    [platform, device, os, theme, darkMode, pureMap, position, radiusKm, buildBanner, cookieBanner, state],
+    [platform, device, os, theme, darkMode, pureMap, position, radiusKm, buildBanner, cookieBanner],
   )
 
   return <DesignStateContext.Provider value={value}>{children}</DesignStateContext.Provider>
@@ -136,24 +132,3 @@ export function useDesignState() {
   return ctx
 }
 
-/**
- * Legt den Abnahme-Schalter über ein Abfrageergebnis. Im Normalbetrieb
- * („gefüllt") reicht das Ergebnis unverändert durch.
- *
- * Fällt in Schritt 2 zusammen mit dem Design-Panel weg.
- */
-export function useVariant(result) {
-  const { state } = useDesignState()
-  if (state === 'loading') return { ...result, data: Array.isArray(result.data) ? [] : null, loading: true }
-  if (state === 'empty') {
-    const empty = Array.isArray(result.data) ? [] : result.data && typeof result.data === 'object' ? { ...result.data, items: [] } : null
-    return { ...result, data: empty, loading: false }
-  }
-  return result
-}
-
-/** Kurzform, wenn nur die Liste gebraucht wird. */
-export function useListQuery(result) {
-  const { data, loading, refreshing, reload } = useVariant(result)
-  return { items: data ?? [], loading, refreshing, reload }
-}

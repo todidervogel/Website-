@@ -6,7 +6,6 @@ import {
 import { GastroShell, useMyPlace } from './GastroShell'
 import { ConsoleHeader } from '../../components/layout'
 import { ReportReviewDialog } from '../dialogs/GastroDialogs'
-import { useVariant } from '../../lib/design-state'
 import { api, useQuery } from '../../lib/store'
 import { t } from '../../design/i18n'
 
@@ -26,9 +25,8 @@ function ReviewsBody() {
   const [filter, setFilter] = useState('all')
   const [reportTarget, setReportTarget] = useState(null)
 
-  const { data, loading } = useVariant(
-    useQuery(() => api.reviews.byPlace(place.id), [place.id], { initial: [] }),
-  )
+  const { data, loading } = 
+    useQuery(() => api.reviews.byPlace(place.id), [place.id], { initial: [] })
   const all = data ?? []
 
   const list = all.filter((r) => {

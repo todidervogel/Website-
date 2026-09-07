@@ -113,7 +113,6 @@ export default function ConfirmCode() {
       </p>
       <Button variant="quiet" size="sm" to="/registrieren" style={{ marginLeft: -8 }}>{t('auth.code.changeNumber')}</Button>
 
-      <Notice style={{ marginTop: 'var(--sp-4)' }}>{t('auth.codeHint')}</Notice>
     </CenteredPage>
   )
 }

@@ -11,7 +11,6 @@ import { t } from '../../design/i18n'
 export default function Login() {
   const { login } = useSession()
   const navigate = useNavigate()
-  const [hintOpen] = useState(true)
 
   const form = useForm({
     initial: { identifier: '', password: '' },
@@ -68,7 +67,6 @@ export default function Login() {
           {t('auth.login.noAccount')} <Link to="/registrieren" className="c-accent">{t('auth.login.registerLink')}</Link>
         </p>
 
-        {hintOpen && <p className="t-tiny c-tertiary" style={{ textAlign: 'center' }}>{t('auth.demoHint')}</p>}
       </form>
     </CenteredPage>
   )

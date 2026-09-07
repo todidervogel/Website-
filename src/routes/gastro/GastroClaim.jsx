@@ -5,7 +5,6 @@ import {
   Button, Checkbox, EmptyState, Field, Input, Select, Skeleton,
 } from '../../design/ui'
 import { Page } from '../../components/layout'
-import { useVariant } from '../../lib/design-state'
 import { api, useQuery } from '../../lib/store'
 import { rules, useForm } from '../../lib/form'
 import { t, tNodes } from '../../design/i18n'
@@ -21,9 +20,8 @@ export default function GastroClaim() {
   const [query, setQuery] = useState('')
   const [city, setCity] = useState('')
 
-  const { data, loading } = useVariant(
-    useQuery(() => api.places.list({ query: `${query} ${city}`.trim() }), [query, city], { initial: [] }),
-  )
+  const { data, loading } = 
+    useQuery(() => api.places.list({ query: `${query} ${city}`.trim() }), [query, city], { initial: [] })
   const list = (query || city) ? (data ?? []).slice(0, 6) : (data ?? []).slice(0, 3)
 
   /**

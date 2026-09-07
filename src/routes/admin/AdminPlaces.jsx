@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { Building2, Search } from 'lucide-react'
 import { Badge, Button, EmptyState, Select, useToast } from '../../design/ui'
 import { AdminShell, AdminTable } from './AdminShell'
-import { useVariant } from '../../lib/design-state'
 import { api, useQuery } from '../../lib/store'
 import { t } from '../../design/i18n'
 
@@ -25,7 +24,7 @@ export default function AdminPlaces() {
   const [statusFilter, setStatusFilter] = useState('')
   const toast = useToast()
 
-  const { data } = useVariant(useQuery(() => api.admin.places(), [], { initial: [] }))
+  const { data } = useQuery(() => api.admin.places(), [], { initial: [] })
   const rows = (data ?? [])
     .filter((p) => !query || `${p.name} ${p.city}`.toLowerCase().includes(query.toLowerCase()))
     .filter((p) => !statusFilter || statusOf(p) === statusFilter)

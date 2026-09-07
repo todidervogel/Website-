@@ -3,9 +3,31 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#FFFFFF" />
+    <!--
+      Zwei Farben, damit die Systemleisten in beiden Darstellungen passen.
+      Ohne die zweite Zeile bleibt die Leiste im Dunkelmodus weiß.
+    -->
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFFFFF" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#121216" />
+
+    <!--
+      Auf dem Startbildschirm.
+
+      `apple-mobile-web-app-capable` lässt die Seite auf dem iPhone ohne
+      Safari-Leisten laufen, sobald sie über „Zum Home-Bildschirm“ abgelegt
+      wurde. `black-translucent` schiebt den Inhalt unter die Statusleiste —
+      deshalb rechnen Kopfleiste und untere Leiste mit `env(safe-area-inset-*)`,
+      sonst läge der Text unter der Uhr.
+    -->
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" type="image/svg+xml" href="./icon.svg" />
+    <link rel="apple-touch-icon" href="./icon.svg" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Tellerrand" />
+    <meta name="mobile-web-app-capable" content="yes" />
     <meta name="description" content="Restaurants, Bars und Cafés entdecken — mit Videos, Karte und Bewertungen pro Gericht." />
-    <title>Design-Prototyp</title>
+    <title>Tellerrand — Sieh, was es zu essen gibt</title>
     <!--
       Kein Zeichensatz von Google.
 

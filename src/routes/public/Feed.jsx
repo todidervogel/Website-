@@ -10,7 +10,7 @@ import {
 } from '../../design/ui'
 import { FullscreenPage } from '../../components/layout'
 import { ReportContentDialog } from '../dialogs/ReportContentDialog'
-import { useDesignState, useVariant } from '../../lib/design-state'
+import { useDesignState } from '../../lib/design-state'
 import { useRequireLogin } from '../../lib/auth'
 import { useSession } from '../../lib/session'
 import { api, formatDistance, useQuery } from '../../lib/store'
@@ -30,11 +30,10 @@ export default function Feed() {
   const wheelLock = useRef(0)
   const touchStart = useRef(null)
 
-  const { data, loading } = useVariant(
+  const { data, loading } = 
     useQuery(() => api.videos.feed({ position, radiusKm, userId }), [position, radiusKm, userId], {
       initial: { items: [], widened: false },
-    }),
-  )
+    })
 
   const all = data?.items ?? []
   const items = onlyRated ? all.filter((v) => v.review) : all

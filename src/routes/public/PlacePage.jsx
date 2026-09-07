@@ -12,7 +12,7 @@ import {
 import { BarePage } from '../../components/layout'
 import { ReportPlaceDialog } from '../dialogs/ReportPlaceDialog'
 import { ReportContentDialog } from '../dialogs/ReportContentDialog'
-import { useDesignState, useVariant } from '../../lib/design-state'
+import { useDesignState } from '../../lib/design-state'
 import { useRequireLogin } from '../../lib/auth'
 import { useSession } from '../../lib/session'
 import { api, dayKeyOf, useQuery } from '../../lib/store'
@@ -40,9 +40,8 @@ export default function PlacePage() {
   const requireLogin = useRequireLogin()
   const fromQr = params.get('src') === 'qr'
 
-  const { data: place, loading } = useVariant(
-    useQuery(() => api.places.bySlug(slug, position), [slug, position]),
-  )
+  const { data: place, loading } = 
+    useQuery(() => api.places.bySlug(slug, position), [slug, position])
 
   const saved = !!place?.viewerSaved
   const toggleSave = requireLogin(async () => {
@@ -235,9 +234,8 @@ function HoursTable({ hours }) {
 
 /* --- Reiter „Videos“ ----------------------------------------------------- */
 function VideosTab({ place }) {
-  const { data, loading } = useVariant(
-    useQuery(() => api.videos.byPlace(place.id), [place.id], { initial: [] }),
-  )
+  const { data, loading } = 
+    useQuery(() => api.videos.byPlace(place.id), [place.id], { initial: [] })
   const list = data ?? []
 
   if (loading) {
@@ -268,9 +266,8 @@ function VideosTab({ place }) {
 
 /* --- Reiter „Speisekarte“ ------------------------------------------------ */
 function MenuTab({ place }) {
-  const { data, loading } = useVariant(
-    useQuery(() => api.menu.get(place.id), [place.id], { initial: [] }),
-  )
+  const { data, loading } = 
+    useQuery(() => api.menu.get(place.id), [place.id], { initial: [] })
   const categories = data ?? []
   const total = categories.reduce((sum, c) => sum + c.items.length, 0)
 
@@ -353,9 +350,8 @@ function ReviewsTab({ place }) {
   const requireLogin = useRequireLogin()
   const [filter, setFilter] = useState('all')
   const [reportTarget, setReportTarget] = useState(null)
-  const { data, loading } = useVariant(
-    useQuery(() => api.reviews.byPlace(place.id, { filter }), [place.id, filter], { initial: [] }),
-  )
+  const { data, loading } = 
+    useQuery(() => api.reviews.byPlace(place.id, { filter }), [place.id, filter], { initial: [] })
   const list = data ?? []
 
   return (

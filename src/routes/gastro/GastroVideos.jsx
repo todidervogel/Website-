@@ -6,7 +6,6 @@ import {
 } from '../../design/ui'
 import { GastroShell, useMyPlace } from './GastroShell'
 import { ConsoleHeader } from '../../components/layout'
-import { useVariant } from '../../lib/design-state'
 import { useSession } from '../../lib/session'
 import { api, useQuery } from '../../lib/store'
 import { t } from '../../design/i18n'
@@ -35,9 +34,8 @@ function VideosBody() {
   const [busy, setBusy] = useState(false)
   const toast = useToast()
 
-  const { data, loading } = useVariant(
-    useQuery(() => api.videos.byPlace(place.id, { includeAll: true }), [place.id], { initial: [] }),
-  )
+  const { data, loading } = 
+    useQuery(() => api.videos.byPlace(place.id, { includeAll: true }), [place.id], { initial: [] })
   const { data: dishes } = useQuery(() => api.menu.dishes(place.id), [place.id], { initial: [] })
 
   const list = (data ?? []).filter((v) => filter === 'all' || v.status === FILTER_STATUS[filter])

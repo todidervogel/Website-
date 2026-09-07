@@ -6,7 +6,7 @@ import {
 import { Button, Chip, FilterChip, SkeletonRow, EmptyState, Checkbox, Radio, IconButton, ServingPicker, ServingRow, Spinner, RatingCompact, VerifiedMark,  } from '../../design/ui'
 import { PlaceRow } from '../../components/PlaceRowConnected'
 import { BarePage } from '../../components/layout'
-import { useDesignState, useVariant } from '../../lib/design-state'
+import { useDesignState } from '../../lib/design-state'
 import { api, formatDistance, useQuery } from '../../lib/store'
 import { MapTiles } from '../../components/MapTiles'
 import { openSentence } from '../../lib/hours-text'
@@ -47,9 +47,8 @@ export default function MapView() {
     minRating: RATING_LIMITS[ratingKey],
   }), [position, radiusKm, query, openNow, onlyVideos, categories, serving, prices, ratingKey])
 
-  const { data, loading, refreshing } = useVariant(
-    useQuery(() => api.places.list(filters), [JSON.stringify(filters)], { initial: [] }),
-  )
+  const { data, loading, refreshing } = 
+    useQuery(() => api.places.list(filters), [JSON.stringify(filters)], { initial: [] })
   const list = data ?? []
 
   /* Die reine Kartenansicht sperrt das Scrollen der Seite dahinter. */

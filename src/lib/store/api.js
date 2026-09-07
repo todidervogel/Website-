@@ -20,16 +20,6 @@ import { verbindungDa, verbindungWeg } from './connection'
 export const SERVER = (import.meta.env?.VITE_API ?? '').replace(/\/$/, '')
 export const MODE = SERVER ? 'server' : 'lokal'
 
-/* Absichtliche kleine Verzögerung im Alleinbetrieb: Ohne sie gäbe es keine
-   Ladezustände zu sehen — und die sollen im Entwurf stimmen. */
-const LATENCY = Number(import.meta.env?.VITE_LATENCY ?? 220)
-
-const wait = (value) =>
-  new Promise((resolve) => {
-    if (LATENCY <= 0) resolve(value)
-    else setTimeout(() => resolve(value), LATENCY * (0.6 + Math.random() * 0.8))
-  })
-
 /* ==========================================================================
    Alleinbetrieb
    ========================================================================== */
@@ -136,7 +126,7 @@ async function invokeRemotely(method, args) {
 export async function call(method, args = []) {
   if (!hasCall(method)) throw new Error(`Unbekannter Aufruf: ${method}`)
   if (SERVER) return invokeRemotely(method, args)
-  return wait(invokeLocally(method, args))
+  return invokeLocally(method, args)
 }
 
 /** Baut aus der Aufrufliste ein Objekt: api.places.list(…) und so weiter. */

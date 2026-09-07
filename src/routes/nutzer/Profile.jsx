@@ -8,7 +8,6 @@ import { ReportContentDialog } from '../dialogs/ReportContentDialog'
 import { useSession } from '../../lib/session'
 import { useRequireLogin } from '../../lib/auth'
 import { api, useQuery } from '../../lib/store'
-import { useVariant } from '../../lib/design-state'
 import { t } from '../../design/i18n'
 
 const TABS = [
@@ -83,7 +82,7 @@ export function PublicProfile() {
   const requireLogin = useRequireLogin()
   const navigate = useNavigate()
 
-  const { data: user, loading } = useVariant(useQuery(() => api.users.byUsername(username), [username]))
+  const { data: user, loading } = useQuery(() => api.users.byUsername(username), [username])
 
   const follow = user?.viewerFollow ?? 'none'
   const followLabel = {
@@ -214,9 +213,8 @@ function ProfileHeader({ user, actions, loading }) {
  * von leer auf voll.
  */
 function VideosTab({ userId, own }) {
-  const { data, loading } = useVariant(
-    useQuery(() => api.videos.byAuthor(userId, { own }), [userId, own], { initial: [] }),
-  )
+  const { data, loading } = 
+    useQuery(() => api.videos.byAuthor(userId, { own }), [userId, own], { initial: [] })
   const list = data ?? []
 
   if (loading) {
@@ -257,9 +255,8 @@ function VideosTab({ userId, own }) {
 }
 
 function ReviewsTab({ userId, own }) {
-  const { data, loading } = useVariant(
-    useQuery(() => api.reviews.byAuthor(userId), [userId], { initial: [] }),
-  )
+  const { data, loading } = 
+    useQuery(() => api.reviews.byAuthor(userId), [userId], { initial: [] })
   const list = data ?? []
 
   if (loading) return <div className="stack-4">{Array.from({ length: 2 }).map((_, i) => <ReviewCardSkeleton key={i} />)}</div>
@@ -275,9 +272,8 @@ function ReviewsTab({ userId, own }) {
 
 function SavedTab({ userId }) {
   const [sub, setSub] = useState('videos')
-  const { data, loading } = useVariant(
-    useQuery(() => api.social.saved(null, sub === 'videos' ? 'video' : 'place'), [userId, sub], { initial: [] }),
-  )
+  const { data, loading } = 
+    useQuery(() => api.social.saved(null, sub === 'videos' ? 'video' : 'place'), [userId, sub], { initial: [] })
   const list = data ?? []
 
   return (

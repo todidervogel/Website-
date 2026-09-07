@@ -4,7 +4,6 @@ import {
   Badge, Button, Checkbox, EmptyState, Field, Input, Modal, ModalActions, Select, useToast,
 } from '../../design/ui'
 import { AdminShell, AdminTable } from './AdminShell'
-import { useVariant } from '../../lib/design-state'
 import { api, useQuery } from '../../lib/store'
 import { t } from '../../design/i18n'
 
@@ -19,7 +18,7 @@ export default function AdminUsers() {
   const [reason, setReason] = useState('')
   const toast = useToast()
 
-  const { data } = useVariant(useQuery(() => api.admin.users(), [], { initial: [] }))
+  const { data } = useQuery(() => api.admin.users(), [], { initial: [] })
   const rows = (data ?? []).filter((u) => !query || `${u.username} ${u.email}`.toLowerCase().includes(query.toLowerCase()))
 
   const setStatus = async (user, status) => {

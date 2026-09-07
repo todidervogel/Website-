@@ -5,7 +5,6 @@ import {
 } from '../../design/ui'
 import { Kpi } from '../../components/layout'
 import { GastroShell, useMyPlace } from './GastroShell'
-import { useVariant } from '../../lib/design-state'
 import { api, useQuery } from '../../lib/store'
 import { t } from '../../design/i18n'
 
@@ -20,9 +19,8 @@ export default function GastroDashboard() {
 
 function DashboardBody() {
   const place = useMyPlace()
-  const { data: stats, loading } = useVariant(
-    useQuery(() => api.gastro.dashboard(place.id), [place.id]),
-  )
+  const { data: stats, loading } = 
+    useQuery(() => api.gastro.dashboard(place.id), [place.id])
   const { data: videos } = useQuery(
     () => api.videos.byPlace(place.id, { includeAll: true }), [place.id], { initial: [] },
   )

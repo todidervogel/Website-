@@ -5,7 +5,6 @@ import { AuthGateProvider, RouteGuard } from './lib/auth'
 import { UploadProvider, UploadStepGuard } from './lib/upload'
 import { ToastProvider } from './design/ui'
 import { LoginGate } from './components/LoginGate'
-import { DevPanel } from './components/layout/DevPanel'
 
 /* Öffentlich (TEIL C) */
 import Home from './routes/public/Home'
@@ -58,7 +57,6 @@ import AdminLog from './routes/admin/AdminLog'
 /* Rechtliches (TEIL H) und Fehler (TEIL I) */
 import { CookieSettings, GastroTerms, Guidelines, Imprint, Privacy, Terms } from './routes/recht/LegalPage'
 import { Forbidden, NotFound, Offline, ServerError } from './routes/fehler/ErrorPages'
-import ScreenIndex from './routes/ScreenIndex'
 
 /**
  * TEIL J — Übersicht aller Routen.
@@ -140,15 +138,12 @@ export default function App() {
               <Route path="/offline" element={<Offline />} />
               <Route path="/403" element={<Forbidden />} />
 
-              {/* Werkzeug: Übersicht aller Screens */}
-              <Route path="/uebersicht" element={<ScreenIndex />} />
 
               <Route path="*" element={<NotFound />} />
             </Routes>
           </RouteGuard>
           </UploadProvider>
             <LoginGate />
-            <DevPanel />
           </AuthGateProvider>
         </SessionProvider>
       </ToastProvider>
