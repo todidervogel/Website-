@@ -12,13 +12,26 @@ function maskPhone(phone = '') {
   return `••••  ${digits.slice(-4)}`
 }
 
-/** D.2 — Handynummer bestätigen */
+/**
+ * D.2 — Handynummer und E-Mail bestätigen.
+ *
+ * ┌─ Woran das hängt ────────────────────────────────────────────────────────┐
+ * │  src/lib/session.jsx        confirmRegistration / skipVerification       │
+ * │  src/domain/auth.js         legt das Konto an, hält das Überspringen fest│
+ * │  src/routes/konto/Register.jsx   der Schritt davor                       │
+ * └──────────────────────────────────────────────────────────────────────────┘
+ *
+ * Im MVP verschickt niemand SMS oder E-Mails. Deshalb steht hier ein Knopf
+ * zum Überspringen — sichtbar, nicht versteckt. Eine Pflicht zur Bestätigung
+ * ohne Absender wäre eine Tür ohne Schlüssel.
+ */
 export default function ConfirmCode() {
-  const { pendingRegistration, confirmRegistration } = useSession()
+  const { pendingRegistration, confirmRegistration, skipVerification } = useSession()
   const navigate = useNavigate()
   const [digits, setDigits] = useState(Array(6).fill(''))
   const [error, setError] = useState(null)
   const [busy, setBusy] = useState(false)
+  const [uebersprungen, setUebersprungen] = useState(false)
   const [cooldown, setCooldown] = useState(0)
   const inputs = useRef([])
 
@@ -58,7 +71,16 @@ export default function ConfirmCode() {
     const result = await confirmRegistration(digits.join(''))
     setBusy(false)
     if (!result.ok) return setError(result.error)
-    return navigate('/profil', { replace: true })
+    return navigate('/feed', { replace: true })
+  }
+
+  /* Überspringen legt dasselbe Konto an — nur ohne Code. */
+  const ueberspringen = async () => {
+    setUebersprungen(true)
+    const result = await skipVerification()
+    setUebersprungen(false)
+    if (!result.ok) return setError(result.error)
+    return navigate('/feed', { replace: true })
   }
 
   if (!pendingRegistration) return null
@@ -101,7 +123,25 @@ export default function ConfirmCode() {
         >
           {t('auth.code.submit')}
         </Button>
+
+        {/*
+          * Der Weg für alle, die jetzt weiterwollen. Er steht unter dem
+          * Bestätigen-Knopf, nicht daneben: Bestätigen bleibt der Normalfall,
+          * sobald es einen Absender gibt.
+          */}
+        <Button
+          type="button"
+          variant="quiet"
+          full
+          loading={uebersprungen}
+          onClick={ueberspringen}
+          style={{ marginTop: 'var(--sp-3)' }}
+        >
+          {t('auth.code.skip')}
+        </Button>
       </form>
+
+      <Notice tone="info" style={{ marginTop: 'var(--sp-5)' }}>{t('auth.code.mvpNote')}</Notice>
 
       <p className="t-small c-secondary" style={{ marginTop: 'var(--sp-4)' }}>
         {t('auth.code.notReceived')}{' '}

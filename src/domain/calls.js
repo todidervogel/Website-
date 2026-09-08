@@ -38,11 +38,24 @@ function ownsPlace(ctx, placeId) {
 }
 
 const CALLS = {
+  /* --- Konto ------------------------------------------------------------- */
+
+  /*
+   * Verifizierung im MVP: Es gibt noch keinen Mail- und keinen SMS-Versand,
+   * deshalb darf sie übersprungen werden. Beides läuft trotzdem über die
+   * Rechteprüfung — wer nicht angemeldet ist, kann an keinem Konto etwas
+   * setzen, auch nicht am eigenen, das es noch nicht gibt.
+   */
+  'auth.skipVerification': { who: 'user', call: (ctx) => auth.skipVerification(ctx.account.id) },
+  'auth.confirmVerification': { who: 'user', call: (ctx, [kanal]) => auth.confirmVerification(ctx.account.id, kanal) },
+
   /* --- Betriebe ---------------------------------------------------------- */
   'places.list': { who: 'public', call: (ctx, [filters]) => places.list({ ...filters, viewerId: viewerOf(ctx) }) },
   'places.bySlug': { who: 'public', call: (ctx, [slug, position]) => places.bySlug(slug, position, viewerOf(ctx)) },
   'places.byId': { who: 'public', call: (ctx, [id, position]) => places.byId(id, position, viewerOf(ctx)) },
   'places.nearby': { who: 'public', call: (ctx, [position, limit]) => places.nearby(position, limit, viewerOf(ctx)) },
+  /* Marker für die Karte — schlank, ohne abgeleitete Werte. */
+  'places.inBounds': { who: 'public', call: (ctx, [bounds, limit]) => places.inBounds(bounds ?? {}, limit) },
   'places.save': {
     who: 'gastro',
     guard: (ctx, [id]) => ownsPlace(ctx, id),
@@ -203,6 +216,7 @@ const CALLS = {
 
   /* --- Suche ------------------------------------------------------------- */
   'search.run': { who: 'public', call: (ctx, [query, options]) => search.run(query, { ...options, viewerId: viewerOf(ctx) }) },
+  'search.popular': { who: 'public', call: () => search.popular() },
   'search.history': { who: 'public', call: () => search.history() },
   'search.remember': { who: 'public', call: (ctx, [query]) => search.remember(query) },
   'search.clearHistory': { who: 'public', call: () => search.clearHistory() },

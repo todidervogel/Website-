@@ -1,5 +1,6 @@
 import { chromium } from 'playwright'
 import { mkdirSync, rmSync } from 'node:fs'
+import { alsSpeicherstand } from './pruefbestand.mjs'
 
 /**
  * Macht Bildschirmfotos von allen wichtigen Screens in mehreren Breiten.
@@ -11,11 +12,24 @@ import { mkdirSync, rmSync } from 'node:fs'
  *   node tools/bilder.mjs --breite desktop   nur eine Breite
  *   node tools/bilder.mjs --screen /karte    nur ein Screen
  *   node tools/bilder.mjs --voll             ganze Seite statt nur sichtbar
+ *   node tools/bilder.mjs --leer             ohne Prüfbestand — so sieht es
+ *                                            beim allerersten Start aus
+ *
+ * ┌─ Woran das hängt ────────────────────────────────────────────────────────┐
+ * │  tools/pruefbestand.mjs   die Daten auf den Bildern                      │
+ * └──────────────────────────────────────────────────────────────────────────┘
+ *
+ * Standardmäßig wird der Prüfbestand eingespielt: Ein leerer Feed zeigt nicht,
+ * ob ein Text aus seinem Feld läuft. Mit `--leer` gibt es die andere Hälfte —
+ * die leeren Zustände, die echte Menschen am ersten Tag sehen. Beides muss
+ * gut aussehen.
  */
 const BASE = process.env.BASE ?? 'http://localhost:4173'
 const args = process.argv.slice(2)
 const flag = (n) => { const i = args.indexOf(n); return i >= 0 ? args[i + 1] : null }
 const voll = args.includes('--voll')
+const leer = args.includes('--leer')
+const BESTAND = alsSpeicherstand()
 
 const BREITEN = {
   handy: { width: 390, height: 844 },
@@ -30,9 +44,11 @@ const SCREENS = [
   ['feed', '/feed', 'u1', '.fullheight'],
   ['karte', '/karte', null, '.map-canvas'],
   ['suche', '/suche', null, 'main'],
-  ['gastro-seite', '/g/trattoria-bella', null, 'main'],
-  ['speisekarte', '/g/trattoria-bella/speisekarte', null, 'main'],
-  ['bewertungen', '/g/trattoria-bella/bewertungen', null, 'main'],
+  ['gastro-seite', '/g/pruef-trattoria', null, 'main'],
+  ['osm-betrieb', '/g/marimer', null, 'main'],
+  ['speisekarte', '/g/pruef-trattoria/speisekarte', null, 'main'],
+  ['bewertungen', '/g/pruef-trattoria/bewertungen', null, 'main'],
+  ['code-bestaetigen', '/registrieren', null, 'main'],
   ['profil', '/profil', 'u1', 'main'],
   ['einstellungen', '/einstellungen', 'u1', 'main'],
   ['anmelden', '/anmelden', null, 'main'],
@@ -45,7 +61,7 @@ const SCREENS = [
 const breiteWahl = flag('--breite')
 const screenWahl = flag('--screen')
 
-const ordner = 'bilder'
+const ordner = leer ? 'bilder-leer' : 'bilder'
 rmSync(ordner, { recursive: true, force: true })
 mkdirSync(ordner, { recursive: true })
 
@@ -63,7 +79,9 @@ for (const [breitenName, viewport] of Object.entries(BREITEN)) {
       localStorage.setItem('app-ui', JSON.stringify({ platform: 'web', theme: 'light' }))
       if (state.user) localStorage.setItem('app-session', JSON.stringify({ userId: state.user }))
       else localStorage.removeItem('app-session')
-    }, { user })
+      if (state.bestand) localStorage.setItem('app-db', JSON.stringify(state.bestand))
+      else localStorage.removeItem('app-db')
+    }, { user, bestand: leer ? null : BESTAND })
 
     /* Kacheln nicht anfragen — siehe routen-sweep.mjs. */
     await context.route('**/tile.openstreetmap.org/**', (route) => route.abort())

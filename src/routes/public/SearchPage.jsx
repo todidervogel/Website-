@@ -10,7 +10,6 @@ import { useSession } from '../../lib/session'
 import { api, useQuery } from '../../lib/store'
 import { RADIUS_OPTIONS, PRICE_LEVELS } from '../../design/config'
 import { SERVING_KEYS } from '../../design/vocabulary'
-import { searchPopular } from '../../domain/seed'
 import { t } from '../../design/i18n'
 
 const TABS = [
@@ -40,6 +39,13 @@ export default function SearchPage() {
    * Vorschläge für die leere Suche. Sie laufen nur, solange nichts getippt ist
    * — wer sucht, will Treffer sehen und keine Anregungen.
    */
+  /*
+   * Die häufigen Begriffe kommen aus den Daten, nicht aus einer festen Liste
+   * (src/domain/search.js). Ein Vorschlag, der zu nichts führt, ist eine
+   * Sackgasse — und genau das waren die erfundenen Begriffe von vorher.
+   */
+  const { data: beliebt } = useQuery(() => api.search.popular(), [])
+
   const { data: entdeckenDaten, loading: entdeckenLaedt } = useQuery(
     () => api.videos.feed({ position, radiusKm: Math.max(radiusKm, 25) }),
     [position, radiusKm, query.length === 0],
@@ -157,7 +163,7 @@ export default function SearchPage() {
           <div>
             <h2 className="t-small c-secondary" style={{ marginBottom: 'var(--sp-2)' }}>{t('search.popularNearby')}</h2>
             <div className="row-wrap">
-              {searchPopular.map((p) => <Chip key={p} onClick={() => setQuery(p)}>{p}</Chip>)}
+              {(beliebt ?? []).map((p) => <Chip key={p} onClick={() => setQuery(p)}>{p}</Chip>)}
             </div>
           </div>
 

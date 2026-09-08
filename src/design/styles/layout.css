@@ -230,6 +230,15 @@
 /* Gastro-Seite (C.3) */
 .cover { position: relative; height: 180px; background: var(--bg-light-alt);
   display: grid; place-items: center; color: var(--text-tertiary); }
+
+/*
+ * Das Kopfbild füllt den Rahmen. `object-fit: cover` schneidet ab statt zu
+ * verzerren — ein gezogenes Foto sieht billig aus, ein beschnittenes nicht.
+ * Die gezeichneten Bilder (src/domain/titelbild.js) haben 16:9 und werden
+ * deshalb kaum beschnitten.
+ */
+.cover-bild { position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; display: block; }
 @media (min-width: 1024px) { .cover { height: 280px; border-radius: 0 0 var(--r-card) var(--r-card); } }
 .cover-actions { position: absolute; top: var(--sp-3); right: var(--sp-3); display: flex; gap: var(--sp-2); }
 .cover-back { position: absolute; top: var(--sp-3); left: var(--sp-3); }
@@ -628,3 +637,7 @@
   .lp-hero-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: var(--sp-12); }
   .lp-hero-map { height: 420px; }
 }
+
+/* Kurzbeschreibung mit Quellenangabe auf der Betriebsseite. */
+.place-beschreibung { display: grid; gap: var(--sp-1); }
+.place-beschreibung .t-body { max-width: 68ch; }

@@ -1,9 +1,38 @@
 import { useEffect, useRef, useState } from 'react'
 import { kachelAdresse, kartenblick } from '../lib/map'
+import { SERVER } from '../lib/store/api'
 import { t } from '../design/i18n'
 
 /**
- * Die Karte darunter — echte Kacheln von OpenStreetMap.
+ * Wie der Kartenanbieter genannt werden will.
+ *
+ * Die Nennung ist keine Höflichkeit, sondern Bedingung: OpenStreetMap steht
+ * unter der ODbL, CARTO verlangt sie ebenfalls. Welcher Stil gerade läuft,
+ * entscheidet der Server (Server/src/http/karte.js) — also fragt die Karte
+ * ihn danach, statt es zu erraten.
+ *
+ * Einmal je Sitzung, nicht je Karte: Der Stil ändert sich nicht zwischen zwei
+ * Bildschirmen.
+ */
+let nennungVersprechen = null
+
+function nennungHolen() {
+  if (!SERVER) return Promise.resolve(null)
+  nennungVersprechen ??= fetch(`${SERVER}/api/karte/stil`)
+    .then((antwort) => (antwort.ok ? antwort.json() : null))
+    .then((stil) => stil?.nennung ?? null)
+    .catch(() => null)
+  return nennungVersprechen
+}
+
+/**
+ * Die Karte darunter — echte Kacheln.
+ *
+ * ┌─ Woher die Kacheln kommen ───────────────────────────────────────────────┐
+ * │  mit Server   Server/src/http/karte.js — zwischengespeichert, im Stil    │
+ * │               „Voyager", der dem Bild von Google Maps am nächsten kommt  │
+ * │  ohne Server  direkt von tile.openstreetmap.org (siehe lib/map.js)       │
+ * └──────────────────────────────────────────────────────────────────────────┘
  *
  * Bewusst ohne Kartenbibliothek: MapLibre oder Leaflet bringen je nach Aufbau
  * 40 bis 250 KB mit und wollen ihre eigene Zustandsverwaltung. Gebraucht wird
@@ -20,6 +49,13 @@ import { t } from '../design/i18n'
 export function MapTiles({ center, spanKm, onProject }) {
   const kasten = useRef(null)
   const [masse, setMasse] = useState(null)
+  const [nennung, setNennung] = useState(null)
+
+  useEffect(() => {
+    let abgebrochen = false
+    nennungHolen().then((text) => { if (!abgebrochen && text) setNennung(text) })
+    return () => { abgebrochen = true }
+  }, [])
 
   useEffect(() => {
     const el = kasten.current
@@ -66,7 +102,7 @@ export function MapTiles({ center, spanKm, onProject }) {
           style={{ left: k.left, top: k.top, width: k.groesse, height: k.groesse }}
         />
       ))}
-      <span className="map-credit">{t('map.credit')}</span>
+      <span className="map-credit">{nennung ?? t('map.credit')}</span>
     </div>
   )
 }

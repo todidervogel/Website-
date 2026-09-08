@@ -17,8 +17,69 @@ import { verbindungDa, verbindungWeg } from './connection'
  * Versprechen zurück. Die Screens merken nicht, welche Betriebsart läuft.
  */
 
-export const SERVER = (import.meta.env?.VITE_API ?? '').replace(/\/$/, '')
+/**
+ * Die Adresse des Servers.
+ *
+ * Zwei Wege, absichtlich in dieser Reihenfolge:
+ *
+ *   1. Was im Gerät eingestellt ist. Die App wird einmal gebaut; wo ihr
+ *      Server steht, ändert sich öfter — über ngrok bei jedem Start, wenn
+ *      keine feste Adresse hinterlegt ist. Für jede neue Adresse eine neue
+ *      APK zu bauen, wäre unzumutbar, wenn man nur ein Handy hat.
+ *   2. `VITE_API` beim Bauen. Das bleibt für die Webseite und für den Fall,
+ *      dass die Adresse feststeht.
+ *
+ * Ist beides leer, läuft alles im Browser (Alleinbetrieb).
+ */
+const SPEICHER_SCHLUESSEL = 'api-adresse'
+
+const gespeicherteAdresse = () => {
+  try { return localStorage.getItem(SPEICHER_SCHLUESSEL) ?? '' } catch { return '' }
+}
+
+export const SERVER = (gespeicherteAdresse() || import.meta.env?.VITE_API || '').replace(/\/$/, '')
 export const MODE = SERVER ? 'server' : 'lokal'
+
+/** Woher die Adresse stammt — die Einstellungen zeigen es an. */
+export const SERVER_QUELLE = gespeicherteAdresse() ? 'geraet' : (import.meta.env?.VITE_API ? 'bau' : 'keiner')
+
+/**
+ * Setzt die Serveradresse und lädt neu.
+ *
+ * Neu laden ist kein Ausweichen, sondern das Richtige: `SERVER` entscheidet
+ * beim Laden, ob die Fachlogik im Browser läuft oder über das Netz. Das
+ * mitten im Betrieb umzustellen hieße, jeden laufenden Zustand mitzunehmen —
+ * Anmeldung, Zwischenspeicher, offene Abfragen. Ein Neustart der Seite ist
+ * eine Sekunde und danach stimmt alles.
+ */
+export function setServerAdresse(adresse) {
+  const sauber = String(adresse ?? '').trim().replace(/\/$/, '')
+  try {
+    if (sauber) localStorage.setItem(SPEICHER_SCHLUESSEL, sauber)
+    else localStorage.removeItem(SPEICHER_SCHLUESSEL)
+  } catch {
+    return { ok: false, error: 'Der Speicher des Browsers ist nicht verfügbar.' }
+  }
+  window.location.reload()
+  return { ok: true }
+}
+
+/** Sieht nach, ob unter dieser Adresse wirklich unser Server antwortet. */
+export async function serverPruefen(adresse) {
+  const sauber = String(adresse ?? '').trim().replace(/\/$/, '')
+  if (!/^https?:\/\//.test(sauber)) return { ok: false, error: 'Die Adresse muss mit http:// oder https:// anfangen.' }
+  try {
+    const antwort = await fetch(`${sauber}/api/health`, {
+      headers: { 'ngrok-skip-browser-warning': '1' },
+      signal: AbortSignal.timeout(8000),
+    })
+    const daten = await antwort.json()
+    if (!daten?.ok) return { ok: false, error: 'Dort antwortet etwas, aber nicht unser Server.' }
+    return { ok: true, aufrufe: daten.aufrufe }
+  } catch (fehler) {
+    return { ok: false, error: `Keine Antwort: ${fehler.message}` }
+  }
+}
 
 /* ==========================================================================
    Alleinbetrieb

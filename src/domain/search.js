@@ -31,6 +31,19 @@ export function run(query, { position, viewerId } = {}) {
   return { dishes, places: matchedPlaces, locations, profiles }
 }
 
+/**
+ * Häufige Suchbegriffe.
+ *
+ * Stand früher als feste Liste im Ausgangsbestand und war damit eine
+ * Behauptung: „Sonntagsbrunch" war beliebt, obwohl es niemand gesucht hatte.
+ * Jetzt kommt die Liste aus den Daten (src/data/seed.js rechnet sie beim
+ * ersten Start aus den Küchen der vorhandenen Betriebe) — jeder Vorschlag
+ * führt also zu Treffern.
+ */
+export function popular() {
+  return db().searchPopular ?? []
+}
+
 export function history() {
   return db().searchHistory ?? []
 }

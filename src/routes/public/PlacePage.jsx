@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import {
-  Bookmark, Camera, ChevronDown, ChevronLeft, ChevronRight, Globe, Image as ImageIcon, Info,
+  Bookmark, Camera, ChevronDown, ChevronLeft, ChevronRight, Globe, Info,
   MapPin, Phone, Share2, Navigation, UtensilsCrossed, ClipboardList, AlertTriangle,
 } from 'lucide-react'
 import {
@@ -16,9 +16,31 @@ import { useDesignState } from '../../lib/design-state'
 import { useRequireLogin } from '../../lib/auth'
 import { useSession } from '../../lib/session'
 import { api, dayKeyOf, useQuery } from '../../lib/store'
+import { titelbild } from '../../domain'
 import { openSentence, weekRowsText } from '../../lib/hours-text'
 import { MVP_STAGE } from '../../design/config'
 import { t } from '../../design/i18n'
+
+/**
+ * Das Kopfbild eines Betriebs.
+ *
+ * Hat der Betrieb ein echtes Bild — aus OpenStreetMap oder später selbst
+ * hochgeladen —, wird das gezeigt. Sonst zeichnet `titelbild` eines
+ * (src/domain/titelbild.js, dort steht auch, warum keine fremden Fotos).
+ *
+ * Als Daten-Adresse statt über den Server: So sieht die Seite im Alleinbetrieb
+ * genauso aus wie mit Server, und es gibt keine Anfrage, die scheitern kann.
+ */
+function kopfbildQuelle(place) {
+  if (place.bildUrl) return place.bildUrl
+  return `data:image/svg+xml;utf8,${encodeURIComponent(titelbild(place))}`
+}
+
+/** ISO-Datum als deutsches: 2026-09-07 → 07.09.2026 */
+const alsDatum = (iso) => {
+  const treffer = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(iso ?? ''))
+  return treffer ? `${treffer[3]}.${treffer[2]}.${treffer[1]}` : iso
+}
 
 const TABS = [
   { id: 'videos', label: t('place.tabs.videos') },
@@ -91,7 +113,16 @@ export default function PlacePage() {
       )}
 
       <div className="cover">
-        {place.hasCover ? <ImageIcon size={32} /> : <UtensilsCrossed size={40} />}
+        <img
+          className="cover-bild"
+          src={kopfbildQuelle(place)}
+          alt=""
+          /*
+           * Kommt ein echtes Foto nicht durch (Adresse tot, kein Netz), bleibt
+           * das gezeichnete Bild übrig statt eines kaputten Symbols.
+           */
+          onError={(e) => { e.currentTarget.src = `data:image/svg+xml;utf8,${encodeURIComponent(titelbild(place))}` }}
+        />
         <span className="cover-back only-mobile">
           <IconButton icon={ChevronLeft} label={t('common.back')} tone="glass" to="/karte" />
         </span>
@@ -139,6 +170,27 @@ export default function PlacePage() {
 
           {/* Angebot steht ganz oben: was gibt es hier überhaupt? */}
           <ServingRow serving={place.serving} size="md" />
+
+          {/*
+            * Kurzbeschreibung aus öffentlichen Quellen — mit Quelle und Stand
+            * direkt darunter. Wer eine Angabe liest, soll ohne Nachfragen
+            * wissen, woher sie kommt und wie alt sie ist; sonst hält man sie
+            * für vom Betrieb bestätigt.
+            */}
+          {place.description && (
+            <div className="place-beschreibung">
+              <p className="t-body">{place.description}</p>
+              {place.quelleUrl && (
+                <p className="t-small c-tertiary">
+                  {t('place.sourceNote')}{' '}
+                  <a href={`https://${place.quelleUrl.replace(/^https?:\/\//, '')}`} target="_blank" rel="noreferrer noopener" className="c-accent">
+                    {place.quelleUrl.replace(/^https?:\/\//, '').replace(/\/$/, '')}
+                  </a>
+                  {place.quelleStand ? ` · ${t('place.sourceDate', { date: alsDatum(place.quelleStand) })}` : ''}
+                </p>
+              )}
+            </div>
+          )}
 
           <p className="t-body c-secondary">{place.tags.join(' · ')} · {place.price}</p>
 

@@ -220,7 +220,7 @@
     "positionLabel": "Standort: {{name}}",
     "filterCount": "{{count}} Filter aktiv",
     "resetFilters": "Filter zurücksetzen",
-    "credit": "© OpenStreetMap"
+    "credit": "© OpenStreetMap-Mitwirkende"
   },
   "categories": {
     "restaurant": "Restaurant",
@@ -292,7 +292,9 @@
     "closedReported": "Gäste haben gemeldet, dass dieser Betrieb dauerhaft geschlossen ist. Wir prüfen das gerade.",
     "closingNotice": "Dieser Betrieb hat dauerhaft geschlossen.",
     "notFoundTitle": "Betrieb nicht gefunden",
-    "notFoundText": "Diese Seite gibt es nicht mehr oder die Adresse stimmt nicht."
+    "notFoundText": "Diese Seite gibt es nicht mehr oder die Adresse stimmt nicht.",
+    "sourceNote": "Aus öffentlichen Quellen, nicht vom Betrieb bestätigt.",
+    "sourceDate": "Stand {{date}}"
   },
   "features": {
     "barrierefrei": "Barrierefrei",
@@ -421,13 +423,15 @@
       }
     },
     "code": {
-      "title": "Code eingeben",
-      "text": "Wir haben dir einen 6-stelligen Code an {{phone}} geschickt.",
+      "title": "Nummer bestätigen",
+      "text": "Wir schicken einen 6-stelligen Code an {{phone}}.",
       "submit": "Bestätigen",
       "notReceived": "Code nicht bekommen?",
       "resend": "Erneut senden",
       "resendIn": "Erneut senden in {{time}}",
-      "changeNumber": "Nummer ändern"
+      "changeNumber": "Nummer ändern",
+      "mvpNote": "SMS und E-Mails verschicken wir noch nicht. Du kannst die Bestätigung überspringen und später im Konto nachholen.",
+      "skip": "Überspringen"
     },
     "login": {
       "title": "Willkommen zurück",
@@ -465,7 +469,8 @@
       "blocked": "Dieses Konto ist gesperrt. Melde dich beim Support.",
       "accountExists": "Diese E-Mail oder dieser Benutzername ist schon vergeben.",
       "noPendingRegistration": "Es läuft gerade keine Registrierung. Fang bitte von vorn an.",
-      "wrongCode": "Der Code stimmt nicht."
+      "wrongCode": "Der Code stimmt nicht.",
+      "invalidUsername": "3–20 Zeichen, nur Kleinbuchstaben, Zahlen, Punkt und Unterstrich."
     },
     "demoHint": "Testzugänge: max@beispiel.de · chef@trattoria-bella.de · ana@intern — Passwort steht im Design-Panel.",
     "codeHint": "Im Test lautet der Code 123456.",
@@ -620,7 +625,8 @@
       "notifications": "Benachrichtigungen",
       "data": "Daten",
       "legal": "Rechtliches",
-      "help": "Hilfe"
+      "help": "Hilfe",
+      "connection": "Verbindung"
     },
     "editProfile": "Profil bearbeiten",
     "email": "E-Mail-Adresse",
@@ -696,7 +702,17 @@
     "logoutConfirm": "Wirklich abmelden?",
     "exportReady": "Deine Daten wurden heruntergeladen.",
     "accountDeleted": "Dein Konto wurde gelöscht.",
-    "savedProfile": "Profil gespeichert."
+    "savedProfile": "Profil gespeichert.",
+    "verifyOpen": "Nummer und E-Mail sind noch nicht bestätigt.",
+    "verifyLater": "Das holen wir nach, sobald wir SMS und E-Mails verschicken. Dein Konto funktioniert in der Zwischenzeit vollständig.",
+    "serverAddress": "Serveradresse",
+    "serverAddressHint": "Ohne Adresse bleibt alles auf diesem Gerät. Mit Adresse sehen alle Geräte denselben Stand.",
+    "serverCheck": "Prüfen und übernehmen",
+    "serverReset": "Adresse entfernen",
+    "serverOkay": "Verbunden. Der Server kennt {{aufrufe}} Aufrufe.",
+    "serverLocal": "Alleinbetrieb — alles bleibt auf diesem Gerät.",
+    "serverFromBuild": "Beim Bauen festgelegt: {{adresse}}",
+    "serverActive": "Verbunden mit {{adresse}}"
   },
   "notifications": {
     "title": "Benachrichtigungen",

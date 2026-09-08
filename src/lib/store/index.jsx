@@ -1,7 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { subscribe, currentVersion } from './events'
 
-export { api, api as default, call, MODE, SERVER, resetLocalData, useLocalData, setAccount, getAccount, setToken, getToken, request } from './api'
+export {
+  api, api as default, call, MODE, SERVER, SERVER_QUELLE,
+  setServerAdresse, serverPruefen,
+  resetLocalData, useLocalData, setAccount, getAccount, setToken, getToken, request,
+} from './api'
 export { subscribe, changed } from './events'
 export { istOffline, offlineSeit, beiVerbindungswechsel } from './connection'
 export { distanceKm, formatDistance, toMapPercent } from '../../domain/geo'

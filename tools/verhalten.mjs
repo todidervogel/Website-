@@ -1,9 +1,22 @@
 import { chromium } from 'playwright'
+import { alsSpeicherstand } from './pruefbestand.mjs'
 
 /**
- * Gezielte Verhaltenstests für die Abläufe, die in Runde 5 dazugekommen sind.
+ * Gezielte Verhaltenstests für die Abläufe.
+ *
+ * ┌─ Woran das hängt ────────────────────────────────────────────────────────┐
+ * │  tools/pruefbestand.mjs   die Daten, gegen die geprüft wird              │
+ * │  src/lib/store/local-store.js   liest sie aus localStorage['app-db']     │
+ * └──────────────────────────────────────────────────────────────────────────┘
+ *
  * Erwartet einen laufenden Vorschau-Server auf Port 4173.
+ *
+ * Seit die Beispieldaten aus dem Programm heraus sind, bringt die Prüfung
+ * ihre eigenen mit: einen Betrieb „Prüf-Trattoria" mit Speisekarte, Videos
+ * und Bewertungen. Was geprüft wird, steht damit im Prüfwerkzeug — und nicht
+ * in dem, was Menschen später zu sehen bekommen.
  */
+const BESTAND = alsSpeicherstand()
 const BASE = 'http://localhost:4173'
 const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' })
 const TIMEOUT = Number(process.env.PW_TIMEOUT ?? 15000)
@@ -21,7 +34,8 @@ async function test(name, setup, body) {
     if (!sessionStorage.getItem('pruefung-vorbereitet')) {
       if (state.user) localStorage.setItem('app-session', JSON.stringify({ userId: state.user }))
       else localStorage.removeItem('app-session')
-      localStorage.removeItem('app-db')
+      /* Der Prüfbestand statt des leeren Ausgangsbestands. */
+      localStorage.setItem('app-db', JSON.stringify(state.bestand))
       localStorage.removeItem('app-upload-draft')
       sessionStorage.setItem('pruefung-vorbereitet', '1')
     }
@@ -41,12 +55,14 @@ async function test(name, setup, body) {
   await context.close()
 }
 
-const web = { ui: { platform: 'web', theme: 'light' }, user: null }
-const webUser = { ui: { platform: 'web', theme: 'light' }, user: 'u1' }
-const app = { ui: { platform: 'app', theme: 'light' }, user: null }
-const appUser = { ui: { platform: 'app', theme: 'light' }, user: 'u1' }
-const gastro = { ui: { platform: 'web', theme: 'light' }, user: 'g1' }
-const admin = { ui: { platform: 'web', theme: 'light' }, user: 'a1' }
+const lage = (platform, theme, user) => ({ ui: { platform, theme }, user, bestand: BESTAND })
+
+const web = lage('web', 'light', null)
+const webUser = lage('web', 'light', 'u1')
+const app = lage('app', 'light', null)
+const appUser = lage('app', 'light', 'u1')
+const gastro = lage('web', 'light', 'g1')
+const admin = lage('web', 'light', 'a1')
 
 /* --- Anmeldung und Rollen ------------------------------------------------ */
 
@@ -62,7 +78,7 @@ await test('Website als Gast darf die Karte sehen', web, async (page) => {
 
 await test('Anmelden mit falschem Passwort zeigt eine Fehlermeldung', web, async (page) => {
   await page.goto(`${BASE}/anmelden`)
-  await page.fill('input[autocomplete="username"]', 'max@beispiel.de')
+  await page.fill('input[autocomplete="username"]', 'test@user.de')
   await page.fill('input[type="password"]', 'falsch')
   await page.click('button[type="submit"]')
   await page.waitForSelector('.notice-danger')
@@ -70,29 +86,26 @@ await test('Anmelden mit falschem Passwort zeigt eine Fehlermeldung', web, async
 
 await test('Anmelden als Nutzer führt in den Feed', web, async (page) => {
   await page.goto(`${BASE}/anmelden`)
-  await page.fill('input[autocomplete="username"]', 'max@beispiel.de')
-  await page.fill('input[type="password"]', 'Passwort123')
+  await page.fill('input[autocomplete="username"]', 'test@user.de')
+  await page.fill('input[type="password"]', '12345aA?')
   await page.click('button[type="submit"]')
   await page.waitForURL('**/feed')
 })
 
 await test('Anmelden als Admin führt in den Admin-Bereich', web, async (page) => {
   await page.goto(`${BASE}/anmelden`)
-  await page.fill('input[autocomplete="username"]', 'ana@intern')
-  await page.fill('input[type="password"]', 'Admin1234')
+  await page.fill('input[autocomplete="username"]', 'topic')
+  await page.fill('input[type="password"]', 'admin')
   await page.click('button[type="submit"]')
   await page.waitForURL('**/admin')
 })
 
-await test('Gastro-Erstlogin erzwingt ein neues Passwort', web, async (page) => {
+await test('Anmelden als Gastro führt in den Gastro-Bereich', web, async (page) => {
   await page.goto(`${BASE}/gastro/anmelden`)
-  await page.fill('input[type="email"]', 'hallo@morgenrot-cafe.de')
-  await page.fill('input[type="password"]', 'Start1234')
+  await page.fill('input[type="email"]', 'test@gastro.de')
+  await page.fill('input[type="password"]', '12345aA?')
   await page.click('button[type="submit"]')
-  await page.waitForURL('**/gastro/willkommen')
-  /* Und man kommt dort nicht weg, bevor es gesetzt ist. */
-  await page.goto(`${BASE}/gastro`)
-  await page.waitForURL('**/gastro/willkommen')
+  await page.waitForURL('**/gastro')
 })
 
 await test('Nutzer ohne Admin-Rechte bekommt 403', webUser, async (page) => {
@@ -120,7 +133,7 @@ await test('Registrierung lehnt unter 16-Jährige ab', web, async (page) => {
   await page.fill('input[type="email"]', 'neu@beispiel.de')
   await page.fill('input[placeholder="151 23456789"]', '15123456789')
   await page.fill('input[placeholder="deinname"]', 'neuling')
-  await page.fill('input[type="password"]', 'Passwort123')
+  await page.fill('input[type="password"]', 'Pruefung1!')
   const selects = page.locator('select')
   await selects.nth(1).selectOption('1')
   await selects.nth(2).selectOption('Dezember')
@@ -178,14 +191,14 @@ await test('Angebot steht in der Trefferliste', webUser, async (page) => {
 /* --- Speisekarte --------------------------------------------------------- */
 
 await test('Speisekarte lädt ohne App-Rahmen', web, async (page) => {
-  await page.goto(`${BASE}/g/trattoria-bella/speisekarte`)
+  await page.goto(`${BASE}/g/pruef-trattoria/speisekarte`)
   await page.waitForSelector('.menu-item-name')
   if (await page.locator('.bottom-nav').count()) throw new Error('untere Leiste sichtbar')
   if (await page.locator('footer.footer').count()) throw new Error('Website-Fußzeile sichtbar')
 })
 
 await test('Suche auf der Speisekarte filtert', web, async (page) => {
-  await page.goto(`${BASE}/g/trattoria-bella/speisekarte`)
+  await page.goto(`${BASE}/g/pruef-trattoria/speisekarte`)
   await page.waitForSelector('.menu-item-name')
   const before = await page.locator('.menu-item').count()
   await page.fill('.menu-search input', 'Pizza')
@@ -195,7 +208,7 @@ await test('Suche auf der Speisekarte filtert', web, async (page) => {
 })
 
 await test('Allergenlegende zeigt nur vorkommende Allergene', web, async (page) => {
-  await page.goto(`${BASE}/g/trattoria-bella/speisekarte`)
+  await page.goto(`${BASE}/g/pruef-trattoria/speisekarte`)
   await page.waitForSelector('.menu-legend')
   const count = await page.locator('.menu-legend li').count()
   if (count === 0 || count > 10) throw new Error(`${count} Einträge`)
@@ -210,7 +223,7 @@ await test('Gastro legt ein Gericht an, es steht auf der Karte', gastro, async (
   await page.locator('.modal .input-affix input').first().fill('11,50')
   await page.locator('.modal-actions button', { hasText: 'Speichern' }).click()
   await page.waitForSelector('.modal', { state: 'detached' })
-  await page.goto(`${BASE}/g/trattoria-bella/speisekarte`)
+  await page.goto(`${BASE}/g/pruef-trattoria/speisekarte`)
   await page.waitForSelector('text=Testgericht Ravioli')
 })
 
@@ -275,7 +288,7 @@ await test('Admin gibt ein Video frei, die Warteschlange schrumpft', admin, asyn
 })
 
 await test('Meldung eines Betriebs erscheint bei der Moderation', webUser, async (page) => {
-  await page.goto(`${BASE}/g/baeckerei-sommer`)
+  await page.goto(`${BASE}/g/pruef-trattoria`)
   await page.locator('.tabs button', { hasText: 'Infos' }).first().click()
   await page.locator('button', { hasText: 'Problem melden' }).click()
   await page.waitForSelector('.modal')
@@ -292,10 +305,10 @@ await test('Meldung eines Betriebs erscheint bei der Moderation', webUser, async
 await test('Profil bearbeiten wird gespeichert', webUser, async (page) => {
   await page.goto(`${BASE}/einstellungen/profil`)
   await page.waitForSelector('form .field input')
-  await page.locator('form .field input').first().fill('Max Geändert')
+  await page.locator('form .field input').first().fill('Neuer Name')
   await page.locator('button[type="submit"]').click()
   await page.waitForURL('**/profil')
-  await page.waitForSelector('text=Max Geändert')
+  await page.waitForSelector('text=Neuer Name')
 })
 
 /*
