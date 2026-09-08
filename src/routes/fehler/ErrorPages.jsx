@@ -4,7 +4,7 @@ import { Button, EmptyState } from '../../design/ui'
 import { Page } from '../../components/layout'
 import { t } from '../../design/i18n'
 
-/** TEIL I — Fehlerseiten */
+/** TEIL I, Fehlerseiten */
 function ErrorScreen({ icon, titleKey, children }) {
   return (
     <Page title={t(`errors.${titleKey}.title`)} bottomNav={false}>

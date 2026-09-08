@@ -14,7 +14,7 @@ const columns = [
   },
 ]
 
-/** TEIL B.4 — Fußzeile Web, vier Spalten. */
+/** TEIL B.4, Fußzeile Web, vier Spalten. */
 export function Footer() {
   return (
     <footer className="footer">

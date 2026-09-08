@@ -1,5 +1,8 @@
 import { Link, useNavigate } from 'react-router-dom'
-import { Bell, Bookmark, CircleHelp, LogOut, Menu as MenuIcon, Search, Settings, User } from 'lucide-react'
+import {
+  Bell, Bookmark, CircleHelp, LogIn, LogOut, MapPin, Menu as MenuIcon, Search,
+  Settings, SquarePlay, Store, User, UserPlus,
+} from 'lucide-react'
 import { Avatar, Button, IconButton, Menu, MenuItem, MenuSeparator } from '../../design/ui'
 import { ThemeToggle } from './ThemeToggle'
 import { useSession } from '../../lib/session'
@@ -7,7 +10,7 @@ import { api, useQuery } from '../../lib/store'
 import { APP_NAME } from '../../design/config'
 import { t } from '../../design/i18n'
 
-/** Wortmarke — zieht den Produktnamen aus der zentralen Konstante. */
+/** Wortmarke, zieht den Produktnamen aus der zentralen Konstante. */
 export function Wordmark({ suffix, to = '/' }) {
   return (
     <Link to={to} className="wordmark">
@@ -18,7 +21,7 @@ export function Wordmark({ suffix, to = '/' }) {
 }
 
 /**
- * TEIL B.1 / B.2 — Kopfleiste Web.
+ * TEIL B.1 / B.2, Kopfleiste Web.
  * Nicht eingeloggt: Suchfeld, „Für Gastronomen“, Anmelden, Registrieren.
  * Eingeloggt: Suchfeld, Glocke, Avatar mit Aufklappmenü.
  */
@@ -62,9 +65,15 @@ export function Header({ suffix, minimal }) {
                 >
                   {({ close }) => (
                     <>
-                      <MenuItem onClick={() => { close(); navigate('/karte') }}>{t('footer.map')}</MenuItem>
-                      <MenuItem onClick={() => { close(); navigate('/feed') }}>{t('footer.feed')}</MenuItem>
-                      <MenuItem onClick={() => { close(); navigate('/fuer-gastronomen') }}>{t('header.forRestaurants')}</MenuItem>
+                      {/*
+                        * Jeder Eintrag mit Symbol. Ein Menü aus reinem Text
+                        * liest man Zeile für Zeile; mit Symbol trifft man den
+                        * richtigen Punkt schon beim Hinsehen. So machen es
+                        * Instagram und TikTok auch.
+                        */}
+                      <MenuItem icon={MapPin} onClick={() => { close(); navigate('/karte') }}>{t('footer.map')}</MenuItem>
+                      <MenuItem icon={SquarePlay} onClick={() => { close(); navigate('/feed') }}>{t('footer.feed')}</MenuItem>
+                      <MenuItem icon={Store} onClick={() => { close(); navigate('/fuer-gastronomen') }}>{t('header.forRestaurants')}</MenuItem>
                       <MenuSeparator />
                       {loggedIn ? (
                         <>
@@ -74,8 +83,8 @@ export function Header({ suffix, minimal }) {
                         </>
                       ) : (
                         <>
-                          <MenuItem onClick={() => { close(); navigate('/anmelden') }}>{t('header.login')}</MenuItem>
-                          <MenuItem onClick={() => { close(); navigate('/registrieren') }}>{t('header.register')}</MenuItem>
+                          <MenuItem icon={LogIn} onClick={() => { close(); navigate('/anmelden') }}>{t('header.login')}</MenuItem>
+                          <MenuItem icon={UserPlus} onClick={() => { close(); navigate('/registrieren') }}>{t('header.register')}</MenuItem>
                         </>
                       )}
                     </>

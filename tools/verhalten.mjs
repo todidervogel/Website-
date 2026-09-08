@@ -13,7 +13,7 @@ import { alsSpeicherstand } from './pruefbestand.mjs'
  *
  * Seit die Beispieldaten aus dem Programm heraus sind, bringt die Prüfung
  * ihre eigenen mit: einen Betrieb „Prüf-Trattoria" mit Speisekarte, Videos
- * und Bewertungen. Was geprüft wird, steht damit im Prüfwerkzeug — und nicht
+ * und Bewertungen. Was geprüft wird, steht damit im Prüfwerkzeug, und nicht
  * in dem, was Menschen später zu sehen bekommen.
  */
 const BESTAND = alsSpeicherstand()
@@ -26,7 +26,7 @@ async function test(name, setup, body) {
   const context = await browser.newContext({ viewport: { width: 390, height: 844 } })
   /*
    * Läuft vor jedem Seitenaufruf. Die Datenhaltung wird deshalb nur beim
-   * ersten Mal geleert — sonst wäre nach jedem Klick auf einen Link alles
+   * ersten Mal geleert, sonst wäre nach jedem Klick auf einen Link alles
    * wieder auf Anfang, und mehrschrittige Abläufe ließen sich nicht prüfen.
    */
   await context.addInitScript((state) => {
@@ -50,7 +50,7 @@ async function test(name, setup, body) {
     if (errors.length) throw new Error(`JS-Fehler: ${errors[0]}`)
     results.push(['ok', name])
   } catch (error) {
-    results.push(['FEHLER', `${name} — ${error.message.split('\n')[0]}`])
+    results.push(['FEHLER', `${name}, ${error.message.split('\n')[0]}`])
   }
   await context.close()
 }
@@ -149,14 +149,14 @@ await test('Registrierung lehnt unter 16-Jährige ab', web, async (page) => {
 await test('Dunkelmodus lässt sich auf der Website einschalten', web, async (page) => {
   await page.goto(`${BASE}/`)
   await page.getByRole('button', { name: /Darstellung wechseln/ }).first().click()
-  await page.getByRole('menuitem', { name: 'Dunkel' }).or(page.locator('.menu-item', { hasText: 'Dunkel' })).first().click()
+  await page.getByRole('menuitem', { name: 'Dunkel' }).or(page.locator('.dropdown-item', { hasText: 'Dunkel' })).first().click()
   await page.waitForFunction(() => document.documentElement.dataset.theme === 'dark')
 })
 
 await test('Dunkelmodus ist in der App ohne Anmeldung erreichbar', app, async (page) => {
   await page.goto(`${BASE}/anmelden`)
   await page.getByRole('button', { name: /Darstellung wechseln/ }).first().click()
-  await page.locator('.menu-item', { hasText: 'Dunkel' }).first().click()
+  await page.locator('.dropdown-item', { hasText: 'Dunkel' }).first().click()
   await page.waitForFunction(() => document.documentElement.dataset.theme === 'dark')
 })
 
@@ -176,8 +176,8 @@ await test('Angebotsfilter reduziert die Treffer', webUser, async (page) => {
   await page.waitForSelector('.bottom-sheet .place-row')
   const before = await page.locator('.bottom-sheet .place-row').count()
   await page.locator('.chip-scroll button', { hasText: 'Angebot' }).first().click()
-  await page.locator('.menu .chip', { hasText: 'Meeresfrüchte' }).first().click()
-  await page.locator('.menu-actions button', { hasText: 'Anwenden' }).click()
+  await page.locator('.dropdown .chip', { hasText: 'Meeresfrüchte' }).first().click()
+  await page.locator('.dropdown-actions button', { hasText: 'Anwenden' }).click()
   await page.waitForTimeout(600)
   const after = await page.locator('.bottom-sheet .place-row').count()
   if (!(after < before)) throw new Error(`vorher ${before}, nachher ${after}`)
@@ -313,19 +313,19 @@ await test('Profil bearbeiten wird gespeichert', webUser, async (page) => {
 
 /*
  * „Ladeanzeige beim Laden" stand früher hier. Der Test hing daran, dass die
- * Fassade im Alleinbetrieb absichtlich verzögerte — dieses Entwicklerstück ist
+ * Fassade im Alleinbetrieb absichtlich verzögerte, dieses Entwicklerstück ist
  * weg, und damit ist der Ladezustand hier zu kurz zum Nachweisen: Die Daten
  * liegen im selben Browser, es gibt nichts zu warten.
  *
  * Die Prüfung ist nach `gegen-server.mjs` gewandert. Dort gibt es einen echten
- * Aufruf, der sich verzögern lässt — und damit einen echten Ladezustand.
+ * Aufruf, der sich verzögern lässt, und damit einen echten Ladezustand.
  */
 
 /* --- Wo die Anwendung anfängt -------------------------------------------- */
 
 /*
  * Die Präsentationsseite soll nur Besuchern ohne Konto begegnen. Wer
- * angemeldet ist, will seinen Feed sehen — und in der App gibt es die Seite
+ * angemeldet ist, will seinen Feed sehen, und in der App gibt es die Seite
  * gar nicht.
  */
 await test('Ohne Anmeldung zeigt die Startseite die Präsentation', web, async (page) => {

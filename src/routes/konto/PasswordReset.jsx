@@ -16,7 +16,7 @@ function strengthOf(password = '') {
 }
 
 /**
- * D.4 — Passwort vergessen
+ * D.4, Passwort vergessen
  *
  * Der Link per E-Mail fehlt, weil es keinen Versand gibt. Statt zu tun, als
  * käme gleich eine Mail, sagt die Seite offen, was Sache ist: Im Testbetrieb
@@ -29,7 +29,7 @@ export function ForgotPassword() {
   const form = useForm({
     initial: { email: '' },
     schema: { email: [rules.required(), rules.email()] },
-    /* Ob es das Konto gibt, verrät die Seite bewusst nicht — sonst ließe sich
+    /* Ob es das Konto gibt, verrät die Seite bewusst nicht, sonst ließe sich
        damit prüfen, wer hier ein Konto hat. */
     onSubmit: () => { setSent(true); return { ok: true } },
   })
@@ -60,7 +60,7 @@ export function ForgotPassword() {
   )
 }
 
-/** D.5 — Neues Passwort. Nur für angemeldete Konten. */
+/** D.5, Neues Passwort. Nur für angemeldete Konten. */
 export function NewPassword() {
   const { loggedIn, changePassword } = useSession()
   const navigate = useNavigate()

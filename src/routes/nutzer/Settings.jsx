@@ -43,7 +43,7 @@ function Section({ title, children }) {
   )
 }
 
-/** E.10 — Einstellungen */
+/** E.10, Einstellungen */
 export default function Settings() {
   const { radiusKm, setRadiusKm } = useDesignState()
   const { user, logout, updateMe } = useSession()
@@ -66,7 +66,7 @@ export default function Settings() {
         <Section title={t('settings.sections.account')}>
           <Row icon={User} label={t('settings.editProfile')} to="/einstellungen/profil" />
           <Row icon={Mail} label={t('settings.email')} value={user.email} to="/einstellungen/profil" />
-          <Row icon={Phone} label={t('settings.phone')} value={user.phone ?? '—'} to="/einstellungen/profil" />
+          <Row icon={Phone} label={t('settings.phone')} value={user.phone ?? '–'} to="/einstellungen/profil" />
           <Row icon={Lock} label={t('settings.changePassword')} to="/passwort-neu" />
         </Section>
 
@@ -87,7 +87,7 @@ export default function Settings() {
           />
         </Section>
 
-        {/* Der Dunkelmodus gilt für Website und App — nicht mehr nur für die App. */}
+        {/* Der Dunkelmodus gilt für Website und App, nicht mehr nur für die App. */}
         <Section title={t('theme.label')}>
           <Row
             icon={Moon}
@@ -171,7 +171,7 @@ export default function Settings() {
   )
 }
 
-/** E.9 — Profil bearbeiten */
+/** E.9, Profil bearbeiten */
 export function EditProfile() {
   const { user, updateMe } = useSession()
   const navigate = useNavigate()
@@ -258,7 +258,7 @@ export function EditProfile() {
   )
 }
 
-/** E.12 — Meine Daten herunterladen (Art. 15/20 DSGVO) */
+/** E.12, Meine Daten herunterladen (Art. 15/20 DSGVO) */
 export function DataExport() {
   const { userId } = useSession()
   const [parts, setParts] = useState({ profile: true, videos: true, reviews: true, saved: true, activity: false })

@@ -5,7 +5,7 @@ import { initialDatabase } from '../../domain/seed'
  * Datenhaltung im Browser.
  *
  * Dieselbe Fachlogik wie auf dem Server, nur mit dem lokalen Speicher
- * darunter. Damit läuft die Website vollständig ohne Server — praktisch zum
+ * darunter. Damit läuft die Website vollständig ohne Server, praktisch zum
  * Ausprobieren und zum Entwickeln an der Oberfläche.
  */
 const KEY = 'app-db'
@@ -16,7 +16,7 @@ function load() {
     const raw = JSON.parse(localStorage.getItem(KEY))
     if (raw?.version === VERSION && raw.data) return raw.data
   } catch {
-    /* Kaputter oder alter Stand — dann eben von vorn. */
+    /* Kaputter oder alter Stand, dann eben von vorn. */
   }
   return initialDatabase()
 }

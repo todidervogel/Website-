@@ -5,17 +5,17 @@ import { useSession } from '../../lib/session'
 import { t } from '../../design/i18n'
 
 /**
- * TEIL B.3 — Untere Navigationsleiste, nur auf schmalen Bildschirmen.
+ * TEIL B.3, Untere Navigationsleiste, nur auf schmalen Bildschirmen.
  *
  *   App     fünf Punkte, „Aufnehmen“ mittig und hervorgehoben
- *   Website vier Punkte ohne „Aufnehmen“ — Videos aufnehmen gehört zur App,
+ *   Website vier Punkte ohne „Aufnehmen“, Videos aufnehmen gehört zur App,
  *           nicht auf eine Internetseite
  *
  * Am Rechner erscheint die Leiste gar nicht; dort führt die Kopfleiste (B.1/B.2).
  * In der reinen Kartenansicht verschwindet sie ebenfalls.
  *
  * Die Beschriftungen stehen in gewöhnlicher Schreibweise („Feed"), nicht in
- * Großbuchstaben mit Sperrung. Das war vorher `.t-tiny` — eine Auszeichnung
+ * Großbuchstaben mit Sperrung. Das war vorher `.t-tiny`, eine Auszeichnung
  * für Tabellenköpfe. Kein Telefon beschriftet seine Leiste so.
  */
 export function BottomNav({ dark }) {
@@ -37,7 +37,7 @@ export function BottomNav({ dark }) {
         <span className="nav-label">{t('bottomNav.map')}</span>
       </NavLink>
 
-      {/* Auch auf der Webseite — aber nur angemeldet. */}
+      {/* Auch auf der Webseite, aber nur angemeldet. */}
       {(isApp || loggedIn) && (
         <NavLink to="/upload" className={active}>
           <span className="nav-capture"><Plus size={22} /></span>

@@ -6,12 +6,12 @@ import { useSession } from '../../lib/session'
  * Was unter `/` passiert.
  *
  * Die Anwendung soll mit dem Feed anfangen, nicht mit einer Broschüre. Wer
- * angemeldet ist — und in der App überhaupt jeder — landet deshalb sofort
+ * angemeldet ist, und in der App überhaupt jeder, landet deshalb sofort
  * dort. Der Standort ist voreingestellt, der Umkreis auch; es läuft also
  * gleich etwas.
  *
  * Die Präsentationsseite bleibt für die, die das Produkt noch nicht kennen:
- * Besucher im Browser ohne Konto. So hält es Instagram auch — eingeloggt der
+ * Besucher im Browser ohne Konto. So hält es Instagram auch, eingeloggt der
  * Feed, ausgeloggt die Seite, die erklärt, worum es geht.
  */
 export function Start({ landing }) {

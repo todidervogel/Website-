@@ -6,7 +6,7 @@ import { t } from '../../design/i18n'
 const STEPS = ['s1', 's2', 's3', 's4']
 const FAQ = [1, 2, 3, 4, 5].map((i) => ({ q: t(`gastro.landing.faq.q${i}`), a: t(`gastro.landing.faq.a${i}`) }))
 
-/** F.13 — Landingpage für Gastronomen */
+/** F.13, Landingpage für Gastronomen */
 export default function GastroLanding() {
   return (
     <Page title={t('gastro.landing.title')}>

@@ -8,7 +8,7 @@ import { t } from '../../design/i18n'
 const TYPES = ['restaurant', 'cafe', 'bar', 'imbiss', 'baeckerei', 'eisdiele', 'pub', 'sonstiges']
 
 /**
- * E.4 — Dialog „Restaurant fehlt“
+ * E.4, Dialog „Restaurant fehlt“
  *
  * Nutzer legen keine Betriebe an (Konzept 8.5). Der Vorschlag landet
  * stattdessen in der Liste, die die Redaktion unter /admin/vorschlaege prüft.

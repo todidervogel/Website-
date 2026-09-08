@@ -1,11 +1,11 @@
 # Website
 
 Die Weboberfläche: alle Screens, Routen, Formulare, Sitzung. Läuft **allein im
-Browser** oder **gegen den Server** — dieselbe Oberfläche, dieselbe Fachlogik.
+Browser** oder **gegen den Server**, dieselbe Oberfläche, dieselbe Fachlogik.
 
 ```bash
 npm install
-npm run dev        # http://localhost:5173 — allein im Browser
+npm run dev        # http://localhost:5173, allein im Browser
 ```
 
 Zum Anmelden: `test@user.de` / `12345aA?`. Weitere Zugänge weiter unten.
@@ -25,10 +25,10 @@ Zum Anmelden: `test@user.de` / `12345aA?`. Weitere Zugänge weiter unten.
 ### Den ganzen MVP starten
 
 ```bash
-# Fenster 1 — Repo Server
+# Fenster 1, Repo Server
 npm start                                  # http://localhost:4000
 
-# Fenster 2 — hier
+# Fenster 2, hier
 VITE_API=http://localhost:4000 npm run dev
 ```
 
@@ -59,8 +59,8 @@ bevor die Anwendung echte Nutzerdaten sieht, muss dieser Zugang weg.
 ```
 src/
   App.jsx                 alle Routen
-  design/                 ◄ Kopie aus dem Repo `design` — nicht hier ändern
-  domain/                 ◄ Kopie aus dem Repo `Server` — nicht hier ändern
+  design/                 ◄ Kopie aus dem Repo `design`, nicht hier ändern
+  domain/                 ◄ Kopie aus dem Repo `Server`, nicht hier ändern
   lib/
     store/
       api.js              der Zugang: lokal oder über HTTP
@@ -84,7 +84,7 @@ tools/                    Prüfskripte und der Abgleich, siehe tools/README.md
 
 ### Warum liegen `design/` und `domain/` hier als Kopie?
 
-Damit `npm install && npm run dev` genügt — ohne zweites Repository, ohne
+Damit `npm install && npm run dev` genügt, ohne zweites Repository, ohne
 Netz, ohne Paketregister. Geändert wird trotzdem nur im Original:
 
 ```bash
@@ -104,7 +104,7 @@ verliert es beim nächsten Mal.
 Alleinbetrieb läuft die Fachlogik direkt im Browser (mit einer kleinen
 absichtlichen Verzögerung, sonst gäbe es keine Ladezustände zu sehen), im
 Serverbetrieb geht derselbe Aufruf über HTTP. Die Regeln, wer was darf, stehen
-beide Male in derselben Datei — `src/domain/calls.js`.
+beide Male in derselben Datei, `src/domain/calls.js`.
 
 ## Website und App
 
@@ -115,17 +115,17 @@ Derselbe Code, zwei Ziele. `platform` wird über Capacitor erkannt.
 | Untere Leiste (mobil) | Feed · Karte · Suche · Profil | zusätzlich **Aufnehmen** |
 | Navigation am Rechner | Seitenleiste links, ab 1280px mit Beschriftung | dieselbe |
 | Aufnehmen | erst nach der Anmeldung | immer sichtbar |
-| Gastmodus | ja, zum Umsehen | **nein** — ohne Anmeldung die Anmeldeseite |
+| Gastmodus | ja, zum Umsehen | **nein**, ohne Anmeldung die Anmeldeseite |
 | Fußzeile | ja | nein, Rechtstexte in den Einstellungen |
 | Dunkelmodus | ja | ja |
 
 Der Dunkelmodus steht auf **Automatisch** und folgt dem Gerät. Der Umschalter
-sitzt in der Kopfleiste — auch auf der Anmeldeseite, sonst käme man in der App
+sitzt in der Kopfleiste, auch auf der Anmeldeseite, sonst käme man in der App
 gar nicht an ihn heran.
 
 ## Ohne Rechner veröffentlichen (GitHub Pages)
 
-Damit die Seite einfach als Adresse aufrufbar ist — auch am Handy.
+Damit die Seite einfach als Adresse aufrufbar ist, auch am Handy.
 
 Läuft schon:
 
@@ -139,8 +139,7 @@ Source: „GitHub Actions"**.)
 Zwei Dinge, die dabei nicht offensichtlich sind:
 
 - Pages liefert nur Dateien aus. Die Adressen der Unterseiten entstehen erst
-  im Browser, deshalb legt der Ablauf `404.html` als Kopie von `index.html` an
-  — sonst gäbe jeder direkte Aufruf von `/karte` einen Fehler.
+  im Browser, deshalb legt der Ablauf `404.html` als Kopie von `index.html` an, sonst gäbe jeder direkte Aufruf von `/karte` einen Fehler.
 - Der Pfad ist nicht `/`, sondern `/Website-/`. Der Bau setzt `VITE_BASE`
   entsprechend, und `main.jsx` reicht das als `basename` an den Router weiter.
 
@@ -186,5 +185,5 @@ CSS lässt sich nicht ablesen, ob ein Text aus seinem Feld läuft.
 - **Bilder**: Platzhalterflächen.
 - **Rechtstexte**: Blindtext, vor dem Start juristisch prüfen lassen.
 
-Der weitere Kontext — Konzept, Entscheidungen, nächste Schritte — liegt im
+Der weitere Kontext, Konzept, Entscheidungen, nächste Schritte, liegt im
 Repository **Brain**.

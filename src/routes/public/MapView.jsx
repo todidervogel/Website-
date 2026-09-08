@@ -19,16 +19,16 @@ const RATING_LIMITS = { all: 0, from3: 3, from4: 4, from45: 4.5 }
 
 /**
  * Wie weit reicht der Kartenausschnitt bei diesem Umkreis? Etwas mehr als der
- * Umkreis selbst, damit die Marker am Rand nicht abgeschnitten wirken — aber
+ * Umkreis selbst, damit die Marker am Rand nicht abgeschnitten wirken, aber
  * nicht zu viel, sonst klumpen sie in der Mitte.
  */
 const spanFor = (radiusKm) => Math.max(2, radiusKm * 1.6)
 
-/** C.2 — Kartenansicht */
+/** C.2, Kartenansicht */
 export default function MapView() {
   const { position, radiusKm, setRadiusKm, pureMap, setPureMap, isMobile } = useDesignState()
   /*
-   * Die Projektion kommt vom Kartenschirm — nur er weiß, wie breit er ist,
+   * Die Projektion kommt vom Kartenschirm, nur er weiß, wie breit er ist,
    * und ohne dieselbe Rechnung säßen die Marker neben ihren Kacheln.
    */
   const [projizieren, setProjizieren] = useState(null)
@@ -99,7 +99,7 @@ export default function MapView() {
       <div className={`map-page ${pureMap ? 'is-pure' : ''}`}>
         <div className="map-layout">
           {/* Rechner: Ergebnisliste links. Auf dem Handy gar nicht erst
-              erzeugen — sonst steht dieselbe Liste zweimal im Dokument. */}
+              erzeugen, sonst steht dieselbe Liste zweimal im Dokument. */}
           {!pureMap && !isMobile && <aside className="map-list">{results}</aside>}
 
           <div className="map-canvas">
@@ -133,7 +133,7 @@ export default function MapView() {
                     <FilterChip label={t('common.radiusValue', { value: radiusKm })} active>
                       {({ close }) => (
                         <>
-                          <p className="t-small c-secondary menu-title">{t('map.radiusMenuTitle')}</p>
+                          <p className="dropdown-title">{t('map.radiusMenuTitle')}</p>
                           {RADIUS_OPTIONS.map((r) => (
                             <button key={r} type="button" className="menu-item" onClick={() => { setRadiusKm(r); close() }}>
                               {r} km {radiusKm === r && <span className="c-accent">✓</span>}
@@ -149,12 +149,12 @@ export default function MapView() {
                     <FilterChip label={serving.length ? `${t('serving.label')} (${serving.length})` : t('serving.label')} active={serving.length > 0} width={320}>
                       {({ close }) => (
                         <>
-                          <p className="t-small c-secondary menu-title">{t('map.servingMenuTitle')}</p>
+                          <p className="dropdown-title">{t('map.servingMenuTitle')}</p>
                           <div style={{ padding: '0 var(--sp-3)' }}>
                             <ServingPicker value={serving} onChange={setServing} keys={SERVING_KEYS} />
                             <p className="t-tiny c-tertiary" style={{ marginTop: 'var(--sp-2)' }}>{t('serving.filterHint')}</p>
                           </div>
-                          <div className="menu-actions">
+                          <div className="dropdown-actions">
                             <Button variant="quiet" size="sm" onClick={() => setServing([])}>{t('common.reset')}</Button>
                             <span className="spacer" />
                             <Button variant="primary" size="sm" onClick={close}>{t('common.apply')}</Button>
@@ -166,7 +166,7 @@ export default function MapView() {
                     <FilterChip label={t('common.category')} active={categories.length > 0}>
                       {({ close }) => (
                         <>
-                          <p className="t-small c-secondary menu-title">{t('map.categoryMenuTitle')}</p>
+                          <p className="dropdown-title">{t('map.categoryMenuTitle')}</p>
                           <div style={{ padding: '0 var(--sp-3)' }}>
                             {CATEGORIES.map((c) => (
                               <Checkbox
@@ -177,7 +177,7 @@ export default function MapView() {
                               />
                             ))}
                           </div>
-                          <div className="menu-actions">
+                          <div className="dropdown-actions">
                             <Button variant="quiet" size="sm" onClick={() => setCategories([])}>{t('common.reset')}</Button>
                             <span className="spacer" />
                             <Button variant="primary" size="sm" onClick={close}>{t('common.apply')}</Button>
@@ -189,7 +189,7 @@ export default function MapView() {
                     <FilterChip label={t('common.rating')} active={ratingKey !== 'all'}>
                       {({ close }) => (
                         <>
-                          <p className="t-small c-secondary menu-title">{t('map.ratingMenuTitle')}</p>
+                          <p className="dropdown-title">{t('map.ratingMenuTitle')}</p>
                           <div style={{ padding: '0 var(--sp-3) var(--sp-2)' }}>
                             {Object.keys(RATING_LIMITS).map((k) => (
                               <Radio
@@ -210,7 +210,7 @@ export default function MapView() {
                     <FilterChip label={t('common.price')} active={prices.length > 0} align="right">
                       {() => (
                         <>
-                          <p className="t-small c-secondary menu-title">{t('map.priceMenuTitle')}</p>
+                          <p className="dropdown-title">{t('map.priceMenuTitle')}</p>
                           <div className="row-wrap" style={{ padding: '0 var(--sp-3) var(--sp-3)' }}>
                             {PRICE_LEVELS.map((p) => (
                               <Chip key={p} active={prices.includes(p)} onClick={() => toggle(setPrices)(p)}>{p}</Chip>
@@ -228,7 +228,7 @@ export default function MapView() {
               </div>
             )}
 
-            {/* Marker — Position aus den echten Koordinaten gerechnet */}
+            {/* Marker, Position aus den echten Koordinaten gerechnet */}
             {!loading && projizieren && list.map((p) => {
               const { top, left } = projizieren(p)
               return (
@@ -243,7 +243,7 @@ export default function MapView() {
                 >
                   {/*
                     * Betriebe mit Videos sind größer und tragen die
-                    * Akzentfarbe — sie sind der Grund, warum man hier ist.
+                    * Akzentfarbe, sie sind der Grund, warum man hier ist.
                     * Der Rest steht in Grau daneben, ohne zu verschwinden.
                     */}
                   <span className={`marker-pin ${p.videoCount > 0 ? 'marker-pin-video' : ''}`}>
@@ -257,7 +257,7 @@ export default function MapView() {
             <span className="marker map-me" style={{ top: '50%', left: '50%' }} aria-hidden="true" />
 
             {/*
-              Die schwebenden Knöpfe stehen über dem Ergebnisblatt — sonst
+              Die schwebenden Knöpfe stehen über dem Ergebnisblatt, sonst
               liegen sie darunter und lassen sich auf dem Handy nicht treffen.
             */}
             <div className="map-tools">

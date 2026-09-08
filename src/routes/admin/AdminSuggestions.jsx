@@ -8,7 +8,7 @@ import { t } from '../../design/i18n'
 const TONE = { open: 'warning', created: 'success', rejected: 'default' }
 const REJECT_REASONS = ['notExist', 'duplicate', 'notGastro']
 
-/** G.8 — Admin-Vorschläge (fehlende Betriebe aus E.4) */
+/** G.8, Admin-Vorschläge (fehlende Betriebe aus E.4) */
 export default function AdminSuggestions() {
   const [selectedId, setSelectedId] = useState(null)
   const [rejectReason, setRejectReason] = useState('notExist')

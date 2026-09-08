@@ -1,7 +1,7 @@
 import { BadgeCheck, MapPin } from 'lucide-react'
 import { t } from '../i18n'
 
-/** Karte — Grundfläche für fast alle Inhalte. */
+/** Karte, Grundfläche für fast alle Inhalte. */
 export function Card({ flat, pad, className = '', children, ...rest }) {
   return (
     <div className={`card ${flat ? 'card-flat' : ''} ${pad === 0 ? 'card-pad-0' : ''} ${className}`} {...rest}>
@@ -10,7 +10,7 @@ export function Card({ flat, pad, className = '', children, ...rest }) {
   )
 }
 
-/** Chip — Filter, Merkmale, Gerichte. */
+/** Chip, Filter, Merkmale, Gerichte. */
 export function Chip({ active, onClick, icon: Icon, children, className = '', ...rest }) {
   const Tag = onClick ? 'button' : 'span'
   return (
@@ -32,7 +32,7 @@ export function ChipRow({ children, scroll }) {
   return <div className={scroll ? 'chip-scroll' : 'row-wrap'}>{children}</div>
 }
 
-/** Badge — kurze Statuslabels in Großbuchstaben. */
+/** Badge, kurze Statuslabels in Großbuchstaben. */
 export function Badge({ tone = 'default', icon: Icon, children, className = '' }) {
   return (
     <span className={`badge ${tone !== 'default' ? `badge-${tone}` : ''} ${className}`}>
@@ -66,7 +66,7 @@ export function Notice({ tone, icon: Icon, children, className = '', ...rest }) 
   )
 }
 
-/** Avatar — rund, mit Initiale als Platzhalter. */
+/** Avatar, rund, mit Initiale als Platzhalter. */
 export function Avatar({ name = '?', size = 40, src }) {
   if (src) return <img className="avatar" src={src} alt="" width={size} height={size} style={{ width: size, height: size }} />
   return (

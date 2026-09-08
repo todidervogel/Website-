@@ -18,7 +18,7 @@ function statusOf(place) {
   return 'unclaimed'
 }
 
-/** G.5 — Admin-Betriebe */
+/** G.5, Admin-Betriebe */
 export default function AdminPlaces() {
   const [query, setQuery] = useState('')
   const [statusFilter, setStatusFilter] = useState('')
@@ -77,7 +77,7 @@ export default function AdminPlaces() {
               <td style={{ fontWeight: 600 }}>{p.name}</td>
               <td>{p.city}</td>
               <td><Badge tone={TONE[status]}>{t(`admin.places.status.${status}`)}</Badge></td>
-              <td className="c-secondary">{p.claimedBy ?? '—'}</td>
+              <td className="c-secondary">{p.claimedBy ?? '–'}</td>
               <td>{p.videoCount}</td>
               <td>{p.reviewCount}</td>
               <td className="c-secondary" style={{ whiteSpace: 'nowrap' }}>{p.osmId}</td>

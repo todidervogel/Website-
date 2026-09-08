@@ -1,31 +1,18 @@
 import { Link } from 'react-router-dom'
-import { X } from 'lucide-react'
-import { Button, IconButton } from '../../design/ui'
+import { Button } from '../../design/ui'
 import { useDesignState } from '../../lib/design-state'
 import { t } from '../../design/i18n'
 
-/** TEIL B.5 — Aufbau-Banner (nur MVP 0), ganz oben über der Kopfleiste. */
-export function BuildBanner() {
-  const { buildBanner, setBuildBanner } = useDesignState()
-  if (!buildBanner) return null
-  return (
-    <div className="build-banner">
-      <span>
-        <strong>{t('buildBanner.strong')}</strong> {t('buildBanner.text')}{' '}
-        <Link to="/richtlinien" className="c-accent">{t('buildBanner.link')}</Link>
-      </span>
-      <IconButton
-        icon={X}
-        size={16}
-        label={t('buildBanner.dismiss')}
-        className="banner-close"
-        onClick={() => setBuildBanner(false)}
-      />
-    </div>
-  )
-}
+/*
+ * Das Aufbau-Banner stand hier bis Runde 9: ein Streifen ganz oben mit
+ * „Tellerrand befindet sich im Aufbau". Es ist raus.
+ *
+ * Ein Band, das auf jeder Seite über allem klebt, kostet Platz auf jedem
+ * Bildschirm und sagt nach dem zweiten Mal nichts Neues mehr. Was noch fehlt,
+ * steht dort, wo es fehlt: leere Listen sagen selbst, dass sie leer sind.
+ */
 
-/** TEIL H — Cookie-Banner beim ersten Besuch. */
+/** TEIL H, Cookie-Banner beim ersten Besuch. */
 export function CookieBanner() {
   const { cookieBanner, setCookieBanner } = useDesignState()
   if (!cookieBanner) return null

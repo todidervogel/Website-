@@ -53,7 +53,7 @@
     "requiredMark": "Pflichtfeld",
     "retry": "Erneut versuchen",
     "loadingLabel": "Wird geladen",
-    "empty": "—",
+    "empty": "–",
     "add": "Hinzufügen",
     "remove": "Entfernen",
     "confirm": "Bestätigen",
@@ -118,19 +118,13 @@
     "copyright": "© 2026 {{app}}",
     "mapData": "Kartendaten © OpenStreetMap-Mitwirkende"
   },
-  "buildBanner": {
-    "strong": "{{app}} befindet sich im Aufbau.",
-    "text": "Du kannst dich schon umsehen — Videos und Bewertungen kommen bald.",
-    "link": "Mehr erfahren",
-    "dismiss": "Banner schließen"
-  },
   "toast": {
     "saved": "Gespeichert",
     "linkCopied": "Link kopiert",
     "reportReceived": "Meldung eingegangen",
     "error": "Etwas ist schiefgelaufen. Bitte versuch es erneut.",
     "reportThanks": "Danke! Wir sehen uns das an.",
-    "noAction": "Nur Design — hier passiert nichts."
+    "noAction": "Nur Design, hier passiert nichts."
   },
   "rating": {
     "food": "Essen",
@@ -170,7 +164,7 @@
   },
   "home": {
     "title": "Sieh, was es zu essen gibt.",
-    "subtitle": "Echte Videos aus Restaurants in deiner Nähe. Mit Speisekarte, Öffnungszeiten und Bewertungen — alles an einem Ort.",
+    "subtitle": "Echte Videos aus Restaurants in deiner Nähe. Mit Speisekarte, Öffnungszeiten und Bewertungen, alles an einem Ort.",
     "locationPlaceholder": "Wo bist du?",
     "useLocation": "Standort verwenden",
     "go": "Losgehen",
@@ -183,7 +177,7 @@
       "discoverTitle": "Entdecken",
       "discoverText": "Wisch dich durch Videos von Restaurants in deiner Umgebung.",
       "informTitle": "Informieren",
-      "informText": "Speisekarte, Öffnungszeiten, Bewertungen pro Gericht — alles auf einer Seite.",
+      "informText": "Speisekarte, Öffnungszeiten, Bewertungen pro Gericht. Alles auf einer Seite.",
       "goTitle": "Hingehen",
       "goText": "Route öffnen, anrufen oder direkt bestellen."
     },
@@ -371,7 +365,7 @@
     "emptyText": "In deinem Umkreis wurden noch keine Videos hochgeladen.",
     "emptyCta": "Karte ansehen",
     "emptyCtaSecondary": "Umkreis erweitern",
-    "widened": "Wenig Inhalte in deiner Nähe — wir zeigen dir einen größeren Umkreis.",
+    "widened": "Wenig Inhalte in deiner Nähe. Wir zeigen dir einen größeren Umkreis.",
     "liked": "Gemerkt",
     "seen": "Schon gesehen",
     "ofCount": "{{current}} von {{total}}"
@@ -472,7 +466,7 @@
       "wrongCode": "Der Code stimmt nicht.",
       "invalidUsername": "3–20 Zeichen, nur Kleinbuchstaben, Zahlen, Punkt und Unterstrich."
     },
-    "demoHint": "Testzugänge: max@beispiel.de · chef@trattoria-bella.de · ana@intern — Passwort steht im Design-Panel.",
+    "demoHint": "Testzugänge: topic · test@gastro.de · test@user.de. Die Passwörter stehen im Design-Panel.",
     "codeHint": "Im Test lautet der Code 123456.",
     "loggedOut": "Du bist abgemeldet.",
     "forgotTestHint": "Im Testbetrieb verschicken wir keine E-Mails. Melde dich an und ändere das Passwort in den Einstellungen.",
@@ -510,7 +504,7 @@
     },
     "missing": {
       "title": "Betrieb nicht gefunden?",
-      "text": "Sag uns Bescheid — wir tragen ihn nach. Du kannst dein Video danach hochladen.",
+      "text": "Sag uns Bescheid, wir tragen ihn nach. Du kannst dein Video danach hochladen.",
       "name": "Name des Betriebs",
       "namePlaceholder": "z. B. Trattoria Bella",
       "address": "Adresse",
@@ -522,7 +516,7 @@
     },
     "review": {
       "title": "Wie war's?",
-      "subtitle": "Alles freiwillig — aber Videos mit Bewertung werden deutlich häufiger gezeigt.",
+      "subtitle": "Alles freiwillig, aber Videos mit Bewertung werden deutlich häufiger gezeigt.",
       "hotLabel": "War das Essen heiß serviert?",
       "groupLabel": "Zu wievielt wart ihr?",
       "dishesLabel": "Was habt ihr bestellt?",
@@ -710,7 +704,7 @@
     "serverCheck": "Prüfen und übernehmen",
     "serverReset": "Adresse entfernen",
     "serverOkay": "Verbunden. Der Server kennt {{aufrufe}} Aufrufe.",
-    "serverLocal": "Alleinbetrieb — alles bleibt auf diesem Gerät.",
+    "serverLocal": "Alleinbetrieb: alles bleibt auf diesem Gerät.",
     "serverFromBuild": "Beim Bauen festgelegt: {{adresse}}",
     "serverActive": "Verbunden mit {{adresse}}"
   },
@@ -1035,7 +1029,7 @@
         "foundTitle": "Gefunden werden",
         "foundText": "Gäste in deiner Nähe entdecken dich über Videos, nicht über eine Liste.",
         "oneTitle": "Alles an einem Ort",
-        "oneText": "Speisekarte, Öffnungszeiten, Bewertungen — ein Profil statt fünf Plattformen.",
+        "oneText": "Speisekarte, Öffnungszeiten, Bewertungen. Ein Profil statt fünf Plattformen.",
         "freeTitle": "Kostenlos starten",
         "freeText": "Profil, Videos und Bewertungen kosten dich nichts."
       },
@@ -1068,7 +1062,7 @@
       "cityLabel": "Ort",
       "cityPlaceholder": "Stadt oder PLZ",
       "isMine": "Das ist mein Betrieb",
-      "notFound": "Mein Betrieb ist nicht dabei — neu anlegen",
+      "notFound": "Mein Betrieb ist nicht dabei, neu anlegen",
       "formClaimTitle": "Betrieb übernehmen",
       "formNewTitle": "Betrieb neu anlegen",
       "yourName": "Dein Name",
@@ -1371,7 +1365,7 @@
   },
   "dev": {
     "title": "Design-Panel",
-    "note": "Nur Werkzeug — kein Bestandteil des Produkts.",
+    "note": "Nur Werkzeug, kein Bestandteil des Produkts.",
     "state": "Zustand",
     "states": {
       "filled": "Gefüllt",
@@ -1403,8 +1397,8 @@
       "dark": "Dunkel",
       "auto": "Auto"
     },
-    "guestInApp": "Die App kennt keinen Gastmodus — ohne Anmeldung erscheint die Anmeldeseite.",
-    "deviceHint": "Folgt der Fensterbreite — zum Prüfen das Fenster schmaler ziehen.",
+    "guestInApp": "Die App kennt keinen Gastmodus. Ohne Anmeldung erscheint die Anmeldeseite.",
+    "deviceHint": "Folgt der Fensterbreite. Zum Prüfen das Fenster schmaler ziehen.",
     "role": "Rolle",
     "roles": {
       "guest": "Gast",
@@ -1556,13 +1550,13 @@
     "retry": "Erneut versuchen"
   },
   "landing": {
-    "eyebrow": "Im Aufbau — schon zum Ansehen",
+    "eyebrow": "Im Aufbau, schon zum Ansehen",
     "title": "Sieh, was es zu essen gibt.",
-    "lead": "Kurze Videos aus Restaurants in deiner Nähe. Mit Speisekarte, Öffnungszeiten und Bewertungen — an einem Ort, ohne fünf Tabs.",
+    "lead": "Kurze Videos aus Restaurants in deiner Nähe. Mit Speisekarte, Öffnungszeiten und Bewertungen, an einem Ort und ohne fünf Tabs.",
     "ctaPrimary": "Karte öffnen",
     "ctaSecondary": "Wie es funktioniert",
     "servingTitle": "Auf einen Blick, was serviert wird",
-    "servingLead": "Nur Getränke? Vegan? Fisch? Das steht als Symbolzeile über jedem Betrieb — nicht im dritten Absatz einer Beschreibung.",
+    "servingLead": "Nur Getränke? Vegan? Fisch? Das steht als Symbolzeile über jedem Betrieb und nicht im dritten Absatz einer Beschreibung.",
     "menuTitle": "Die Speisekarte, wie sie im Lokal hängt",
     "menuLead": "Eine eigene Seite je Betrieb: Kategorien, Preise, Allergene. Zum Weitergeben per Link oder QR-Code am Tisch.",
     "videoTitle": "Videos von Gästen, nicht aus der Werbung",

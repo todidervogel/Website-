@@ -12,7 +12,7 @@ const TOOLS = [
 
 const mmss = (total) => `${Math.floor(total / 60)}:${String(Math.round(total % 60)).padStart(2, '0')}`
 
-/** E.2 — Video zuschneiden, Schritt 2 */
+/** E.2, Video zuschneiden, Schritt 2 */
 export default function UploadTrim() {
   const { draft, save } = useUpload()
   const navigate = useNavigate()
@@ -66,7 +66,7 @@ export default function UploadTrim() {
             </p>
           </div>
 
-          {/* Werkzeugleiste — im MVP alle ausgegraut */}
+          {/* Werkzeugleiste, im MVP alle ausgegraut */}
           <div className="row" style={{ gap: 'var(--sp-4)', justifyContent: 'center' }}>
             {TOOLS.map(([Icon, key]) => (
               <button

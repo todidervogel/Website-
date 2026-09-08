@@ -10,7 +10,7 @@ import { t } from '../../design/i18n'
 const TONE = { active: 'success', warned: 'warning', banned: 'danger' }
 const DURATIONS = ['h24', 'd7', 'd30', 'forever']
 
-/** G.7 — Admin-Nutzer */
+/** G.7, Admin-Nutzer */
 export default function AdminUsers() {
   const [banUser, setBanUser] = useState(null)
   const [query, setQuery] = useState('')

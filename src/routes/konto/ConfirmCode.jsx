@@ -13,16 +13,16 @@ function maskPhone(phone = '') {
 }
 
 /**
- * D.2 — Handynummer und E-Mail bestätigen.
+ * D.2, Handynummer und E-Mail bestätigen.
  *
  * ┌─ Woran das hängt ────────────────────────────────────────────────────────┐
  * │  src/lib/session.jsx        confirmRegistration / skipVerification       │
- * │  src/domain/auth.js         legt das Konto an, hält das Überspringen fest│
+ * │  src/domain/auth.js         legt das Konto an, hält das Überspringen fest │
  * │  src/routes/konto/Register.jsx   der Schritt davor                       │
  * └──────────────────────────────────────────────────────────────────────────┘
  *
  * Im MVP verschickt niemand SMS oder E-Mails. Deshalb steht hier ein Knopf
- * zum Überspringen — sichtbar, nicht versteckt. Eine Pflicht zur Bestätigung
+ * zum Überspringen, sichtbar, nicht versteckt. Eine Pflicht zur Bestätigung
  * ohne Absender wäre eine Tür ohne Schlüssel.
  */
 export default function ConfirmCode() {
@@ -74,7 +74,7 @@ export default function ConfirmCode() {
     return navigate('/feed', { replace: true })
   }
 
-  /* Überspringen legt dasselbe Konto an — nur ohne Code. */
+  /* Überspringen legt dasselbe Konto an, nur ohne Code. */
   const ueberspringen = async () => {
     setUebersprungen(true)
     const result = await skipVerification()

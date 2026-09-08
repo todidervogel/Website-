@@ -4,7 +4,7 @@ import { Avatar, Badge } from './Primitives'
 import { t } from '../i18n'
 
 /**
- * Videokachel — Hochformat 9:16.
+ * Videokachel, Hochformat 9:16.
  * Verwendung: Startseite (C.1), Gastro-Videos (C.3), Profil (E.7), Gastro-Dashboard (F.4).
  */
 export function VideoTile({

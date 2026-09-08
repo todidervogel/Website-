@@ -15,7 +15,7 @@ import { ALLERGEN_KEYS } from '../../design/vocabulary'
 import { t } from '../../design/i18n'
 
 /**
- * Die reine Speisekarte — eigene Seite unter /g/[slug]/speisekarte.
+ * Die reine Speisekarte, eigene Seite unter /g/[slug]/speisekarte.
  *
  * Bewusst ohne den Rahmen der App: keine untere Navigation, keine Fußzeile,
  * kein Feed. Wer im Lokal sitzt und den QR-Code scannt, will die Karte lesen
@@ -40,7 +40,7 @@ export default function MenuPage() {
   const [active, setActive] = useState(null)
   const sectionRefs = useRef({})
 
-  useScreen(place ? `${t('menu.title')} — ${place.name}` : t('menu.title'))
+  useScreen(place ? `${t('menu.title')}, ${place.name}` : t('menu.title'))
 
   /* Suche filtert innerhalb der Kategorien, die Struktur bleibt erhalten. */
   const shown = useMemo(() => {

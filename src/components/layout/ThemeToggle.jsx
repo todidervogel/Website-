@@ -1,4 +1,4 @@
-import { Moon, MonitorSmartphone, Sun } from 'lucide-react'
+import { Check, Moon, MonitorSmartphone, Sun } from 'lucide-react'
 import { Menu, MenuItem } from '../../design/ui'
 import { useDesignState } from '../../lib/design-state'
 import { t } from '../../design/i18n'
@@ -24,7 +24,7 @@ export function ThemeToggle({ align = 'right' }) {
           type="button"
           className="btn btn-icon"
           onClick={toggle}
-          aria-label={`${t('theme.toggle')} — ${t(`theme.${theme}`)}`}
+          aria-label={`${t('theme.toggle')}: ${t(`theme.${theme}`)}`}
           title={t('theme.toggle')}
         >
           <Icon size={20} />
@@ -33,7 +33,7 @@ export function ThemeToggle({ align = 'right' }) {
     >
       {({ close }) => (
         <>
-          <p className="t-small c-secondary menu-title">{t('theme.label')}</p>
+          <p className="dropdown-title">{t('theme.label')}</p>
           {['auto', 'light', 'dark'].map((key) => {
             const OptionIcon = ICONS[key]
             return (
@@ -43,20 +43,28 @@ export function ThemeToggle({ align = 'right' }) {
                 onClick={() => { setTheme(key); close() }}
               >
                 {t(`theme.${key}`)}
-                {theme === key && <span className="c-accent" style={{ marginLeft: 'auto' }}>✓</span>}
+                {theme === key && <Check size={18} className="c-accent" style={{ marginLeft: 'auto' }} />}
               </MenuItem>
             )
           })}
-          <p className="t-tiny c-tertiary" style={{ padding: '0 var(--sp-3) var(--sp-2)' }}>
-            {theme === 'auto' ? `${t('theme.autoHint')} ${darkMode ? t('theme.dark') : t('theme.light')}.` : t('theme.autoHint')}
-          </p>
+          {/*
+            * Stand als .t-tiny da: Großbuchstaben mit Sperrung. „FOLGT DER
+            * EINSTELLUNG DEINES GERÄTS. HELL." schreit einen an. Jetzt in
+            * gewöhnlicher Schreibweise, und nur dann, wenn „Automatisch"
+            * gewählt ist, sonst erklärt der Satz etwas, das nicht gilt.
+            */}
+          {theme === 'auto' && (
+            <p className="dropdown-hint">
+              {`${t('theme.autoHint')} ${darkMode ? t('theme.dark') : t('theme.light')}.`}
+            </p>
+          )}
         </>
       )}
     </Menu>
   )
 }
 
-/** Dieselbe Auswahl als Schalterzeile — für die Einstellungen. */
+/** Dieselbe Auswahl als Schalterzeile, für die Einstellungen. */
 export function ThemeSegments() {
   const { theme, setTheme } = useDesignState()
   return (

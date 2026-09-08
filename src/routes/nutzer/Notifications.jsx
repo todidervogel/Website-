@@ -8,7 +8,7 @@ import { t } from '../../design/i18n'
 
 const ICONS = { follow: UserPlus, like: Heart, reply: MessageSquare, approved: CheckCircle2, rejected: XCircle }
 
-/** „vor 2 Std.“, „gestern“, „vor 4 Tagen“ — aus einem Zeitstempel gerechnet. */
+/** „vor 2 Std.“, „gestern“, „vor 4 Tagen“, aus einem Zeitstempel gerechnet. */
 function ago(iso) {
   const then = new Date(iso).getTime()
   if (Number.isNaN(then)) return ''
@@ -20,7 +20,7 @@ function ago(iso) {
   return days === 1 ? 'gestern' : `vor ${days} Tagen`
 }
 
-/** E.13 — Benachrichtigungen */
+/** E.13, Benachrichtigungen */
 export default function Notifications() {
   const { userId } = useSession()
   const { data, loading } = 

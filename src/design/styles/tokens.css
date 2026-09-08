@@ -1,5 +1,5 @@
 /* ==========================================================================
-   TEIL A.1 — Farben
+   TEIL A.1, Farben
    Einzige Quelle der Wahrheit. Keine Farbwerte direkt in Komponenten.
    ========================================================================== */
 :root {
@@ -40,7 +40,7 @@
   --map-grid: #E8E8E3;
   --map-veil: rgba(255, 255, 255, 0.8);
 
-  /* A.3 — Abstandsraster */
+  /* A.3, Abstandsraster */
   --sp-1: 4px;
   --sp-2: 8px;
   --sp-3: 12px;
@@ -50,14 +50,14 @@
   --sp-12: 48px;
   --sp-16: 64px;
 
-  /* A.3 — Eckenradius */
+  /* A.3, Eckenradius */
   --r-control: 8px;   /* Buttons, Eingabefelder */
   --r-card: 12px;     /* Karten, Bilder */
   --r-pill: 999px;    /* Badges, Chips */
 
-  /* A.3 — Maße */
+  /* A.3, Maße */
   --content-max: 1120px;
-  --header-h: 64px;            /* Höhe der Kopfleiste — die Seitenleiste klebt darunter */
+  --header-h: 64px;            /* Höhe der Kopfleiste, die Seitenleiste klebt darunter */
   --gutter: 16px;              /* Mobil */
   --control-h: 44px;
 
@@ -70,7 +70,7 @@
 }
 
 /* ==========================================================================
-   Dunkelmodus — nur in der App (siehe src/lib/design-state.jsx).
+   Dunkelmodus, nur in der App (siehe src/lib/design-state.jsx).
    Die Namen aus A.1 bleiben, damit die Spezifikation lesbar bleibt; getauscht
    werden nur die Werte. "--bg-light" heißt also weiterhin "Grundfläche",
    ist hier aber dunkel.

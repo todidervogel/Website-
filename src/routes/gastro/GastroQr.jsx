@@ -7,7 +7,7 @@ import { t } from '../../design/i18n'
 
 const TEMPLATES = ['a6', 'a4', 'sticker', 'plain']
 
-/** F.10 — Gastro-QR-Codes */
+/** F.10, Gastro-QR-Codes */
 export default function GastroQr() {
   return (
     <GastroShell title={t('gastro.qr.title')}>

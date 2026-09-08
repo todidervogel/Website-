@@ -5,7 +5,7 @@ import * as domain from '../domain'
 import { t } from '../design/i18n'
 
 /**
- * Anmeldung und Sitzung — in beiden Betriebsarten.
+ * Anmeldung und Sitzung, in beiden Betriebsarten.
  *
  *   Alleinbetrieb  geprüft wird gegen die Daten im Browser
  *   Serverbetrieb  geprüft wird auf dem Server, zurück kommt ein Zugangsmerkmal
@@ -103,7 +103,7 @@ export function SessionProvider({ children }) {
     changed()
   }, [])
 
-  /** Registrierung Schritt 1 — das Konto entsteht erst nach Schritt 2 (D.1). */
+  /** Registrierung Schritt 1, das Konto entsteht erst nach Schritt 2 (D.1). */
   const startRegistration = useCallback(async (data) => {
     if (!SERVER) {
       useLocalData()
@@ -113,14 +113,14 @@ export function SessionProvider({ children }) {
     /*
      * Der Code steht fest, weil im MVP niemand eine SMS verschickt. Genau
      * deshalb gibt es auf dem nächsten Bildschirm einen Knopf zum
-     * Überspringen — siehe `skipVerification` weiter unten.
+     * Überspringen, siehe `skipVerification` weiter unten.
      */
     setPending({ ...data, code: '123456' })
     return { ok: true }
   }, [])
 
   /**
-   * Legt das Konto wirklich an — der Schritt, den beide Wege gemeinsam haben:
+   * Legt das Konto wirklich an, der Schritt, den beide Wege gemeinsam haben:
    * bestätigen und überspringen.
    *
    * @param ueberspringen  hält am Konto fest, dass ohne Bestätigung
@@ -132,7 +132,7 @@ export function SessionProvider({ children }) {
         const antwort = await request('/api/auth/register', { method: 'POST', body: daten })
         setToken(antwort.token)
         if (ueberspringen) {
-          /* Scheitert das, ist das Konto trotzdem da — nur der Vermerk fehlt. */
+          /* Scheitert das, ist das Konto trotzdem da, nur der Vermerk fehlt. */
           try { await api.auth.skipVerification() } catch { /* nicht der Rede wert */ }
         }
         const me = await request('/api/auth/me')
@@ -170,7 +170,7 @@ export function SessionProvider({ children }) {
    *
    * Solange es weder SMS- noch Mailversand gibt, wäre eine Pflicht zur
    * Bestätigung eine Tür ohne Schlüssel: Niemand bekäme je einen Code, und
-   * niemand käme je zu einem Konto. Das Konto entsteht also auch so — der
+   * niemand käme je zu einem Konto. Das Konto entsteht also auch so, der
    * offene Punkt bleibt am Konto stehen und lässt sich später nachholen.
    */
   const skipVerification = useCallback(async () => {
@@ -207,7 +207,7 @@ export function SessionProvider({ children }) {
     placeId: account?.placeId ?? null,
     mustChangePassword: !!account?.mustChangePassword,
     pendingRegistration: pending,
-    /* Offene Bestätigungen — die Einstellungen weisen darauf hin. */
+    /* Offene Bestätigungen, die Einstellungen weisen darauf hin. */
     emailVerified: account?.emailVerified !== false,
     phoneVerified: account?.phoneVerified !== false,
     ready,

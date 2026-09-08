@@ -5,7 +5,7 @@ import { useSession } from '../../lib/session'
 import { t } from '../../design/i18n'
 
 /**
- * Navigation am Rechner — die Entsprechung zur unteren Leiste (B.3).
+ * Navigation am Rechner, die Entsprechung zur unteren Leiste (B.3).
  *
  * Warum nicht einfach die untere Leiste breiter machen: Eine Leiste am
  * unteren Rand ist für den Daumen gedacht. Am Rechner ist dort niemand.
@@ -33,7 +33,7 @@ export function SideNav({ dark }) {
       <Punkt to="/suche" icon={Search}>{t('bottomNav.search')}</Punkt>
 
       {/*
-        * Hochladen geht auch auf der Webseite — nur angemeldet. Vorher war der
+        * Hochladen geht auch auf der Webseite, nur angemeldet. Vorher war der
         * Punkt der App vorbehalten; wer am Rechner eine Bewertung schreiben
         * wollte, fand keinen Weg dorthin.
         */}

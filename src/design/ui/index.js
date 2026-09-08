@@ -6,7 +6,7 @@
  * Dazu Angebotszeile, Ladeanzeigen, Menü und Reiter.
  *
  * Keiner dieser Bausteine kennt Daten, Anmeldung oder Netz. Alles, was sie
- * anzeigen, bekommen sie als Eigenschaften — was beim Tippen passiert,
+ * anzeigen, bekommen sie als Eigenschaften, was beim Tippen passiert,
  * entscheidet die Anwendung.
  */
 export * from './Button'

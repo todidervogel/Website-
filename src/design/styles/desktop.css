@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Desktop — ab 1024px eine eigene Anordnung, kein gezogenes Handy
+   Desktop, ab 1024px eine eigene Anordnung, kein gezogenes Handy
    ==========================================================================
 
    Der Bruch verlief bisher nicht zwischen alt und neu, sondern zwischen
@@ -16,7 +16,7 @@
        │ 240px     │                             │
        └───────────┴─────────────────────────────┘
 
-   Unterhalb von 1024px passiert hier nichts — dort gilt weiter das
+   Unterhalb von 1024px passiert hier nichts, dort gilt weiter das
    Handy-Layout mit der unteren Leiste.
    ========================================================================== */
 
@@ -53,7 +53,7 @@
     top: var(--header-h);
     /*
      * Nur so hoch wie ihr Inhalt. Eine Leiste auf volle Bildschirmhöhe würde
-     * unten abgeschnitten, sobald über der Kopfleiste noch ein Banner steht —
+     * unten abgeschnitten, sobald über der Kopfleiste noch ein Banner steht,
      * und genau dort sitzt der Punkt „Profil“.
      */
     max-height: calc(100vh - var(--header-h));
@@ -113,7 +113,7 @@
 /* --- Profil: nebeneinander statt untereinander ---------------------------- */
 
 /*
- * Auf dem Handy untereinander und mittig — das ist dort richtig. Am Rechner
+ * Auf dem Handy untereinander und mittig, das ist dort richtig. Am Rechner
  * nebeneinander: Bild links, alles Übrige rechts, linksbündig. Sonst steht ein
  * 96px-Bild einsam in der Mitte von 1200px.
  */
@@ -148,8 +148,8 @@
 /* --- Betriebsseite: zwei Spalten ------------------------------------------ */
 
 /*
- * Links das, was man liest — Beschreibung, Videos, Bewertungen.
- * Rechts das, was man nachschlägt — offen bis wann, Adresse, Telefon.
+ * Links das, was man liest, Beschreibung, Videos, Bewertungen.
+ * Rechts das, was man nachschlägt, offen bis wann, Adresse, Telefon.
  * Die rechte Spalte bleibt stehen, damit die Adresse beim Scrollen
  * nicht verschwindet.
  */
@@ -190,7 +190,7 @@
 /*
  * Ein Hochkant-Video auf 1440px Breite zu ziehen ergibt eine schwarze Fläche
  * mit einem Streifen Text unten. Am Rechner bekommt es deshalb einen Rahmen im
- * Seitenverhältnis 9:16 — und alles andere richtet sich an diesem Rahmen aus,
+ * Seitenverhältnis 9:16, und alles andere richtet sich an diesem Rahmen aus,
  * nicht am Bildschirmrand.
  *
  * Die Maße stehen einmal als Variablen an `.feed`; die Elemente sind
@@ -203,7 +203,7 @@
  *
  * Nebenbei behoben: Die Blätterknöpfe standen bei `right: sp-3; top: 50%`,
  * die Aktionsleiste bei `right: sp-3; bottom: 190px`. Auf 900px Höhe war das
- * dieselbe Stelle — der Avatar lag auf der Zählung „1 von 5“.
+ * dieselbe Stelle, der Avatar lag auf der Zählung „1 von 5“.
  */
 @media (min-width: 1024px) {
   .feed {

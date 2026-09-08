@@ -17,7 +17,7 @@ import { api, formatDistance, useQuery } from '../../lib/store'
 import { RADIUS_OPTIONS, MVP_STAGE } from '../../design/config'
 import { t } from '../../design/i18n'
 
-/** C.6 — Video-Feed */
+/** C.6, Video-Feed */
 export default function Feed() {
   const { position, radiusKm, setRadiusKm } = useDesignState()
   const { userId, loggedIn } = useSession()
@@ -44,7 +44,7 @@ export default function Feed() {
   useEffect(() => { setIndex(0) }, [radiusKm, onlyRated])
 
   /*
-   * Gesehenes merken — aber erst beim Weiterblättern, nicht beim Anzeigen.
+   * Gesehenes merken, aber erst beim Weiterblättern, nicht beim Anzeigen.
    * Sonst rutscht das Video, das man gerade ansieht, bei der nächsten
    * Aktualisierung ans Ende der Liste und verschwindet unter den Fingern.
    */
@@ -81,7 +81,7 @@ export default function Feed() {
     if (Math.abs(delta) > 60) go(delta > 0 ? 1 : -1)
   }
 
-  /* Diese drei reisen an den Daten mit — sonst bräuchte jede Zeile eine eigene Nachfrage. */
+  /* Diese drei reisen an den Daten mit, sonst bräuchte jede Zeile eine eigene Nachfrage. */
   const liked = !!video?.viewerLiked
   const saved = !!video?.viewerSaved
   const following = video?.author?.viewerFollow && video.author.viewerFollow !== 'none'
@@ -118,7 +118,7 @@ export default function Feed() {
             >
               {() => (
                 <>
-                  <p className="t-small c-on-dark-dim menu-title">{t('feed.settingsTitle')}</p>
+                  <p className="dropdown-title">{t('feed.settingsTitle')}</p>
                   {RADIUS_OPTIONS.map((r) => (
                     <button key={r} type="button" className="menu-item c-on-dark" onClick={() => setRadiusKm(r)}>
                       {r} km {radiusKm === r && <span className="c-accent">✓</span>}
@@ -154,7 +154,7 @@ export default function Feed() {
           </div>
         ) : (
           <>
-            {/* Blättern: wischen, Mausrad, Pfeiltasten — oder diese beiden Knöpfe */}
+            {/* Blättern: wischen, Mausrad, Pfeiltasten, oder diese beiden Knöpfe */}
             <div className="feed-paging">
               <button type="button" onClick={() => go(-1)} disabled={index === 0} aria-label={t('common.back')}>
                 <ChevronUp size={20} />

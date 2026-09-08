@@ -5,7 +5,7 @@ import { useSession } from '../../lib/session'
 import { api } from '../../lib/store'
 import { t } from '../../design/i18n'
 
-/** E.11 — Dialog „Konto löschen“ */
+/** E.11, Dialog „Konto löschen“ */
 export function DeleteAccountDialog({ open, onClose }) {
   const [value, setValue] = useState('')
   const [busy, setBusy] = useState(false)
@@ -16,7 +16,7 @@ export function DeleteAccountDialog({ open, onClose }) {
 
   /**
    * Art. 17 DSGVO: Profil und Videos verschwinden, Bewertungen bleiben
-   * anonymisiert erhalten — sonst verrutschen die Durchschnittswerte.
+   * anonymisiert erhalten, sonst verrutschen die Durchschnittswerte.
    */
   const remove = async () => {
     setBusy(true)

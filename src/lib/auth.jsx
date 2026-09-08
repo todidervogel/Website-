@@ -7,7 +7,7 @@ import { useSession } from './session'
  * Zugang zu den Routen und die Schranke vor allen Beiträgen.
  *
  * 1. In der App gibt es keinen Gastmodus: Wer nicht angemeldet ist, landet
- *    auf der Anmeldung — offen bleiben nur Konto-, Rechts- und Fehlerseiten.
+ *    auf der Anmeldung, offen bleiben nur Konto-, Rechts- und Fehlerseiten.
  * 2. Auf der Website darf man sich als Gast umsehen, aber nichts beitragen:
  *    liken, folgen, speichern und hochladen fragen erst nach einem Konto.
  * 3. Der Gastro-Bereich gehört Gastro-Konten, der Admin-Bereich Admins.
@@ -34,7 +34,7 @@ export function AuthGateProvider({ children }) {
   const [open, setOpen] = useState(false)
 
   /**
-   * Führt die Aktion aus, wenn jemand angemeldet ist — sonst erscheint der
+   * Führt die Aktion aus, wenn jemand angemeldet ist, sonst erscheint der
    * Hinweis, dass dafür ein Konto nötig ist.
    */
   const requireLogin = useCallback(
@@ -70,7 +70,7 @@ export function RouteGuard({ children }) {
   const { pathname } = useLocation()
 
   /*
-   * Solange die Sitzung noch geladen wird, gilt niemand als abgemeldet —
+   * Solange die Sitzung noch geladen wird, gilt niemand als abgemeldet,
    * sonst würde die App beim Start kurz auf die Anmeldeseite springen und
    * die eigentliche Seite ginge verloren.
    */

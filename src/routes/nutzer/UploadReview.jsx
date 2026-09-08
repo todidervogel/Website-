@@ -16,7 +16,7 @@ const CATEGORIES = [
   { key: 'price', label: t('rating.priceValue') },
 ]
 
-/** E.5 — Bewertung, Schritt 4 */
+/** E.5, Bewertung, Schritt 4 */
 export default function UploadReview() {
   const { draft, save } = useUpload()
   const navigate = useNavigate()

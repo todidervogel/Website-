@@ -18,7 +18,7 @@ const ITEMS = [
 ]
 
 /**
- * G.1 — Admin-Rahmen.
+ * G.1, Admin-Rahmen.
  * Eigene, sehr nüchterne Optik: dichtere Tabellen, Small als Standardgröße,
  * keine Akzentflächen außer bei Aktionen.
  */
@@ -34,7 +34,7 @@ export function AdminShell({ title, children }) {
       base="/admin"
       footerSlot={
         <div style={{ borderTop: '1px solid var(--border)', paddingTop: 'var(--sp-3)', marginTop: 'var(--sp-3)' }}>
-          <p className="t-small">{user?.email ?? '—'}</p>
+          <p className="t-small">{user?.email ?? '–'}</p>
           <button
             type="button"
             className="btn btn-quiet btn-sm"

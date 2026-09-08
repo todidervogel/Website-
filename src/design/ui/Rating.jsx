@@ -1,7 +1,7 @@
 import { Star } from 'lucide-react'
 import { t } from '../i18n'
 
-/** TEIL A.6 — Immer 5 Sterne. */
+/** TEIL A.6. Immer 5 Sterne. */
 export function Stars({ value = 0, size = 14 }) {
   return (
     <span className="stars" aria-label={`${value} von 5 Sternen`}>
@@ -19,13 +19,13 @@ export function Stars({ value = 0, size = 14 }) {
 
 /**
  * Mittelwerte werden immer mit einer Nachkommastelle gezeigt (4,0),
- * einzelne Bewertungen als ganze Zahl (4) — so steht es in A.6 bzw. C.6.
+ * einzelne Bewertungen als ganze Zahl (4), so steht es in A.6 bzw. C.6.
  */
 const fmt = (n, average) =>
   average || !Number.isInteger(n) ? n.toFixed(1).replace('.', ',') : String(n)
 
 /**
- * TEIL A.6 — Kompaktform für Listen.
+ * TEIL A.6, Kompaktform für Listen.
  * Die drei Kategorien werden nie zu einer Zahl zusammengefasst.
  */
 export function RatingCompact({ rating, onDark, average }) {
@@ -38,7 +38,7 @@ export function RatingCompact({ rating, onDark, average }) {
   /*
    * Kein Trennpunkt zwischen den Werten. In einer schmalen Liste bricht die
    * Zeile nach dem zweiten Wert um, und der Punkt bleibt allein am Zeilenende
-   * stehen — „4,0 Service ·“. Der Abstand trennt genauso gut und kann nicht
+   * stehen, „4,0 Service ·“. Der Abstand trennt genauso gut und kann nicht
    * hängen bleiben.
    */
   return (
@@ -53,7 +53,7 @@ export function RatingCompact({ rating, onDark, average }) {
   )
 }
 
-/** TEIL A.6 — Vollform: Label links, Sterne mittig, Zahl rechts. */
+/** TEIL A.6, Vollform: Label links, Sterne mittig, Zahl rechts. */
 export function RatingFull({ rating, count }) {
   if (!rating) return <p className="t-body c-tertiary">{t('rating.none')}</p>
   const rows = [

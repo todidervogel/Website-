@@ -6,7 +6,7 @@ import { t } from '../../design/i18n'
 
 const REASONS = ['spam', 'hate', 'fake', 'wrong', 'violence', 'sexual', 'copyright', 'other']
 
-/** E.14 — Dialog „Melden“ (Video / Bewertung / Profil) */
+/** E.14, Dialog „Melden“ (Video / Bewertung / Profil) */
 export function ReportContentDialog({ open, onClose, target }) {
   const [reason, setReason] = useState('spam')
   const [note, setNote] = useState('')

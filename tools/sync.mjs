@@ -6,7 +6,7 @@ import { resolve } from 'node:path'
  * Holt Design-System und Fachlogik aus ihren Repositories.
  *
  * Beide liegen hier als eingespielte Kopie (`src/design`, `src/domain`) und
- * sind mit eingecheckt — damit läuft die Website ohne Netz und ohne weitere
+ * sind mit eingecheckt, damit läuft die Website ohne Netz und ohne weitere
  * Einrichtung. Geändert wird aber immer im Quell-Repository, nie hier.
  *
  *   node tools/sync.mjs design
@@ -36,7 +36,7 @@ const QUELLEN = {
        *
        * Zweimal ist es schon passiert, dass `seed.js` eine neue Nachbardatei
        * bekam (`anreicherung.js`, `zustand.js`) und der Bau der Website an
-       * „Could not resolve" abbrach — weil hier eine Zeile fehlte. Eine Liste,
+       * „Could not resolve" abbrach, weil hier eine Zeile fehlte. Eine Liste,
        * die man pflegen muss, wird irgendwann nicht gepflegt.
        */
       ['src/data', '.'],
@@ -89,7 +89,7 @@ for (const [von, nach] of quelle.teile) {
 
 if (temp) rmSync(temp, { recursive: true, force: true })
 
-/* Der Server lädt den Ausgangsbestand aus ../data/seed.js — hier liegt er daneben. */
+/* Der Server lädt den Ausgangsbestand aus ../data/seed.js, hier liegt er daneben. */
 if (was === 'domain') {
   const { readdirSync, readFileSync, writeFileSync } = await import('node:fs')
   for (const datei of readdirSync(quelle.ziel)) {
@@ -102,4 +102,4 @@ if (was === 'domain') {
 }
 
 console.log(`${was} eingespielt nach ${quelle.ziel}.`)
-console.log('Nicht hier ändern — das Original liegt im Quell-Repository.')
+console.log('Nicht hier ändern, das Original liegt im Quell-Repository.')

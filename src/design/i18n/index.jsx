@@ -8,7 +8,7 @@ import { APP_NAME } from '../config'
  * t('search.emptyTitle', { query: 'x' }) → {{query}} wird ersetzt
  *
  * {{app}} ist immer verfügbar und wird mit APP_NAME gefüllt.
- * Fehlt ein Schlüssel, wird der Schlüssel selbst zurückgegeben — so fällt
+ * Fehlt ein Schlüssel, wird der Schlüssel selbst zurückgegeben, so fällt
  * eine Lücke in de.json im Design sofort auf.
  */
 const dict = de
@@ -45,7 +45,7 @@ export function tNodes(key, nodes) {
   })
 }
 
-/** „Zu zweit", „Zu dritt", … — sonst „Zu 8". */
+/** „Zu zweit", „Zu dritt", …, sonst „Zu 8". */
 export function groupSizeLabel(size) {
   if (size == null) return ''
   const named = dict.place?.groupSizes?.[String(size)]

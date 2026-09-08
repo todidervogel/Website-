@@ -6,7 +6,7 @@ import { t } from '../../design/i18n'
 
 const REASONS = ['closed', 'address', 'hours', 'contact', 'notExist', 'other']
 
-/** C.4 — Dialog „Problem melden“ (Betrieb) */
+/** C.4, Dialog „Problem melden“ (Betrieb) */
 export function ReportPlaceDialog({ open, onClose, place }) {
   const [reason, setReason] = useState('closed')
   const [text, setText] = useState('')
@@ -26,7 +26,7 @@ export function ReportPlaceDialog({ open, onClose, place }) {
       targetId: place.id,
       label: place.name,
       reason: reason === 'closed' || reason === 'notExist' ? 'venue_closed' : 'wrong_info',
-      note: `${t(`reportPlace.reasons.${reason}`)}${text ? ` — ${text}` : ''}`,
+      note: `${t(`reportPlace.reasons.${reason}`)}${text ? `, ${text}` : ''}`,
       reporterId: userId,
     })
     setBusy(false)

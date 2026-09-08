@@ -10,7 +10,7 @@ import { t } from '../../design/i18n'
 
 const TONE = { sent: 'default', opened: 'accent', activated: 'success', bounced: 'danger', declined: 'warning' }
 
-/** G.6 — Admin-Einladungen */
+/** G.6, Admin-Einladungen */
 export default function AdminInvites() {
   const [open, setOpen] = useState(false)
   const toast = useToast()
@@ -46,7 +46,7 @@ export default function AdminInvites() {
         empty={<EmptyState icon={Mail} title={t('admin.reports.emptyTitle')} />}
         renderRow={(i) => (
           <tr key={i.id}>
-            <td style={{ fontWeight: 600 }}>{i.placeName ?? '—'}</td>
+            <td style={{ fontWeight: 600 }}>{i.placeName ?? '–'}</td>
             <td className="c-secondary">{i.email}</td>
             <td style={{ whiteSpace: 'nowrap' }}>{i.sentAt}</td>
             <td><Badge tone={TONE[i.status]}>{t(`admin.invites.status.${i.status}`)}</Badge></td>
@@ -78,7 +78,7 @@ export default function AdminInvites() {
               {(id) => (
                 <Select
                   id={id}
-                  placeholder="—"
+                  placeholder="–"
                   options={(places ?? []).map((p) => ({ value: p.id, label: `${p.name} · ${p.city}` }))}
                   value={form.values.placeId}
                   onChange={(e) => form.setValue('placeId', e.target.value)}

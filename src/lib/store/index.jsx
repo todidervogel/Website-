@@ -13,7 +13,7 @@ export { DAY_KEYS, dayKeyOf, formatMinutes, formatDay, weekRows, openState, open
 
 /**
  * Zählt jede Änderung mit. Abfragen hängen daran und holen sich neue Daten,
- * sobald irgendwo geschrieben wurde — im Alleinbetrieb wie am Server.
+ * sobald irgendwo geschrieben wurde, im Alleinbetrieb wie am Server.
  */
 export function useDataVersion() {
   const [version, setVersion] = useState(currentVersion)
@@ -28,7 +28,7 @@ export function useDataVersion() {
  *
  * Beim ersten Aufruf gibt es einen echten Ladezustand. Läuft die Abfrage
  * später wegen einer Änderung erneut, bleibt der alte Inhalt stehen und es
- * wird nur still nachgeladen — sonst würde die Seite bei jedem Klick blinken.
+ * wird nur still nachgeladen, sonst würde die Seite bei jedem Klick blinken.
  */
 export function useQuery(runner, deps = [], { initial = null, enabled = true } = {}) {
   const version = useDataVersion()
@@ -56,7 +56,7 @@ export function useQuery(runner, deps = [], { initial = null, enabled = true } =
       })
       .catch((error) => {
         if (cancelled) return
-        /* Fehlende Rechte sind kein Absturz — die Seite zeigt dann eben nichts. */
+        /* Fehlende Rechte sind kein Absturz, die Seite zeigt dann eben nichts. */
         setState({ data: initial, loading: false, error, refreshing: false })
       })
 

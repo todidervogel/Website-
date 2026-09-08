@@ -4,7 +4,7 @@ import { HOME_POSITION } from '../domain/seed'
 import { DEFAULT_RADIUS } from '../design/config'
 
 /**
- * Zustand der Oberfläche — alles, was nicht in der Datenhaltung steht.
+ * Zustand der Oberfläche, alles, was nicht in der Datenhaltung steht.
  *
  *  platform  'web' | 'app'     Website im Browser oder verpackte App
  *  device    'mobile' | 'desktop'
@@ -53,7 +53,7 @@ function writeStore(value) {
   try {
     localStorage.setItem(STORE_KEY, JSON.stringify(value))
   } catch {
-    /* Privater Modus — dann eben ohne Gedächtnis. */
+    /* Privater Modus, dann eben ohne Gedächtnis. */
   }
 }
 
@@ -71,7 +71,7 @@ export function DesignStateProvider({ children }) {
 
   /**
    * Der Dunkelmodus gilt für Website und App. „Automatisch" folgt dem
-   * Betriebssystem — damit ist er auch dann richtig eingestellt, wenn man
+   * Betriebssystem, damit ist er auch dann richtig eingestellt, wenn man
    * ihn nirgends anfasst.
    */
   const [theme, setTheme] = useState(stored.theme ?? 'auto')
@@ -82,12 +82,11 @@ export function DesignStateProvider({ children }) {
   const [position, setPosition] = useState(stored.position ?? HOME_POSITION)
   const [radiusKm, setRadiusKm] = useState(stored.radiusKm ?? DEFAULT_RADIUS)
 
-  const [buildBanner, setBuildBanner] = useState(stored.buildBanner ?? true)
   const [cookieBanner, setCookieBanner] = useState(stored.cookieBanner ?? false)
 
   useEffect(() => {
-    writeStore({ platform, theme, pureMap, position, radiusKm, buildBanner, cookieBanner })
-  }, [platform, theme, pureMap, position, radiusKm, buildBanner, cookieBanner])
+    writeStore({ platform, theme, pureMap, position, radiusKm, cookieBanner })
+  }, [platform, theme, pureMap, position, radiusKm, cookieBanner])
 
   useEffect(() => {
     const mq = window.matchMedia('(max-width: 1023px)')
@@ -117,10 +116,9 @@ export function DesignStateProvider({ children }) {
       pureMap, setPureMap,
       position, setPosition,
       radiusKm, setRadiusKm,
-      buildBanner, setBuildBanner,
       cookieBanner, setCookieBanner,
     }),
-    [platform, device, os, theme, darkMode, pureMap, position, radiusKm, buildBanner, cookieBanner],
+    [platform, device, os, theme, darkMode, pureMap, position, radiusKm, cookieBanner],
   )
 
   return <DesignStateContext.Provider value={value}>{children}</DesignStateContext.Provider>

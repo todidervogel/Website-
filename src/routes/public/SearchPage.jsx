@@ -22,7 +22,7 @@ const TABS = [
 const RATING_LIMITS = { all: 0, from3: 3, from4: 4, from45: 4.5 }
 const CATEGORIES = ['restaurant', 'cafe', 'bar', 'imbiss']
 
-/** C.5 — Suchergebnisse */
+/** C.5, Suchergebnisse */
 export default function SearchPage() {
   const navigate = useNavigate()
   const [params, setParams] = useSearchParams()
@@ -37,12 +37,12 @@ export default function SearchPage() {
 
   /*
    * Vorschläge für die leere Suche. Sie laufen nur, solange nichts getippt ist
-   * — wer sucht, will Treffer sehen und keine Anregungen.
+   *, wer sucht, will Treffer sehen und keine Anregungen.
    */
   /*
    * Die häufigen Begriffe kommen aus den Daten, nicht aus einer festen Liste
    * (src/domain/search.js). Ein Vorschlag, der zu nichts führt, ist eine
-   * Sackgasse — und genau das waren die erfundenen Begriffe von vorher.
+   * Sackgasse, und genau das waren die erfundenen Begriffe von vorher.
    */
   const { data: beliebt } = useQuery(() => api.search.popular(), [])
 
@@ -60,7 +60,7 @@ export default function SearchPage() {
   )
   const naheBetriebe = naheBetriebeDaten ?? []
 
-  /* Erst tippen lassen, dann suchen — sonst rennt die Abfrage jedem Zeichen hinterher. */
+  /* Erst tippen lassen, dann suchen, sonst rennt die Abfrage jedem Zeichen hinterher. */
   const [debounced, setDebounced] = useState(query)
   useEffect(() => {
     const timer = setTimeout(() => setDebounced(query), 250)
@@ -169,7 +169,7 @@ export default function SearchPage() {
 
           {/*
             * Vorschläge statt leerer Fläche. Unter der Suchzeile stand bisher
-            * nichts als Weiß — dabei ist genau das die Stelle, an der man sich
+            * nichts als Weiß, dabei ist genau das die Stelle, an der man sich
             * umsieht, ohne zu wissen wonach. Instagram macht daraus sein
             * Explore: ein Raster mit Sachen aus der Gegend.
             */}
@@ -190,7 +190,7 @@ export default function SearchPage() {
             )}
           </div>
 
-          {/* Und die Betriebe drumherum — nicht jeder sucht ein Video. */}
+          {/* Und die Betriebe drumherum, nicht jeder sucht ein Video. */}
           {naheBetriebe.length > 0 && (
             <div>
               <h2 className="t-small c-secondary" style={{ marginBottom: 'var(--sp-2)' }}>{t('search.nearbyPlaces')}</h2>
@@ -232,12 +232,12 @@ export default function SearchPage() {
               >
                 {({ close }) => (
                   <>
-                    <p className="t-small c-secondary menu-title">{t('serving.filterTitle')}</p>
+                    <p className="dropdown-title">{t('serving.filterTitle')}</p>
                     <div style={{ padding: '0 var(--sp-3)' }}>
                       <ServingPicker value={serving} onChange={setServing} keys={SERVING_KEYS} />
                     </div>
 
-                    <p className="t-small c-secondary menu-title">{t('map.categoryMenuTitle')}</p>
+                    <p className="dropdown-title">{t('map.categoryMenuTitle')}</p>
                     <div style={{ padding: '0 var(--sp-3)' }}>
                       {CATEGORIES.map((c) => (
                         <Checkbox
@@ -249,7 +249,7 @@ export default function SearchPage() {
                       ))}
                     </div>
 
-                    <p className="t-small c-secondary menu-title">{t('map.ratingMenuTitle')}</p>
+                    <p className="dropdown-title">{t('map.ratingMenuTitle')}</p>
                     <div style={{ padding: '0 var(--sp-3)' }}>
                       {Object.keys(RATING_LIMITS).map((k) => (
                         <Radio
@@ -262,7 +262,7 @@ export default function SearchPage() {
                       ))}
                     </div>
 
-                    <p className="t-small c-secondary menu-title">{t('map.priceMenuTitle')}</p>
+                    <p className="dropdown-title">{t('map.priceMenuTitle')}</p>
                     <div className="row-wrap" style={{ padding: '0 var(--sp-3) var(--sp-2)' }}>
                       {PRICE_LEVELS.map((p) => (
                         <Chip
@@ -275,7 +275,7 @@ export default function SearchPage() {
                       ))}
                     </div>
 
-                    <div className="menu-actions">
+                    <div className="dropdown-actions">
                       <Button
                         variant="quiet" size="sm"
                         onClick={() => { setCategories([]); setServing([]); setPrices([]); setRatingKey('all') }}
@@ -345,7 +345,7 @@ function DishResults({ items }) {
   )
 }
 
-/** Orte verschieben den Kartenmittelpunkt — Reiseplanung ohne vor Ort zu sein (8.8). */
+/** Orte verschieben den Kartenmittelpunkt, Reiseplanung ohne vor Ort zu sein (8.8). */
 function LocationResults({ items, onPick }) {
   return (
     <div>

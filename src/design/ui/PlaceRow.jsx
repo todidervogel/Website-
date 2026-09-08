@@ -7,20 +7,20 @@ import { ServingRow } from './Serving'
 import { t } from '../i18n'
 
 /**
- * Betriebszeile — Ergebnisliste Karte (C.2), Suche (C.5), Videodetail (C.7).
+ * Betriebszeile, Ergebnisliste Karte (C.2), Suche (C.5), Videodetail (C.7).
  *
  * Reihenfolge der Zeilen: Name · Angebot · Kategorie/Preis/Entfernung ·
- * Sterne · Öffnungsstatus. Das Angebot steht bewusst direkt unter dem Namen —
+ * Sterne · Öffnungsstatus. Das Angebot steht bewusst direkt unter dem Namen,
  * ob ein Laden nur Getränke hat oder auch vegan kocht, soll man sehen, bevor
  * man liest.
  *
  * Diese Zeile kennt weder Daten noch Anmeldung. Ob gespeichert ist und was
- * beim Tippen passieren soll, gibt die Anwendung mit — und auch das Bild:
+ * beim Tippen passieren soll, gibt die Anwendung mit, und auch das Bild:
  * `bild` ist eine fertige Adresse. Woher sie kommt (echtes Foto oder
  * gezeichnetes Titelbild), entscheidet die Anwendung, nicht dieser Baustein.
  *
  * Ohne `bild` bleibt der graue Platzhalter mit dem durchgestrichenen Besteck.
- * In einer langen Liste sieht das aus, als wären die Bilder kaputt — deshalb
+ * In einer langen Liste sieht das aus, als wären die Bilder kaputt, deshalb
  * sollte die Anwendung immer eines mitgeben.
  */
 export function PlaceRow({ place, showSave = true, compact, saved, onToggleSave, openText, bild }) {

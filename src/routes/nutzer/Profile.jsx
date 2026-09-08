@@ -16,14 +16,14 @@ const TABS = [
   { id: 'saved', label: t('profile.tabs.saved') },
 ]
 
-/** E.7 — Eigenes Profil */
+/** E.7, Eigenes Profil */
 export function OwnProfile() {
   const [params] = useSearchParams()
   const [tab, setTab] = useState(params.get('tab') === 'saved' ? 'saved' : 'videos')
   const { user: sessionUser, loggedIn, userId } = useSession()
   const toast = useToast()
   /*
-   * Der Nutzer aus der Sitzung ist der rohe Datensatz — ohne Zahlen. Videos,
+   * Der Nutzer aus der Sitzung ist der rohe Datensatz, ohne Zahlen. Videos,
    * Follower und Folgt werden bei jeder Abfrage frisch gezählt und stehen
    * deshalb nur am abgeleiteten Nutzer. Ohne diese Abfrage blieben die drei
    * Zahlen leer, und darunter stünde nur „Videos Follower Folgt“.
@@ -72,7 +72,7 @@ export function OwnProfile() {
   )
 }
 
-/** E.8 — Fremdes Profil */
+/** E.8, Fremdes Profil */
 export function PublicProfile() {
   const { username } = useParams()
   const { userId, loggedIn } = useSession()
@@ -208,7 +208,7 @@ function ProfileHeader({ user, actions, loading }) {
 }
 
 /**
- * Die Kacheln laden jetzt wirklich — deshalb gibt es hier auch wirklich
+ * Die Kacheln laden jetzt wirklich, deshalb gibt es hier auch wirklich
  * einen Ladezustand: Skelettkacheln plus Kreisel, statt eines Sprungs
  * von leer auf voll.
  */

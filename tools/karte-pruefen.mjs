@@ -5,7 +5,7 @@ import { kartenblick, kachelAdresse } from '../src/lib/map.js'
  *
  * Die Kacheln von OpenStreetMap sind aus dieser Umgebung nicht erreichbar,
  * also lässt sich nicht ansehen, ob Marker und Karte zusammenpassen. Nachrechnen
- * geht trotzdem — und fängt genau die Fehler, die man sonst erst auf dem Handy
+ * geht trotzdem, und fängt genau die Fehler, die man sonst erst auf dem Handy
  * sieht: verschobene Marker, falscher Maßstab, verzerrte Höhe.
  */
 const ergebnisse = []
@@ -34,7 +34,7 @@ pruefe('Ein Kilometer nach Osten stimmt im Maßstab',
 
 /*
  * Der wichtigste Test. Ein Kilometer nach Norden muss genauso viele Pixel
- * sein wie ein Kilometer nach Osten — sonst ist die Karte verzerrt, und genau
+ * sein wie ein Kilometer nach Osten, sonst ist die Karte verzerrt, und genau
  * das war der alte Fehler: Die Höhe nahm denselben Maßstab wie die Breite,
  * ohne die Höhe des Kastens zu berücksichtigen.
  */
@@ -85,6 +85,6 @@ pruefe('Auch im breiten Kasten bleibt der Maßstab gleich',
 
 const durchgefallen = ergebnisse.filter(([ok]) => !ok)
 ergebnisse.forEach(([ok, name, hinweis]) =>
-  console.log(`${ok ? '  ok  ' : 'FEHLER'} ${name}${hinweis ? ` — ${hinweis}` : ''}`))
+  console.log(`${ok ? '  ok  ' : 'FEHLER'} ${name}${hinweis ? `, ${hinweis}` : ''}`))
 console.log(`\n${ergebnisse.length - durchgefallen.length} von ${ergebnisse.length} bestanden.`)
 if (durchgefallen.length) process.exitCode = 1

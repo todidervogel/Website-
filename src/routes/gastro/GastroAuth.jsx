@@ -5,7 +5,7 @@ import { useSession } from '../../lib/session'
 import { rules, useForm } from '../../lib/form'
 import { t, tNodes } from '../../design/i18n'
 
-/** F.1 — Gastro-Anmeldung */
+/** F.1, Gastro-Anmeldung */
 export function GastroLogin() {
   const { login } = useSession()
   const navigate = useNavigate()
@@ -61,7 +61,7 @@ export function GastroLogin() {
   )
 }
 
-/** Stärkeeinschätzung — gleiche Regel wie bei der Registrierung. */
+/** Stärkeeinschätzung, gleiche Regel wie bei der Registrierung. */
 function strengthOf(password = '') {
   if (password.length < 8) return 1
   const variety = [/[a-zäöüß]/, /[A-ZÄÖÜ]/, /[0-9]/, /[^\w]/].filter((r) => r.test(password)).length
@@ -69,7 +69,7 @@ function strengthOf(password = '') {
   return variety >= 2 ? 2 : 1
 }
 
-/** F.2 — Erstes Passwort setzen */
+/** F.2, Erstes Passwort setzen */
 export function GastroWelcome() {
   const { changePassword, mustChangePassword } = useSession()
   const navigate = useNavigate()

@@ -4,7 +4,7 @@ import { changed } from './events'
 import { verbindungDa, verbindungWeg } from './connection'
 
 /**
- * Der Zugang zur Fachlogik — in zwei Betriebsarten.
+ * Der Zugang zur Fachlogik, in zwei Betriebsarten.
  *
  *   ohne VITE_API   alles im Browser. Die Fachlogik aus src/domain läuft
  *                   direkt, die Daten liegen im lokalen Speicher. Zum
@@ -23,7 +23,7 @@ import { verbindungDa, verbindungWeg } from './connection'
  * Zwei Wege, absichtlich in dieser Reihenfolge:
  *
  *   1. Was im Gerät eingestellt ist. Die App wird einmal gebaut; wo ihr
- *      Server steht, ändert sich öfter — über ngrok bei jedem Start, wenn
+ *      Server steht, ändert sich öfter, über ngrok bei jedem Start, wenn
  *      keine feste Adresse hinterlegt ist. Für jede neue Adresse eine neue
  *      APK zu bauen, wäre unzumutbar, wenn man nur ein Handy hat.
  *   2. `VITE_API` beim Bauen. Das bleibt für die Webseite und für den Fall,
@@ -40,7 +40,7 @@ const gespeicherteAdresse = () => {
 export const SERVER = (gespeicherteAdresse() || import.meta.env?.VITE_API || '').replace(/\/$/, '')
 export const MODE = SERVER ? 'server' : 'lokal'
 
-/** Woher die Adresse stammt — die Einstellungen zeigen es an. */
+/** Woher die Adresse stammt, die Einstellungen zeigen es an. */
 export const SERVER_QUELLE = gespeicherteAdresse() ? 'geraet' : (import.meta.env?.VITE_API ? 'bau' : 'keiner')
 
 /**
@@ -48,7 +48,7 @@ export const SERVER_QUELLE = gespeicherteAdresse() ? 'geraet' : (import.meta.env
  *
  * Neu laden ist kein Ausweichen, sondern das Richtige: `SERVER` entscheidet
  * beim Laden, ob die Fachlogik im Browser läuft oder über das Netz. Das
- * mitten im Betrieb umzustellen hieße, jeden laufenden Zustand mitzunehmen —
+ * mitten im Betrieb umzustellen hieße, jeden laufenden Zustand mitzunehmen,
  * Anmeldung, Zwischenspeicher, offene Abfragen. Ein Neustart der Seite ist
  * eine Sekunde und danach stimmt alles.
  */
@@ -95,7 +95,7 @@ export function useLocalData() {
   return localStore
 }
 
-/** Wer gerade angemeldet ist — im Alleinbetrieb prüft die Fachlogik danach. */
+/** Wer gerade angemeldet ist, im Alleinbetrieb prüft die Fachlogik danach. */
 export function setAccount(next) {
   account = next
 }
@@ -109,7 +109,7 @@ export function resetLocalData() {
   changed()
 }
 
-/** Aufrufe, die schreiben — danach müssen die Abfragen neu laufen. */
+/** Aufrufe, die schreiben, danach müssen die Abfragen neu laufen. */
 const WRITES = /^(social|reviews\.(create|answer|like)|videos\.(create|moderate|setVisibility|remove|markSeen)|menu\.(add|update|remove|move)|places\.(save|setStatus)|users\.(save|setStatus|deleteAccount)|notifications\.markAllRead|reports\.(create|resolve)|admin\.(create|resend|resolve|setClaim|suggest|request)|search\.(remember|clearHistory))/
 
 function invokeLocally(method, args) {

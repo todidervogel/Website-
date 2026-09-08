@@ -23,12 +23,12 @@ const compact = (rating) => {
 }
 
 /**
- * Bewertungskarte — C.3 (Reiter Bewertungen), C.7, E.7, F.4, F.7.
+ * Bewertungskarte, C.3 (Reiter Bewertungen), C.7, E.7, F.4, F.7.
  *
  * `variant`:
- *   'public'  — öffentliche Ansicht mit „Gefällt mir“ und „Melden“
- *   'own'     — eigenes Profil: Bearbeiten / Löschen
- *   'gastro'  — Gastro-Ansicht: Antworten / Beanstanden
+ *   'public', öffentliche Ansicht mit „Gefällt mir“ und „Melden“
+ *   'own', eigenes Profil: Bearbeiten / Löschen
+ *   'gastro', Gastro-Ansicht: Antworten / Beanstanden
  *
  * Kennt weder Daten noch Anmeldung: Was beim Danke, beim Antworten und beim
  * Löschen passiert, gibt die Anwendung als `onLike`, `onReply` und `onDelete`
@@ -39,7 +39,7 @@ export function ReviewCard({ review, variant = 'public', placeName, onReport, on
   const [replyOpen, setReplyOpen] = useState(false)
   const [replyText, setReplyText] = useState('')
   /* Gelöschte Konten bleiben als Bewertung erhalten, aber ohne Namen (Art. 17). */
-  const authorName = review.anonymized ? t('review.anonymous') : (review.author?.username ?? '—')
+  const authorName = review.anonymized ? t('review.anonymous') : (review.author?.username ?? '–')
   const rating = review.rating ?? { food: review.ratingFood, service: review.ratingService, price: review.ratingPrice }
 
   return (

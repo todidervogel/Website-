@@ -10,7 +10,7 @@ import { t } from '../../design/i18n'
 
 const REPORT_REASONS = ['neverThere', 'falseClaims', 'hate', 'mixup', 'blackmail', 'other']
 
-/** F.8 — Dialog „Bewertung melden“ (Gastro) */
+/** F.8, Dialog „Bewertung melden“ (Gastro) */
 export function ReportReviewDialog({ open, onClose, target }) {
   const [reason, setReason] = useState('neverThere')
   const [text, setText] = useState('')
@@ -28,7 +28,7 @@ export function ReportReviewDialog({ open, onClose, target }) {
     setBusy(true)
     await api.reports.create({
       targetType: 'review', targetId: target.id, label: target.label,
-      reason: 'fake', note: `${t(`gastro.reportReview.reasons.${reason}`)} — ${text}`,
+      reason: 'fake', note: `${t(`gastro.reportReview.reasons.${reason}`)}, ${text}`,
       reporterId: userId,
     })
     setBusy(false)
@@ -80,7 +80,7 @@ export function ReportReviewDialog({ open, onClose, target }) {
   )
 }
 
-/** F.12 — Dialog „Betrieb als geschlossen melden“ */
+/** F.12, Dialog „Betrieb als geschlossen melden“ */
 export function CloseBusinessDialog({ open, onClose, place }) {
   const [mode, setMode] = useState('permanent')
   const [reason, setReason] = useState('')
@@ -138,7 +138,7 @@ export function CloseBusinessDialog({ open, onClose, place }) {
           {(id) => (
             <Select
               id={id}
-              placeholder="—"
+              placeholder="–"
               onChange={(e) => setReason(e.target.value)}
               options={['aufgabe', 'umzug', 'verkauf', 'renovierung', 'other'].map((v) => ({ value: v, label: t(`gastro.close.reasons.${v}`) }))}
             />
@@ -157,7 +157,7 @@ export function CloseBusinessDialog({ open, onClose, place }) {
   )
 }
 
-/** F.11 — Hinweis-Dialog „Verifizierung“ */
+/** F.11, Hinweis-Dialog „Verifizierung“ */
 export function VerificationDialog({ open, onClose }) {
   return (
     <Modal

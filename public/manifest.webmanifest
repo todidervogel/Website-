@@ -1,7 +1,7 @@
 {
   "name": "Tellerrand",
   "short_name": "Tellerrand",
-  "description": "Sieh, was es zu essen gibt — Videos, Karte und Speisekarten aus deiner Nähe.",
+  "description": "Sieh, was es zu essen gibt, Videos, Karte und Speisekarten aus deiner Nähe.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

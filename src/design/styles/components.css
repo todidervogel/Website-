@@ -1,5 +1,5 @@
 /* ==========================================================================
-   TEIL A.4 — Buttons
+   TEIL A.4, Buttons
    ========================================================================== */
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: var(--sp-2);
@@ -52,7 +52,7 @@
 .btn-locked { opacity: .4; pointer-events: none; }
 
 /* ==========================================================================
-   TEIL A.5 — Eingabefelder
+   TEIL A.5, Eingabefelder
    ========================================================================== */
 .field { display: block; }
 .field-label {
@@ -169,7 +169,7 @@
 .chip-scroll::-webkit-scrollbar { display: none; }
 
 /*
- * Am Rechner ist Platz. Dort wird umgebrochen statt gescrollt — die Maske
+ * Am Rechner ist Platz. Dort wird umgebrochen statt gescrollt, die Maske
  * hat sonst auch dann den letzten Chip ausgeblendet, wenn alles hineinpasste,
  * und das sah aus, als wäre die Zeile abgeschnitten.
  */
@@ -201,7 +201,7 @@
 .notice-danger { background: var(--danger-soft); color: var(--danger); }
 
 /* ==========================================================================
-   TEIL A.6 — Sterne
+   TEIL A.6, Sterne
    ========================================================================== */
 .verified-mark { color: var(--tint-info-fg); flex: none; }
 
@@ -224,7 +224,7 @@
 @media (max-width: 639px) { .star-input-compact button { min-width: 36px; min-height: 36px; } }
 
 /* ==========================================================================
-   TEIL B.9 — Skelettflächen
+   TEIL B.9, Skelettflächen
    ========================================================================== */
 .skeleton {
   background: var(--bg-light-alt); border-radius: var(--r-control);
@@ -235,7 +235,7 @@
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
 
 /* ==========================================================================
-   TEIL B.8 — Leere Zustände
+   TEIL B.8, Leere Zustände
    ========================================================================== */
 .empty-state {
   display: flex; flex-direction: column; align-items: center; text-align: center;
@@ -245,7 +245,7 @@
 .empty-state-dark .empty-icon { color: var(--text-on-dark-dim); }
 
 /* ==========================================================================
-   TEIL B.7 — Dialogfenster
+   TEIL B.7, Dialogfenster
    ========================================================================== */
 .modal-overlay {
   position: fixed; inset: 0; z-index: 80; background: rgba(0,0,0,.6);
@@ -262,7 +262,7 @@
 .modal-actions { display: flex; justify-content: flex-end; gap: var(--sp-2); margin-top: var(--sp-6); flex-wrap: wrap; }
 
 /* ==========================================================================
-   TEIL B.6 — Toasts
+   TEIL B.6, Toasts
    ========================================================================== */
 .toast-region {
   position: fixed; z-index: 100; bottom: 84px; left: 50%; transform: translateX(-50%);
@@ -287,29 +287,118 @@
 /* ==========================================================================
    Aufklappmenüs
    ========================================================================== */
-.menu-anchor { position: relative; }
-.menu {
-  position: absolute; z-index: 60; top: calc(100% + 6px); min-width: 220px;
-  background: var(--bg-light); border: 1px solid var(--border); border-radius: var(--r-card);
-  box-shadow: var(--shadow-float); padding: var(--sp-2);
+.dropdown-anchor { position: relative; }
+
+/*
+ * Aufklappmenüs im Stil der Apps, die jeder kennt.
+ *
+ * Vorher: 220px breit, dünner Rahmen, kleine Radien, jeder Eintrag 15px hoch
+ * mit knappem Innenabstand, dazwischen Trennlinien. Das liest sich wie eine
+ * Tabelle, nicht wie ein Menü, und auf dem Handy trifft man die Einträge
+ * kaum.
+ *
+ * Instagram und TikTok machen es anders, und aus guten Gründen:
+ *
+ *   · **Keine Trennlinien.** Der Abstand trennt, nicht der Strich. Linien
+ *     zwischen jedem Eintrag zerhacken die Fläche in Streifen.
+ *   · **Große Radien, kein Rahmen.** Die Karte schwebt über der Seite; ein
+ *     Schatten sagt das deutlicher als eine Linie.
+ *   · **Zeilen, die man trifft.** 48px hoch, das ist die Größe eines
+ *     Fingers. Der Text steht links, das Symbol davor, alles auf einer
+ *     Grundlinie.
+ *   · **Rückmeldung beim Tippen.** Ein abgerundetes Feld unter dem Finger,
+ *     nicht nur beim Überfahren mit der Maus.
+ *
+ * ── Warum die Klassen jetzt `dropdown-` heißen ────────────────────────────
+ *
+ * Sie hießen `menu-`. So heißt aber auch die Speisekarte: `.menu-item` ist
+ * dort ein Gericht, mit einer Trennlinie darunter. Beide Regeln standen in
+ * derselben Anwendung, die der Speisekarte weiter unten, also gewann sie.
+ *
+ * Ergebnis: Das Aufklappmenü hatte unter jedem Eintrag einen Strich, und
+ * keine Änderung an der Menü-Regel half. Zwei Bausteine, die nichts
+ * miteinander zu tun haben, dürfen nicht denselben Namen tragen.
+ */
+.dropdown {
+  position: absolute; z-index: 60; top: calc(100% + 10px); min-width: 232px;
+  background: var(--bg-light); border-radius: 18px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, .16), 0 2px 8px rgba(0, 0, 0, .08);
+  padding: var(--sp-2);
+  /* Innen abschneiden, damit kein Eintrag über die runde Ecke läuft. */
+  overflow: hidden;
+  animation: dropdown-auf .14s ease-out;
 }
-.menu-right { right: 0; }
-.menu-left { left: 0; }
-.menu-item {
+
+@keyframes dropdown-auf {
+  from { opacity: 0; transform: translateY(-4px) scale(.98); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Wer keine Bewegung möchte, bekommt keine. */
+@media (prefers-reduced-motion: reduce) {
+  .dropdown { animation: none; }
+}
+
+.dropdown-right { right: 0; }
+.dropdown-left { left: 0; }
+
+.dropdown-item {
   display: flex; align-items: center; gap: var(--sp-3); width: 100%;
-  padding: var(--sp-2) var(--sp-3); border: 0; border-radius: var(--r-control);
-  background: transparent; text-align: left; cursor: pointer; font-size: 15px; line-height: 22px;
+  min-height: 48px; padding: var(--sp-2) var(--sp-3);
+  border: 0; border-radius: 12px;
+  background: transparent; text-align: left; cursor: pointer;
+  font-size: 15px; line-height: 20px; font-weight: 500;
+  color: var(--text-primary);
 }
-.menu-item:hover { background: var(--bg-light-alt); }
-.menu-item-danger { color: var(--danger); }
-.menu-sep { height: 1px; background: var(--border); margin: var(--sp-2) 0; }
-.menu-title { padding: var(--sp-2) var(--sp-3); }
-.menu-actions { display: flex; gap: var(--sp-2); padding: var(--sp-2); border-top: 1px solid var(--border); margin-top: var(--sp-2); }
+.dropdown-item:hover { background: var(--bg-light-alt); }
+.dropdown-item:active { background: var(--border); }
+/*
+ * Nur das führende Symbol wird gedämpft. Ein Häkchen rechts soll die
+ * Akzentfarbe behalten, und `.dropdown-item svg` hätte sie überschrieben:
+ * zwei Klassen tief schlägt eine Klasse flach.
+ */
+.dropdown-item > svg:first-child { flex: none; color: var(--text-secondary); }
+.dropdown-item svg { flex: none; }
+.dropdown-item-danger, .dropdown-item-danger svg { color: var(--danger); }
+
+/*
+ * Eine einzige Linie zwischen zwei Gruppen, nicht zwischen zwei Einträgen.
+ * Sie läuft über die volle Breite der Karte, damit sie wie eine Fuge wirkt
+ * und nicht wie ein Kasten.
+ */
+.dropdown-sep {
+  height: 1px; background: var(--border);
+  margin: var(--sp-2) calc(var(--sp-2) * -1);
+}
+
+/* Überschrift einer Gruppe: klein, ruhig, in gewöhnlicher Schreibweise. */
+.dropdown-title {
+  padding: var(--sp-2) var(--sp-3) var(--sp-1);
+  font-size: 13px; line-height: 18px; font-weight: 600;
+  color: var(--text-secondary); text-transform: none; letter-spacing: 0;
+}
+
+/* Erläuterung unter einer Gruppe. Ebenfalls keine Großbuchstaben. */
+.dropdown-hint {
+  padding: var(--sp-1) var(--sp-3) var(--sp-2);
+  font-size: 13px; line-height: 18px; color: var(--text-tertiary);
+  text-transform: none; letter-spacing: 0; margin: 0;
+}
+
+.dropdown-actions { display: flex; gap: var(--sp-2); padding: var(--sp-2); margin-top: var(--sp-2); }
+
+/*
+ * Am Handy darf das Menü breiter werden, aber nie über den Rand hinaus.
+ * Ein Menü, das an der Bildschirmkante klebt, sieht abgeschnitten aus.
+ */
+@media (max-width: 520px) {
+  .dropdown { min-width: 240px; max-width: calc(100vw - var(--sp-8)); }
+}
 
 /* Reiter */
 /*
  * Die Reiterzeile scrollt, wenn sie nicht passt. Ohne einen weichen Rand sieht
- * ein abgeschnittenes Wort nach Fehler aus statt nach „hier geht es weiter“ —
+ * ein abgeschnittenes Wort nach Fehler aus statt nach „hier geht es weiter“,
  * die Maske blendet die Kante aus.
  */
 .tabs { display: flex; gap: var(--sp-1); border-bottom: 1px solid var(--border); overflow-x: auto;
@@ -384,7 +473,7 @@
 }
 
 /* ==========================================================================
-   Angebotsarten — was gibt es hier zu essen und zu trinken?
+   Angebotsarten, was gibt es hier zu essen und zu trinken?
    ========================================================================== */
 .serving-row {
   display: inline-flex; flex-wrap: wrap; align-items: center; gap: 6px;
@@ -416,13 +505,13 @@ body.map-pure { overflow: hidden; }
 /* Der „Passwort vergessen?"-Link gehört unter das Feld, mit eigenem Abstand.
    Vorher hing er über einem negativen Rand direkt am Label. */
 /*
- * „Passwort vergessen?" steht unter dem Anmelde-Knopf, mittig — so wie es
+ * „Passwort vergessen?" steht unter dem Anmelde-Knopf, mittig, so wie es
  * Instagram, Spotify, Netflix und Apple halten.
  *
  * Zwischen Passwortfeld und Knopf war es zweimal falsch: Es trennte das
  * Formular von seiner Aktion und klebte an beidem. Unter dem Knopf braucht es
  * keinen Trick mit negativen Abständen mehr, und der Ausweg steht dort, wo man
- * ihn sucht — nachdem der normale Weg nicht geklappt hat.
+ * ihn sucht, nachdem der normale Weg nicht geklappt hat.
  */
 .login-forgot {
   /*
@@ -445,7 +534,7 @@ body.map-pure { overflow: hidden; }
 .capture-shutter.is-recording { background: var(--danger); animation: pulse 1.2s ease-in-out infinite; }
 
 /*
- * Band bei fehlender Verbindung — siehe ConnectionBanner in der Website.
+ * Band bei fehlender Verbindung, siehe ConnectionBanner in der Website.
  *
  * Auf dem Handy untereinander: Text und Knopf nebeneinander lassen dem Text
  * gut 180px, und der Satz zerfällt in vier Zeilen.

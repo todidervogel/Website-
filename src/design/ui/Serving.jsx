@@ -7,7 +7,7 @@ import { t } from '../i18n'
 /**
  * Angebotsarten.
  *
- * Der Wunsch dahinter: auf den ersten Blick erkennen, was es hier gibt —
+ * Der Wunsch dahinter: auf den ersten Blick erkennen, was es hier gibt,
  * nur Getränke, vegan, Fleisch, Fisch, Meeresfrüchte. Deshalb steht die Zeile
  * weit oben und besteht aus Symbolen mit Beschriftung, nicht aus Fließtext.
  */
@@ -16,7 +16,7 @@ export const SERVING_ICONS = {
   fruehstueck: Croissant,
   vegan: Sprout,
   vegetarisch: LeafyGreen,
-  /* Keulchen statt Fleischstück — bei 13 px eindeutig lesbar. */
+  /* Keulchen statt Fleischstück, bei 13 px eindeutig lesbar. */
   fleisch: Drumstick,
   fisch: Fish,
   meeresfruechte: Shell,
@@ -25,7 +25,7 @@ export const SERVING_ICONS = {
   glutenfrei: WheatOff,
 }
 
-/** Reihenfolge der Anzeige — das Aussagekräftigste zuerst. */
+/** Reihenfolge der Anzeige, das Aussagekräftigste zuerst. */
 const ORDER = ['getraenke', 'fleisch', 'fisch', 'meeresfruechte', 'vegan', 'vegetarisch', 'suess', 'fruehstueck', 'halal', 'glutenfrei']
 
 export const sortServing = (list = []) =>

@@ -4,7 +4,7 @@ import { Page } from '../../components/layout'
 import { t } from '../../design/i18n'
 
 /**
- * TEIL H — Rechtstexte.
+ * TEIL H, Rechtstexte.
  * Einheitliches Layout: max. 720 px, Titel, Datum, Inhaltsverzeichnis, Fließtext.
  * Die Inhalte sind Platzhalter und müssen vor dem Start juristisch ersetzt werden.
  */
@@ -57,7 +57,7 @@ export const Guidelines = () => (
   <LegalPage titleKey="guidelines" sections={['Worum es uns geht', 'Ehrliche Bewertungen', 'Respektvoller Umgang', 'Persönlichkeitsrechte in Videos', 'Keine Werbung, kein Spam', 'Was wir entfernen', 'Was passiert bei Verstößen', 'Einspruch']} />
 )
 
-/** TEIL H — Cookie-Einstellungen mit Schaltern je Kategorie */
+/** TEIL H, Cookie-Einstellungen mit Schaltern je Kategorie */
 export function CookieSettings() {
   const [statistics, setStatistics] = useState(false)
   const [marketing, setMarketing] = useState(false)

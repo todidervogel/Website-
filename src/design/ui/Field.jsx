@@ -3,9 +3,9 @@ import { Eye, EyeOff, Minus, Plus, Upload } from 'lucide-react'
 import { t } from '../i18n'
 
 /**
- * TEIL A.5 — Eingabefeld-Rahmen.
+ * TEIL A.5, Eingabefeld-Rahmen.
  * Label immer über dem Feld, Pflichtfeld mit *, Hilfetext und Fehlertext darunter.
- * Es findet KEINE Validierung statt — `error` wird von außen gesetzt, damit die
+ * Es findet KEINE Validierung statt, `error` wird von außen gesetzt, damit die
  * Fehlervariante im Design sichtbar gemacht werden kann.
  */
 export function Field({ label, required, hint, error, count, children, className = '' }) {

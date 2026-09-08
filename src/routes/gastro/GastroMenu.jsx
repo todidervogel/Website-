@@ -22,7 +22,7 @@ const DIETS = ['vegetarisch', 'vegan', 'glutenfrei']
 const toCents = (value) => Math.round(Number(String(value).replace(',', '.')) * 100) || 0
 const toEuro = (cents) => (cents / 100).toFixed(2).replace('.', ',')
 
-/** F.6 — Gastro-Speisekarte */
+/** F.6, Gastro-Speisekarte */
 export default function GastroMenu() {
   return (
     <GastroShell title={t('gastro.menu.title')}>
@@ -171,7 +171,7 @@ function MenuEditor() {
 
       {/*
         Die Dialoge werden erst beim Öffnen eingehängt. Sonst berechnet das
-        Formular seine Startwerte, während die Speisekarte noch lädt — dann
+        Formular seine Startwerte, während die Speisekarte noch lädt, dann
         steht die Kategorie leer und das Speichern scheitert an der Prüfung.
       */}
       {dishDialog && (
@@ -328,7 +328,7 @@ function DishDialog({ state, categories, placeId, onClose }) {
             {(id) => (
               <Select
                 id={id}
-                placeholder="—"
+                placeholder="–"
                 options={categories.map((c) => ({ value: c.id, label: c.name }))}
                 value={form.values.categoryId}
                 onChange={(e) => form.setValue('categoryId', e.target.value)}
@@ -360,7 +360,7 @@ function DishDialog({ state, categories, placeId, onClose }) {
                 aria-pressed={Number(form.values.spicy) === level}
                 onClick={() => form.setValue('spicy', level)}
               >
-                {level === 0 ? '—' : '·'.repeat(level)}
+                {level === 0 ? '–' : '·'.repeat(level)}
               </button>
             ))}
           </div>

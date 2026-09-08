@@ -4,7 +4,7 @@ import { Skeleton } from '../../design/ui'
 import { api, useQuery } from '../../lib/store'
 import { t } from '../../design/i18n'
 
-/** G.2 — Admin-Übersicht */
+/** G.2, Admin-Übersicht */
 export default function AdminOverview() {
   const { data, loading } = useQuery(() => api.admin.overview(), [])
   const k = data ?? { queue: 0, reports: 0, claims: 0, places: 0, users: 0, videos: 0, log: [] }

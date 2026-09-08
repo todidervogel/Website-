@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { ChevronRight, Compass, Info, MapPin, Navigation, QrCode, UtensilsCrossed } from 'lucide-react'
+import { ChevronRight, Compass, Info, MapPin, Navigation, QrCode, SquarePlay, UtensilsCrossed } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Button, IconButton, ServingRow, Skeleton, VideoTile } from '../../design/ui'
 import { Page } from '../../components/layout'
@@ -9,11 +9,11 @@ import { MapTiles } from '../../components/MapTiles'
 import { t } from '../../design/i18n'
 
 /**
- * C.1 — Die Seite vor der Anwendung.
+ * C.1. Die Seite vor der Anwendung.
  *
  * Das ist keine Startseite der App, sondern eine Präsentationsseite: Wer hier
  * ankommt, kennt das Produkt noch nicht. Deshalb ohne Seitenleiste und ohne
- * untere Leiste — die gehören in die Anwendung, nicht davor. Von hier führen
+ * untere Leiste, die gehören in die Anwendung, nicht davor. Von hier führen
  * Knöpfe hinein.
  *
  * **Sie erscheint nur für Besucher ohne Konto, und nur im Browser.** Wer
@@ -80,7 +80,7 @@ export default function Landing() {
         </form>
 
         {/*
-          * „Losgehen“ führt schon zur Karte — ein zweiter Knopf daneben, der
+          * „Losgehen“ führt schon zur Karte, ein zweiter Knopf daneben, der
           * dasselbe tut, macht die Entscheidung nur schwerer. Übrig bleibt der
           * Weg für die andere Zielgruppe.
           */}
@@ -96,9 +96,10 @@ export default function Landing() {
         <div className="lp-hero-map map-canvas">
           <MapTiles center={position} spanKm={6} onProject={setProjizieren} />
           {!mapLoading && projizieren && markers.map((p) => (
-            <span key={p.id} className="marker" style={{ top: projizieren(p).top, left: projizieren(p).left }}>
-              <span className={p.videoCount > 0 ? 'marker-video' : 'marker-dot'}>
-                <UtensilsCrossed size={p.videoCount > 0 ? 16 : 11} />
+            <span key={p.id} className="marker marker-ort" style={{ top: projizieren(p).top, left: projizieren(p).left }}>
+              {/* Dieselbe Kartennadel wie auf der Karte selbst. */}
+              <span className={`marker-pin ${p.videoCount > 0 ? 'marker-pin-video' : ''}`}>
+                {p.videoCount > 0 && <SquarePlay size={15} />}
               </span>
             </span>
           ))}

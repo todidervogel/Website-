@@ -2,7 +2,7 @@
  * Gemeinsames Vokabular.
  *
  * Welche Angebotsarten und welche Allergene es gibt, ist eine Frage der
- * Gestaltung — es gibt für jede ein Symbol, eine Farbe und eine Beschriftung.
+ * Gestaltung, es gibt für jede ein Symbol, eine Farbe und eine Beschriftung.
  * Deshalb steht die Liste hier und nicht in den Daten.
  *
  * Der Server führt dieselben Schlüssel; wer einen hinzufügt, ergänzt beide
@@ -24,7 +24,7 @@ export const ALLERGEN_KEYS = [
 /** Kennzeichnung eines Gerichts. */
 export const DIET_KEYS = ['vegan', 'vegetarisch', 'glutenfrei']
 
-/** Merkmale eines Betriebs — Umstände, nicht das Essen. */
+/** Merkmale eines Betriebs, Umstände, nicht das Essen. */
 export const FEATURE_KEYS = [
   'barrierefrei', 'aussenplaetze', 'vegetarisch', 'vegan', 'glutenfrei', 'hunde',
   'wlan', 'reservierung', 'kartenzahlung', 'parkplaetze', 'lieferung', 'abholung',

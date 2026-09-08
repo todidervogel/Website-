@@ -12,7 +12,7 @@ import { alsSpeicherstand } from './pruefbestand.mjs'
  *   node tools/bilder.mjs --breite desktop   nur eine Breite
  *   node tools/bilder.mjs --screen /karte    nur ein Screen
  *   node tools/bilder.mjs --voll             ganze Seite statt nur sichtbar
- *   node tools/bilder.mjs --leer             ohne Prüfbestand — so sieht es
+ *   node tools/bilder.mjs --leer             ohne Prüfbestand, so sieht es
  *                                            beim allerersten Start aus
  *
  * ┌─ Woran das hängt ────────────────────────────────────────────────────────┐
@@ -20,7 +20,7 @@ import { alsSpeicherstand } from './pruefbestand.mjs'
  * └──────────────────────────────────────────────────────────────────────────┘
  *
  * Standardmäßig wird der Prüfbestand eingespielt: Ein leerer Feed zeigt nicht,
- * ob ein Text aus seinem Feld läuft. Mit `--leer` gibt es die andere Hälfte —
+ * ob ein Text aus seinem Feld läuft. Mit `--leer` gibt es die andere Hälfte,
  * die leeren Zustände, die echte Menschen am ersten Tag sehen. Beides muss
  * gut aussehen.
  */
@@ -38,7 +38,14 @@ const BREITEN = {
   breit: { width: 1920, height: 1080 },
 }
 
-/* Screen, Adresse, wer angemeldet ist, worauf gewartet wird */
+/*
+ * Screen, Adresse, wer angemeldet ist, worauf gewartet wird, und optional
+ * etwas, das vorher noch getan werden muss.
+ *
+ * Der letzte Eintrag ist neu: Aufklappmenüs sieht man sonst nie auf einem
+ * Bild, weil sie zu sind, solange niemand darauf tippt. Genau dort steckte
+ * aber der Fehler, den die Bilder finden sollten.
+ */
 const SCREENS = [
   ['start', '/', null, 'main'],
   ['feed', '/feed', 'u1', '.fullheight'],
@@ -56,6 +63,19 @@ const SCREENS = [
   ['gastro-konsole', '/gastro', 'g1', 'main'],
   ['gastro-speisekarte', '/gastro/speisekarte', 'g1', 'main'],
   ['admin', '/admin', 'a1', 'main'],
+
+  /*
+   * Die Menüs, aufgeklappt. Das Hamburger-Menü gibt es nur auf schmalen
+   * Bildschirmen, am Rechner führt die Kopfleiste selbst. Deshalb `handy`.
+   */
+  ['menue-kopfleiste', '/anmelden', null, 'main', async (page) => {
+    await page.getByRole('button', { name: /Menü/i }).first().click()
+    await page.waitForSelector('.dropdown')
+  }, 'handy'],
+  ['menue-darstellung', '/anmelden', null, 'main', async (page) => {
+    await page.getByRole('button', { name: /Darstellung/i }).first().click()
+    await page.waitForSelector('.dropdown')
+  }],
 ]
 
 const breiteWahl = flag('--breite')
@@ -71,8 +91,9 @@ const probleme = []
 for (const [breitenName, viewport] of Object.entries(BREITEN)) {
   if (breiteWahl && breiteWahl !== breitenName) continue
 
-  for (const [name, pfad, user, warten] of SCREENS) {
+  for (const [name, pfad, user, warten, vorbereiten, nurBreite] of SCREENS) {
     if (screenWahl && screenWahl !== pfad) continue
+    if (nurBreite && nurBreite !== breitenName) continue
 
     const context = await browser.newContext({ viewport, deviceScaleFactor: 1 })
     await context.addInitScript((state) => {
@@ -83,7 +104,7 @@ for (const [breitenName, viewport] of Object.entries(BREITEN)) {
       else localStorage.removeItem('app-db')
     }, { user, bestand: leer ? null : BESTAND })
 
-    /* Kacheln nicht anfragen — siehe routen-sweep.mjs. */
+    /* Kacheln nicht anfragen, siehe routen-sweep.mjs. */
     await context.route('**/tile.openstreetmap.org/**', (route) => route.abort())
 
     const page = await context.newPage()
@@ -92,6 +113,7 @@ for (const [breitenName, viewport] of Object.entries(BREITEN)) {
     try {
       await page.goto(`${BASE}${pfad}`, { waitUntil: 'domcontentloaded', timeout: 20000 })
       await page.waitForSelector(warten, { timeout: 15000 })
+      if (vorbereiten) await vorbereiten(page)
       await page.waitForTimeout(700)
       await page.screenshot({ path: `${ordner}/${breitenName}-${name}.png`, fullPage: voll })
 

@@ -8,7 +8,7 @@ import { t } from '../../design/i18n'
 
 const MAX_SECONDS = 60
 
-/** E.1 — Video aufnehmen, Schritt 1 */
+/** E.1, Video aufnehmen, Schritt 1 */
 export default function UploadCapture() {
   const navigate = useNavigate()
   const { draft, save } = useUpload()
@@ -17,7 +17,7 @@ export default function UploadCapture() {
   const [seconds, setSeconds] = useState(draft.durationSec || 0)
   const timer = useRef(null)
 
-  /* Statt einer echten Kamera läuft hier eine Uhr — der Ablauf bleibt derselbe. */
+  /* Statt einer echten Kamera läuft hier eine Uhr, der Ablauf bleibt derselbe. */
   useEffect(() => {
     if (!recording) return undefined
     timer.current = setInterval(() => {
@@ -37,7 +37,7 @@ export default function UploadCapture() {
     return navigate('/upload/bearbeiten')
   }
 
-  /* Aus der Galerie wählen — nimmt eine Länge an und geht weiter. */
+  /* Aus der Galerie wählen, nimmt eine Länge an und geht weiter. */
   const fromGallery = () => {
     save({ hasVideo: true, durationSec: 28, trimFrom: 0, trimTo: 28 })
     navigate('/upload/bearbeiten')
@@ -57,7 +57,7 @@ export default function UploadCapture() {
           </div>
         </div>
 
-        {/* Rechte Spalte — im MVP ausgegraut */}
+        {/* Rechte Spalte, im MVP ausgegraut */}
         <div style={{ position: 'absolute', right: 'var(--sp-3)', top: '35%', zIndex: 10, display: 'grid', gap: 'var(--sp-3)', opacity: 0.4 }}>
           <IconButton icon={Timer} label={t('upload.capture.timer')} tone="on-dark" disabled />
           <IconButton icon={Gauge} label={t('upload.capture.speed')} tone="on-dark" disabled />

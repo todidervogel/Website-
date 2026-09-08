@@ -6,7 +6,7 @@ import { t } from '../design/i18n'
  *
  * Absichtlich klein gehalten: Werte, Fehler, „schon angefasst" und ein
  * Absenden, das erst prüft und dann handelt. Fehler erscheinen nicht beim
- * Tippen, sondern beim Verlassen des Feldes oder beim Absenden — sonst
+ * Tippen, sondern beim Verlassen des Feldes oder beim Absenden, sonst
  * schimpft das Formular, bevor man fertig ist.
  */
 
@@ -121,7 +121,7 @@ export function useForm({ initial = {}, schema, onSubmit }) {
     }
   }, [values, schema, onSubmit])
 
-  /** Alles, was ein Feld braucht — einmal ausbreiten und fertig. */
+  /** Alles, was ein Feld braucht, einmal ausbreiten und fertig. */
   const field = useCallback((name) => ({
     value: values[name] ?? '',
     onChange: (e) => setValue(name, e?.target ? (e.target.type === 'checkbox' ? e.target.checked : e.target.value) : e),

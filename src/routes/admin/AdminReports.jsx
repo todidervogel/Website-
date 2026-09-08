@@ -12,7 +12,7 @@ const STATUS_TONE = { open: 'warning', in_review: 'accent', resolved: 'success',
 const STATUS_KEY = { open: 'open', in_review: 'review', resolved: 'done', dismissed: 'rejected' }
 const FILTERS = ['open', 'in_review', 'resolved', 'dismissed']
 
-/** G.4 — Admin-Meldungen */
+/** G.4, Admin-Meldungen */
 export default function AdminReports() {
   const { userId } = useSession()
   const [filter, setFilter] = useState('open')

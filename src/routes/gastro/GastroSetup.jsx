@@ -16,7 +16,7 @@ const FEATURES = [
   'wlan', 'reservierung', 'kartenzahlung', 'parkplaetze', 'lieferung', 'abholung',
 ]
 
-/** F.3 — Einrichtungsassistent */
+/** F.3, Einrichtungsassistent */
 export default function GastroSetup() {
   const { placeId } = useSession()
   const toast = useToast()
@@ -126,7 +126,7 @@ export default function GastroSetup() {
             )}
           </Field>
 
-          {/* Angebot gleich mit abfragen — es ist das Erste, was Gäste sehen. */}
+          {/* Angebot gleich mit abfragen, es ist das Erste, was Gäste sehen. */}
           <Field label={t('serving.editTitle')} hint={t('serving.editHint')}>
             <ServingPicker value={draft.serving} onChange={set('serving')} keys={SERVING_KEYS} />
           </Field>

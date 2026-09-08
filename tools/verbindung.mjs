@@ -4,7 +4,7 @@ import { chromium } from 'playwright'
  * Prüft, was passiert, wenn der Server wegbricht.
  *
  * Vorher stand in diesem Fall „In deinem Umkreis wurden noch keine Videos
- * hochgeladen“ auf der Seite — eine Aussage über den Inhalt, obwohl gar keine
+ * hochgeladen“ auf der Seite, eine Aussage über den Inhalt, obwohl gar keine
  * Verbindung zustande kam.
  *
  * Erwartet eine Vorschau auf 4173, gebaut mit VITE_API auf einen laufenden
@@ -19,7 +19,7 @@ const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromi
 const context = await browser.newContext({ viewport: { width: 390, height: 844 } })
 await context.addInitScript(() => localStorage.setItem('app-ui', JSON.stringify({ platform: 'web', theme: 'light' })))
 
-/* Nur die Aufrufe an den Server abschneiden — die Seite selbst muss laden. */
+/* Nur die Aufrufe an den Server abschneiden, die Seite selbst muss laden. */
 let kappen = false
 const host = new URL(SERVER).host
 await context.route(`**/${host}/**`, (route) => (kappen ? route.abort('connectionrefused') : route.continue()))
@@ -61,6 +61,6 @@ await browser.close()
 
 const durchgefallen = ergebnisse.filter(([ok]) => !ok)
 ergebnisse.forEach(([ok, name, hinweis]) =>
-  console.log(`${ok ? '  ok  ' : 'FEHLER'} ${name}${hinweis ? ` — ${hinweis}` : ''}`))
+  console.log(`${ok ? '  ok  ' : 'FEHLER'} ${name}${hinweis ? `, ${hinweis}` : ''}`))
 console.log(`\n${ergebnisse.length - durchgefallen.length} von ${ergebnisse.length} bestanden.`)
 if (durchgefallen.length) process.exitCode = 1

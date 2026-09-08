@@ -29,7 +29,7 @@ export function useMyPlace() {
  * Rahmen aller Gastro-Screens (F.4 Seitenleiste).
  *
  * Welcher Betrieb hier gezeigt wird, hängt am angemeldeten Konto. Admins
- * dürfen ebenfalls hinein und sehen dann den ersten Betrieb — praktisch für
+ * dürfen ebenfalls hinein und sehen dann den ersten Betrieb, praktisch für
  * die Prüfung, ohne ein zweites Konto zu brauchen.
  */
 export function GastroShell({ title, children }) {

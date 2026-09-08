@@ -9,7 +9,7 @@ const toMinutes = (value) => {
 }
 
 /**
- * Öffnungszeiten-Tabelle — F.3 (Schritt 3) und F.9 (Abschnitt Öffnungszeiten).
+ * Öffnungszeiten-Tabelle, F.3 (Schritt 3) und F.9 (Abschnitt Öffnungszeiten).
  *
  * Arbeitet direkt auf dem gespeicherten Format (Minuten seit Mitternacht),
  * damit „jetzt geöffnet" auf der Gastro-Seite sofort stimmt.

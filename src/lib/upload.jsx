@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom'
 
 /**
  * Der Upload-Assistent (E.1 – E.6) führt über fünf Schritte. Was dabei
- * entsteht, gehört zusammen — deshalb liegt der Entwurf an einer Stelle und
+ * entsteht, gehört zusammen, deshalb liegt der Entwurf an einer Stelle und
  * nicht in fünf einzelnen Screens.
  *
  * Der Entwurf überlebt ein Neuladen, damit man zwischendurch nachschauen
@@ -65,7 +65,7 @@ export function useUpload() {
 /**
  * Schützt die späteren Schritte: Ohne Video keine Bearbeitung, ohne Betrieb
  * keine Bewertung. Wer direkt auf Schritt 4 springt, landet dort, wo etwas
- * fehlt — statt in einem halbleeren Formular.
+ * fehlt, statt in einem halbleeren Formular.
  */
 export function UploadStepGuard({ needs = [], children }) {
   const { draft } = useUpload()

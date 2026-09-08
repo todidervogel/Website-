@@ -35,7 +35,7 @@ function Section({ title, children }) {
   )
 }
 
-/** F.11 — Gastro-Einstellungen */
+/** F.11, Gastro-Einstellungen */
 export default function GastroSettings() {
   return (
     <GastroShell title={t('gastro.settings.title')}>

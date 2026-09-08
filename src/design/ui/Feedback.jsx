@@ -4,7 +4,7 @@ import { Button, IconButton } from './Button'
 import { t } from '../i18n'
 
 /* ==========================================================================
-   TEIL B.8 — Leere Zustände
+   TEIL B.8, Leere Zustände
    Immer nach demselben Muster: Symbol · Überschrift · Erklärtext · optional Button
    ========================================================================== */
 export function EmptyState({ icon: Icon, title, text, action, secondaryAction, onDark }) {
@@ -24,7 +24,7 @@ export function EmptyState({ icon: Icon, title, text, action, secondaryAction, o
 }
 
 /* ==========================================================================
-   TEIL B.9 — Skelettflächen statt Ladekreisel
+   TEIL B.9, Skelettflächen statt Ladekreisel
    ========================================================================== */
 export function Skeleton({ w = '100%', h = 12, radius, dark, style, className = '' }) {
   return (
@@ -68,7 +68,7 @@ export function SkeletonTile() {
 /**
  * Ladekreisel.
  *
- * Skelettflächen bleiben die erste Wahl (B.9) — sie zeigen, wie die Seite
+ * Skelettflächen bleiben die erste Wahl (B.9), sie zeigen, wie die Seite
  * gleich aussieht. Wo es nichts zu skizzieren gibt (ein laufender Button,
  * ein Nachladen unter bestehendem Inhalt), ist der Kreisel richtig.
  */
@@ -91,7 +91,7 @@ export function LoadingBlock({ label, minHeight = 200 }) {
 }
 
 /* ==========================================================================
-   TEIL B.7 — Dialogfenster
+   TEIL B.7, Dialogfenster
    ========================================================================== */
 export function Modal({ open, onClose, title, description, children, actions, wide }) {
   useEffect(() => {
@@ -130,7 +130,7 @@ export function ModalActions({ onCancel, cancelLabel = t('common.cancel'), child
 }
 
 /* ==========================================================================
-   TEIL B.6 — Toast-Meldungen
+   TEIL B.6, Toast-Meldungen
    ========================================================================== */
 const ToastContext = createContext(() => {})
 export const useToast = () => useContext(ToastContext)

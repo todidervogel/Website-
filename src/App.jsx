@@ -60,7 +60,7 @@ import { CookieSettings, GastroTerms, Guidelines, Imprint, Privacy, Terms } from
 import { Forbidden, NotFound, Offline, ServerError } from './routes/fehler/ErrorPages'
 
 /**
- * TEIL J — Übersicht aller Routen.
+ * TEIL J, Übersicht aller Routen.
  * Alles statisch: Buttons navigieren, verändern aber nichts.
  */
 export default function App() {

@@ -18,7 +18,7 @@ const FEATURES = [
   'wlan', 'reservierung', 'kartenzahlung', 'parkplaetze', 'lieferung', 'abholung',
 ]
 
-/** F.9 — Gastro-Profil */
+/** F.9, Gastro-Profil */
 export default function GastroProfile() {
   return (
     <GastroShell title={t('gastro.profile.title')}>
@@ -104,7 +104,7 @@ function ProfileBody() {
           <Notice>{t('gastro.profile.baseNotice')}</Notice>
         </Section>
 
-        {/* Das Angebot steht bei Gästen ganz oben — deshalb ein eigener Abschnitt. */}
+        {/* Das Angebot steht bei Gästen ganz oben, deshalb ein eigener Abschnitt. */}
         <Section title={t('serving.editTitle')} keys={['serving']}>
           <p className="t-small c-secondary">{t('serving.editHint')}</p>
           <ServingPicker value={draft.serving} onChange={set('serving')} keys={SERVING_KEYS} />

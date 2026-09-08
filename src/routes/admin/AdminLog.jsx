@@ -5,7 +5,7 @@ import { AdminShell, AdminTable } from './AdminShell'
 import { api, useQuery } from '../../lib/store'
 import { t } from '../../design/i18n'
 
-/** G.9 — Admin-Protokoll (nur lesbar) */
+/** G.9, Admin-Protokoll (nur lesbar) */
 export default function AdminLog() {
   const [who, setWho] = useState('')
   const [day, setDay] = useState('')
@@ -50,7 +50,7 @@ export default function AdminLog() {
             <td>{l.admin}</td>
             <td>{l.action}</td>
             <td className="c-secondary">{l.object}</td>
-            <td className="c-secondary">{l.note || '—'}</td>
+            <td className="c-secondary">{l.note || '–'}</td>
           </tr>
         )}
       />

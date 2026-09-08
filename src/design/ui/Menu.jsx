@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { ChevronDown } from 'lucide-react'
 
-/** Aufklappmenü — Grundlage für Avatar-Menü, Filter, Drei-Punkte-Menüs. */
+/** Aufklappmenü, Grundlage für Avatar-Menü, Filter, Drei-Punkte-Menüs. */
 export function Menu({ trigger, align = 'left', children, dark, width }) {
   const [open, setOpen] = useState(false)
   const ref = useRef(null)
@@ -14,10 +14,10 @@ export function Menu({ trigger, align = 'left', children, dark, width }) {
   }, [open])
 
   return (
-    <span className="menu-anchor" ref={ref}>
+    <span className="dropdown-anchor" ref={ref}>
       {trigger({ open, toggle: () => setOpen((o) => !o) })}
       {open && (
-        <div className={`menu menu-${align} ${dark ? 'sheet-dark' : ''}`} style={width ? { width } : undefined}>
+        <div className={`dropdown dropdown-${align} ${dark ? 'sheet-dark' : ''}`} style={width ? { width } : undefined}>
           {typeof children === 'function' ? children({ close: () => setOpen(false) }) : children}
         </div>
       )}
@@ -27,14 +27,14 @@ export function Menu({ trigger, align = 'left', children, dark, width }) {
 
 export function MenuItem({ icon: Icon, danger, children, ...rest }) {
   return (
-    <button type="button" className={`menu-item ${danger ? 'menu-item-danger' : ''}`} {...rest}>
+    <button type="button" className={`dropdown-item ${danger ? 'dropdown-item-danger' : ''}`} {...rest}>
       {Icon && <Icon size={16} />}
       {children}
     </button>
   )
 }
 
-export const MenuSeparator = () => <div className="menu-sep" />
+export const MenuSeparator = () => <div className="dropdown-sep" />
 
 /** Filterchip, der ein Menü öffnet (C.2). */
 export function FilterChip({ label, active, children, align = 'left', width }) {

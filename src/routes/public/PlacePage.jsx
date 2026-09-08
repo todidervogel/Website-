@@ -24,8 +24,8 @@ import { t } from '../../design/i18n'
 /**
  * Das Kopfbild eines Betriebs.
  *
- * Hat der Betrieb ein echtes Bild — aus OpenStreetMap oder später selbst
- * hochgeladen —, wird das gezeigt. Sonst zeichnet `titelbild` eines
+ * Hat der Betrieb ein echtes Bild, aus OpenStreetMap oder später selbst
+ * hochgeladen –, wird das gezeigt. Sonst zeichnet `titelbild` eines
  * (src/domain/titelbild.js, dort steht auch, warum keine fremden Fotos).
  *
  * Als Daten-Adresse statt über den Server: So sieht die Seite im Alleinbetrieb
@@ -49,7 +49,7 @@ const TABS = [
   { id: 'info', label: t('place.tabs.info') },
 ]
 
-/** C.3 — Gastro-Seite /g/[slug] · D.6 — Einstieg über QR-Code */
+/** C.3, Gastro-Seite /g/[slug] · D.6, Einstieg über QR-Code */
 export default function PlacePage() {
   const { slug } = useParams()
   const [params] = useSearchParams()
@@ -102,7 +102,7 @@ export default function PlacePage() {
 
   return (
     <BarePage title={place.name}>
-      {/* D.6 — Band beim Einstieg über den QR-Code im Lokal */}
+      {/* D.6, Band beim Einstieg über den QR-Code im Lokal */}
       {fromQr && (
         <div className="build-banner" style={{ paddingRight: 'var(--sp-4)' }}>
           <span>
@@ -140,8 +140,8 @@ export default function PlacePage() {
 
       <div className="container">
        {/*
-         * Am Rechner zwei Spalten: links, was man liest — Name, Bewertung,
-         * Videos, Speisekarte. Rechts, was man nachschlägt — offen bis wann,
+         * Am Rechner zwei Spalten: links, was man liest, Name, Bewertung,
+         * Videos, Speisekarte. Rechts, was man nachschlägt, offen bis wann,
          * Adresse, Telefon. Die rechte Spalte bleibt beim Scrollen stehen.
          * Auf dem Handy fällt das Raster in sich zusammen und es bleibt eine
          * Spalte in genau dieser Reihenfolge.
@@ -172,7 +172,7 @@ export default function PlacePage() {
           <ServingRow serving={place.serving} size="md" />
 
           {/*
-            * Kurzbeschreibung aus öffentlichen Quellen — mit Quelle und Stand
+            * Kurzbeschreibung aus öffentlichen Quellen, mit Quelle und Stand
             * direkt darunter. Wer eine Angabe liest, soll ohne Nachfragen
             * wissen, woher sie kommt und wie alt sie ist; sonst hält man sie
             * für vom Betrieb bestätigt.
@@ -201,7 +201,7 @@ export default function PlacePage() {
         {/*
           * Speichern und Teilen sitzen auf dem Handy schon als Symbole im
           * Titelbild. Sie hier ein zweites Mal zu zeigen, drückt fünf Knöpfe
-          * auf 390px zusammen — dann passt „Speisekarte“ nicht mehr in seinen
+          * auf 390px zusammen, dann passt „Speisekarte“ nicht mehr in seinen
           * Knopf und läuft heraus. Am Rechner ist Platz, dort stehen alle.
           */}
         <div className="action-bar">

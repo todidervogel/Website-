@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 
 /**
- * TEIL A.4 — Button
+ * TEIL A.4, Button
  * Varianten: primary | secondary | quiet | danger
  * Zustände: normal, hover, aktiv, deaktiviert, ladend
  *
@@ -52,7 +52,7 @@ export function Button({
   )
 }
 
-/** TEIL A.4 — Symbolbutton, 40 × 40 px, rund. */
+/** TEIL A.4, Symbolbutton, 40 × 40 px, rund. */
 export function IconButton({ icon: Icon, label, tone, to, size = 20, className = '', ...rest }) {
   const classes = ['btn', 'btn-icon', tone === 'on-dark' && 'btn-icon-on-dark', tone === 'glass' && 'btn-icon-glass', className]
     .filter(Boolean).join(' ')

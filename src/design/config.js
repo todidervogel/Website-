@@ -2,7 +2,7 @@
  * Zentrale Konstanten.
  *
  * APP_NAME ist der Platzhalter für den Produktnamen. Er steht ausschließlich
- * hier — in Texten wird er über {{app}} eingesetzt, nie direkt geschrieben.
+ * hier, in Texten wird er über {{app}} eingesetzt, nie direkt geschrieben.
  * Zum Umbenennen des Produkts genügt eine Änderung an dieser Stelle.
  */
 export const APP_NAME = 'Tellerrand'

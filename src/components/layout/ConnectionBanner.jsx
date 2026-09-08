@@ -7,7 +7,7 @@ import { t } from '../../design/i18n'
  * Sagt es, wenn der Server nicht antwortet.
  *
  * Vorher stand in diesem Fall auf der Startseite „In deinem Umkreis wurden
- * noch keine Videos hochgeladen“ — eine Aussage über den Inhalt, obwohl gar
+ * noch keine Videos hochgeladen“, eine Aussage über den Inhalt, obwohl gar
  * keine Verbindung zustande kam. Wer das liest, sucht den Fehler bei sich
  * oder hält die App für leer.
  *
@@ -28,7 +28,7 @@ export function ConnectionBanner() {
       await request('/api/health')
       changed()
     } catch {
-      /* Weiterhin weg — das Band bleibt stehen. */
+      /* Weiterhin weg, das Band bleibt stehen. */
     } finally {
       setLaeuft(false)
     }

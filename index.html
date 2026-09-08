@@ -15,8 +15,7 @@
 
       `apple-mobile-web-app-capable` lässt die Seite auf dem iPhone ohne
       Safari-Leisten laufen, sobald sie über „Zum Home-Bildschirm“ abgelegt
-      wurde. `black-translucent` schiebt den Inhalt unter die Statusleiste —
-      deshalb rechnen Kopfleiste und untere Leiste mit `env(safe-area-inset-*)`,
+      wurde. `black-translucent` schiebt den Inhalt unter die Statusleiste, deshalb rechnen Kopfleiste und untere Leiste mit `env(safe-area-inset-*)`,
       sonst läge der Text unter der Uhr.
     -->
     <link rel="manifest" href="./manifest.webmanifest" />
@@ -26,20 +25,20 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Tellerrand" />
     <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="description" content="Restaurants, Bars und Cafés entdecken — mit Videos, Karte und Bewertungen pro Gericht." />
-    <title>Tellerrand — Sieh, was es zu essen gibt</title>
+    <meta name="description" content="Restaurants, Bars und Cafés entdecken, mit Videos, Karte und Bewertungen pro Gericht." />
+    <title>Tellerrand, Sieh, was es zu essen gibt</title>
     <!--
       Kein Zeichensatz von Google.
 
       Zwei Gründe. Rechtlich: Werden Google Fonts direkt von Googles Servern
-      geladen, wandert die IP-Adresse der Besucherin dorthin — ohne Einwilligung
+      geladen, wandert die IP-Adresse der Besucherin dorthin, ohne Einwilligung
       ist das nach dem Urteil des LG München I (20.01.2022, 3 O 17493/20)
       unzulässig. Technisch: Die Datei blockiert das erste Bild, und in der
       verpackten App wäre sie offline gar nicht erreichbar.
 
       Die Schriftliste unten nimmt Inter, wenn es vorhanden ist, und sonst die
       Systemschrift. Vor dem Start sollte Inter selbst ausgeliefert werden
-      (woff2 im Projekt, @font-face in base.css) — siehe Brain,
+      (woff2 im Projekt, @font-face in base.css), siehe Brain,
       04-naechste-schritte.
     -->
   </head>

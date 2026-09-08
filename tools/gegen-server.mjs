@@ -23,7 +23,7 @@ const check = (name, ok, detail = '') => results.push([!!ok, name, ok ? '' : det
 
 async function seite(platform = 'web') {
   const ctx = await browser.newContext({ viewport: { width: 390, height: 844 } })
-  /* Läuft vor jedem Seitenaufruf — deshalb nur beim ersten Mal aufräumen,
+  /* Läuft vor jedem Seitenaufruf, deshalb nur beim ersten Mal aufräumen,
      sonst wäre das Zugangsmerkmal nach jedem Link wieder weg. */
   await ctx.addInitScript((p) => {
     localStorage.setItem('app-ui', JSON.stringify({ platform: p, theme: 'light' }))
@@ -113,7 +113,7 @@ await fetch(`${API}/api/reset`, { method: 'POST' }).catch(() => {})
   await a.page.locator('.modal-actions button', { hasText: 'Speichern' }).click()
   await a.page.waitForSelector('.modal', { state: 'detached' })
 
-  /* Der zweite Browser hat nie etwas davon gespeichert — er fragt den Server. */
+  /* Der zweite Browser hat nie etwas davon gespeichert, er fragt den Server. */
   await b.page.goto(`${WEB}/g/trattoria-bella/speisekarte`)
   await b.page.waitForSelector('text=Server-Testgericht')
   check('Was der eine anlegt, sieht der andere', true)
@@ -163,7 +163,7 @@ await fetch(`${API}/api/reset`, { method: 'POST' }).catch(() => {})
 
 /*
  * Diese Prüfung stand früher in `verhalten.mjs`. Sie hing daran, dass die
- * Fassade im Alleinbetrieb absichtlich verzögerte — ein Entwicklerstück, das
+ * Fassade im Alleinbetrieb absichtlich verzögerte, ein Entwicklerstück, das
  * mit Runde 8 weggefallen ist. Hier gibt es einen echten Aufruf, und der lässt
  * sich verzögern: Damit wird wirklich geprüft, was gezeigt wird, solange die
  * Daten unterwegs sind.
@@ -188,6 +188,6 @@ await fetch(`${API}/api/reset`, { method: 'POST' }).catch(() => {})
 await browser.close()
 
 const failed = results.filter(([ok]) => !ok)
-results.forEach(([ok, name, detail]) => console.log(`${ok ? '  ok  ' : 'FEHLER'} ${name}${detail ? ` — ${detail}` : ''}`))
+results.forEach(([ok, name, detail]) => console.log(`${ok ? '  ok  ' : 'FEHLER'} ${name}${detail ? `, ${detail}` : ''}`))
 console.log(`\n${results.length - failed.length} von ${results.length} bestanden.`)
 if (failed.length) process.exitCode = 1

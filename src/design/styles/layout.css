@@ -1,10 +1,10 @@
 /* ==========================================================================
-   TEIL B — Globale Komponenten (Kopfleiste, Fußzeile, Navigation, Banner)
+   TEIL B, Globale Komponenten (Kopfleiste, Fußzeile, Navigation, Banner)
    ========================================================================== */
 .app-shell { display: flex; flex-direction: column; min-height: 100%; }
 .app-main { flex: 1 1 auto; }
 
-/* B.5 — Aufbau-Banner */
+/* B.5, Aufbau-Banner */
 .build-banner {
   display: flex; align-items: center; justify-content: center; gap: var(--sp-2);
   min-height: 40px; padding: var(--sp-2) 44px var(--sp-2) var(--sp-4);
@@ -13,7 +13,7 @@
 }
 .build-banner .banner-close { position: absolute; right: var(--sp-2); top: 50%; transform: translateY(-50%); }
 
-/* B.1 / B.2 — Kopfleiste */
+/* B.1 / B.2, Kopfleiste */
 .header {
   position: sticky; top: 0; z-index: 50;
   background: var(--bg-light); border-bottom: 1px solid var(--border);
@@ -30,7 +30,7 @@
 .header-actions { display: flex; align-items: center; gap: var(--sp-2); margin-left: auto; }
 .notif-dot { position: absolute; top: 6px; right: 6px; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
 
-/* B.3 — Untere Navigationsleiste (nur Mobil) */
+/* B.3, Untere Navigationsleiste (nur Mobil) */
 .bottom-nav {
   position: fixed; bottom: 0; left: 0; right: 0; z-index: 60;
   display: grid; grid-auto-flow: column; grid-auto-columns: 1fr;
@@ -47,7 +47,7 @@
 
 /*
  * Die Beschriftung stand als `.t-tiny` da: Großbuchstaben mit Sperrung. Das
- * ist eine Auszeichnung für Tabellenköpfe, nicht für eine Navigationsleiste —
+ * ist eine Auszeichnung für Tabellenköpfe, nicht für eine Navigationsleiste,
  * „FEED · KARTE · SUCHE · PROFIL" liest sich wie ein Schild und nicht wie ein
  * Menü. Kein Telefon macht das so.
  */
@@ -61,7 +61,7 @@
 }
 @media (min-width: 1024px) { .bottom-nav { display: none; } }
 
-/* B.4 — Fußzeile */
+/* B.4, Fußzeile */
 .footer { background: var(--bg-light-alt); border-top: 1px solid var(--border); padding-block: var(--sp-12) var(--sp-6); margin-top: var(--sp-16); }
 .footer-cols { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-8) var(--sp-6); }
 @media (min-width: 1024px) { .footer-cols { grid-template-columns: repeat(4, 1fr); } }
@@ -106,14 +106,14 @@
 .map-tools {
   position: absolute; right: var(--sp-3); z-index: 25;
   display: grid; gap: var(--sp-2);
-  /* Über dem Ergebnisblatt (max. 62 % hoch) — sonst nicht erreichbar. */
+  /* Über dem Ergebnisblatt (max. 62 % hoch), sonst nicht erreichbar. */
   bottom: calc(62% + var(--sp-3));
 }
 .map-tool { background: var(--bg-light); box-shadow: var(--shadow-float); }
 @media (min-width: 1024px) {
   .map-tools { bottom: var(--sp-6); }
 }
-/* In der reinen Ansicht gibt es kein Blatt — dann dürfen sie nach unten. */
+/* In der reinen Ansicht gibt es kein Blatt, dann dürfen sie nach unten. */
 .map-page.is-pure .map-tools { bottom: calc(var(--sp-8) + env(safe-area-inset-bottom, 0px)); }
 .map-attribution {
   position: absolute; bottom: 0; left: 0; right: 0; z-index: 5;
@@ -125,12 +125,12 @@
 /*
  * Ein Marker, wie ihn jede Karte hat: Tropfen mit der Spitze auf dem Punkt.
  *
- * Vorher waren es graue Kreise mit einem durchgestrichenen Besteck darin —
+ * Vorher waren es graue Kreise mit einem durchgestrichenen Besteck darin,
  * das Symbol, das sonst „Bild fehlt" bedeutet. Auf einer Karte sah das aus,
  * als wäre etwas kaputt, und man konnte nicht erkennen, wo genau der Betrieb
  * liegt: Ein Kreis um den Punkt herum zeigt auf alles im Umkreis.
  *
- * Deshalb `translate(-50%, -100%)` — die Spitze sitzt auf der Koordinate, der
+ * Deshalb `translate(-50%, -100%)`, die Spitze sitzt auf der Koordinate, der
  * Tropfen steht darüber. So macht es jede Karte, und deshalb liest man es
  * ohne nachzudenken.
  */
@@ -143,7 +143,7 @@
   display: grid; place-items: center;
   transition: transform .12s ease;
 }
-/* Der Inhalt wieder gerade stellen — der Tropfen ist gedreht. */
+/* Der Inhalt wieder gerade stellen, der Tropfen ist gedreht. */
 .marker-pin > * { transform: rotate(45deg); }
 .marker-pin-video { width: 32px; height: 32px; background: var(--accent); color: #fff; }
 .marker[data-selected='true'] .marker-pin { transform: rotate(-45deg) scale(1.2); }
@@ -169,7 +169,7 @@
 .place-video-badge { position: absolute; left: 4px; bottom: 4px; }
 
 /* ==========================================================================
-   Feed (C.6) — dunkles Interface
+   Feed (C.6), dunkles Interface
    ========================================================================== */
 .feed { position: relative; height: 100vh; height: 100dvh; background: var(--bg-dark); color: var(--text-on-dark); overflow: hidden; }
 .feed-stage { position: absolute; inset: 0; display: grid; place-items: center; }
@@ -215,8 +215,14 @@
   background: rgba(0,0,0,.5); border-radius: var(--r-control);
   font-size: 13px; line-height: 18px;
 }
-.sheet-dark { background: var(--bg-dark-alt); color: var(--text-on-dark); border: 1px solid #2A2A31; }
-.sheet-dark .menu-item:hover { background: #26262B; }
+/* Dieselbe Form, dunkler Grund. Kein Rahmen: Der Schatten trennt genug. */
+.sheet-dark { background: var(--bg-dark-alt); color: var(--text-on-dark); }
+.sheet-dark .dropdown-item { color: var(--text-on-dark); }
+.sheet-dark .dropdown-item svg { color: var(--text-on-dark-dim); }
+.sheet-dark .dropdown-item:hover { background: #26262B; }
+.sheet-dark .dropdown-item:active { background: #303038; }
+.sheet-dark .dropdown-sep { background: #2A2A31; }
+.sheet-dark .dropdown-title, .sheet-dark .dropdown-hint { color: var(--text-on-dark-dim); }
 
 /* Aufnehmen (E.1) */
 .capture { position: relative; height: 100vh; height: 100dvh; background: #101014; color: #fff; overflow: hidden; }
@@ -264,7 +270,7 @@
 
 /*
  * Das Kopfbild füllt den Rahmen. `object-fit: cover` schneidet ab statt zu
- * verzerren — ein gezogenes Foto sieht billig aus, ein beschnittenes nicht.
+ * verzerren, ein gezogenes Foto sieht billig aus, ein beschnittenes nicht.
  * Die gezeichneten Bilder (src/domain/titelbild.js) haben 16:9 und werden
  * deshalb kaum beschnitten.
  */
@@ -294,8 +300,8 @@
   /* Lange Wörter wie „Speisekarte“ werden gekürzt statt herauszulaufen. */
   .action-bar .btn > span { max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
 }
-/* Doppelt vorhandene Aktionen — Speichern und Teilen stehen auf dem Handy
-   bereits als Symbole im Titelbild — fallen auf schmalen Bildschirmen weg. */
+/* Doppelt vorhandene Aktionen, Speichern und Teilen stehen auf dem Handy
+   bereits als Symbole im Titelbild, fallen auf schmalen Bildschirmen weg. */
 @media (max-width: 1023px) { .action-bar .action-extra { display: none; } }
 .mini-map { height: 160px; border-radius: var(--r-card); border: 1px solid var(--border);
   background:
@@ -392,7 +398,7 @@
 .dev-panel .seg button[aria-pressed='true'] { background: var(--bg-light); font-weight: 600; box-shadow: var(--shadow-float); }
 
 /* ==========================================================================
-   Reine Speisekarte — /g/[slug]/speisekarte
+   Reine Speisekarte, /g/[slug]/speisekarte
    Eigene Seite ohne App-Rahmen: lesen, nicht bedienen.
    ========================================================================== */
 .menu-page {
@@ -540,7 +546,7 @@
   .map-preview { left: auto; right: var(--sp-4); width: 320px; }
 }
 
-/* Blätterhilfe im Feed — wischen geht auch, aber nicht mit der Maus */
+/* Blätterhilfe im Feed, wischen geht auch, aber nicht mit der Maus */
 .feed-paging {
   position: absolute; right: var(--sp-3); top: 50%; transform: translateY(-50%);
   z-index: 12; display: grid; gap: var(--sp-2); justify-items: center;
@@ -565,7 +571,7 @@
    Kartenkacheln
    ==========================================================================
    Liegen unter den Markern. Bleiben sie aus (kein Netz), sieht man weiter
-   den Rasterhintergrund von `.map-canvas` — die Marker sitzen trotzdem
+   den Rasterhintergrund von `.map-canvas`, die Marker sitzen trotzdem
    richtig, weil sie aus derselben Rechnung kommen.
    ========================================================================== */
 .map-tiles { position: absolute; inset: 0; overflow: hidden; }
@@ -578,7 +584,7 @@
 }
 
 /*
- * Nachweis der Quelle. So klein und ruhig wie möglich — verlangt ist er
+ * Nachweis der Quelle. So klein und ruhig wie möglich, verlangt ist er
  * trotzdem: Die Kacheln stehen unter der ODbL, und die will genannt werden.
  */
 .map-credit {
@@ -591,7 +597,7 @@
 
 /*
  * Im Dunkelmodus gibt es von OpenStreetMap keine dunklen Kacheln. Umdrehen
- * und den Farbkreis zurückdrehen kommt einer dunklen Karte nahe genug —
+ * und den Farbkreis zurückdrehen kommt einer dunklen Karte nahe genug,
  * Grün bleibt Grün, Wasser bleibt blau.
  */
 :root[data-theme='dark'] .map-tile {
@@ -675,7 +681,7 @@
 
 /*
  * Das Bild in der Betriebszeile. Es füllt dasselbe Quadrat wie der
- * Platzhalter davor — sonst springt die Liste, sobald ein Bild da ist.
+ * Platzhalter davor, sonst springt die Liste, sobald ein Bild da ist.
  */
 .place-thumb { display: block; object-fit: cover; border-radius: var(--r-card);
   background: var(--bg-light-alt); }

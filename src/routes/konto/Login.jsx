@@ -7,7 +7,7 @@ import { useSession } from '../../lib/session'
 import { rules, useForm } from '../../lib/form'
 import { t } from '../../design/i18n'
 
-/** D.3 — Anmelden */
+/** D.3, Anmelden */
 export default function Login() {
   const { login } = useSession()
   const navigate = useNavigate()
@@ -53,7 +53,7 @@ export default function Login() {
         {/*
           * „Passwort vergessen?" steht unter dem Anmelde-Knopf, mittig.
           *
-          * So machen es Instagram, Spotify, Netflix und Apple — aus einem
+          * So machen es Instagram, Spotify, Netflix und Apple, aus einem
           * guten Grund: Zwischen Passwortfeld und Knopf eingeklemmt trennt der
           * Link das Formular von seiner Aktion und klebt an beidem. Unter dem
           * Knopf ist er das, was er ist: der Ausweg, wenn der normale Weg

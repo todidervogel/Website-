@@ -15,7 +15,7 @@ const hoerer = new Set()
 
 const melden = () => hoerer.forEach((f) => f())
 
-/** Ein Aufruf ist am Netz gescheitert — nicht am Inhalt. */
+/** Ein Aufruf ist am Netz gescheitert, nicht am Inhalt. */
 export function verbindungWeg() {
   if (offline) return
   offline = true

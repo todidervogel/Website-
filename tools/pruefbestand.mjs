@@ -12,15 +12,15 @@ import { initialDatabase } from '../src/domain/seed.js'
  * ── Warum es diese Datei gibt ─────────────────────────────────────────────
  *
  * Bis zum MVP standen im Ausgangsbestand erfundene Videos, Bewertungen und
- * Speisekarten. Die Prüfungen zeigten darauf — „öffne die Speisekarte von
- * Trattoria Bella" — und die Bildschirmfotos sahen nach voller Anwendung aus.
+ * Speisekarten. Die Prüfungen zeigten darauf, „öffne die Speisekarte von
+ * Trattoria Bella", und die Bildschirmfotos sahen nach voller Anwendung aus.
  *
  * Für den Betrieb war das falsch: Niemand soll erfundene Inhalte neben echten
  * sehen. Für die Prüfung war es aber richtig: Ein leerer Feed zeigt nicht, ob
  * ein Video richtig sitzt.
  *
  * Also getrennt. Der Ausgangsbestand ist leer, und was zum Prüfen gebraucht
- * wird, steht hier — sichtbar als das, was es ist, und nirgends im Programm.
+ * wird, steht hier, sichtbar als das, was es ist, und nirgends im Programm.
  *
  * Der Bestand wird über `localStorage['app-db']` eingespielt, bevor die Seite
  * lädt. Die Kennungen der Konten (u1, g1, a1) kommen aus dem echten
@@ -74,13 +74,13 @@ const vorTagen = (n) => new Date(Date.now() - n * 86400000).toISOString().slice(
 
 const VIDEOS = [
   { id: 'pv1', placeId: 'pruef-1', authorId: 'u1', authorType: 'user', caption: 'Die Pizza kam nach zwölf Minuten und war noch am Blubbern.', views: 12400, durationSec: 35, verifiedOnSite: true, visibility: 'public', status: 'published', createdAt: vorTagen(2) },
-  { id: 'pv2', placeId: 'pruef-1', authorId: 'u2', authorType: 'user', caption: 'Tiramisu im Glas — süß, aber nicht zu süß.', views: 3910, durationSec: 18, verifiedOnSite: true, visibility: 'public', status: 'published', createdAt: vorTagen(4) },
+  { id: 'pv2', placeId: 'pruef-1', authorId: 'u2', authorType: 'user', caption: 'Tiramisu im Glas, süß, aber nicht zu süß.', views: 3910, durationSec: 18, verifiedOnSite: true, visibility: 'public', status: 'published', createdAt: vorTagen(4) },
   { id: 'pv3', placeId: 'pruef-1', authorId: 'u2', authorType: 'user', caption: 'Wartet auf die Freigabe.', views: 0, durationSec: 22, verifiedOnSite: false, visibility: 'public', status: 'pending_review', createdAt: heute },
 ]
 
 const BEWERTUNGEN = [
   { id: 'pr1', videoId: 'pv1', placeId: 'pruef-1', authorId: 'u2', createdAt: vorTagen(2), verifiedOnSite: true, ratingFood: 4, ratingService: 5, ratingPrice: 3, groupSize: 2, foodHot: true, dishes: [{ dishId: 'pd1', name: 'Pizza Margherita', rating: 5 }], text: 'Es war voll, trotzdem hat alles keine 20 Minuten gedauert. Beim Preis merkt man die Lage.', likes: 12, answer: null },
-  { id: 'pr2', videoId: null, placeId: 'pruef-1', authorId: 'u1', createdAt: vorTagen(6), verifiedOnSite: false, ratingFood: 5, ratingService: 3, ratingPrice: 4, groupSize: 4, foodHot: true, dishes: [{ dishId: 'pd3', name: 'Tagliatelle al Ragù', rating: 5 }], text: 'Essen hervorragend, Service überfordert. Kommen trotzdem wieder.', likes: 4, answer: { text: 'Danke für die Rückmeldung — wir haben nachbesetzt.', createdAt: vorTagen(5) } },
+  { id: 'pr2', videoId: null, placeId: 'pruef-1', authorId: 'u1', createdAt: vorTagen(6), verifiedOnSite: false, ratingFood: 5, ratingService: 3, ratingPrice: 4, groupSize: 4, foodHot: true, dishes: [{ dishId: 'pd3', name: 'Tagliatelle al Ragù', rating: 5 }], text: 'Essen hervorragend, Service überfordert. Kommen trotzdem wieder.', likes: 4, answer: { text: 'Danke für die Rückmeldung, wir haben nachbesetzt.', createdAt: vorTagen(5) } },
 ]
 
 /**
@@ -100,7 +100,7 @@ export function pruefbestand() {
     notify: { follows: true, likes: true, replies: true, moderation: true },
   }
 
-  /* Das Gastro-Konto zeigt auf den Prüfbetrieb — sonst bearbeitet es einen
+  /* Das Gastro-Konto zeigt auf den Prüfbetrieb, sonst bearbeitet es einen
      echten importierten Betrieb, und das prüft die falsche Sache. */
   const users = [...basis.users.map((u) => (u.role === 'gastro' ? { ...u, placeId: 'pruef-1' } : u)), zweiter]
 

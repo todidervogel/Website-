@@ -8,7 +8,7 @@ import { t } from '../design/i18n'
 /**
  * Die Betriebszeile aus dem Design-System, an die Anwendung angeschlossen.
  *
- * Der Baustein selbst kennt weder Daten noch Anmeldung — hier kommt beides
+ * Der Baustein selbst kennt weder Daten noch Anmeldung, hier kommt beides
  * dazu: die Entfernung als Text, der Öffnungssatz, das Lesezeichen und das
  * Bild.
  */

@@ -21,10 +21,10 @@ wirklich von dort kommen, dass die Anmeldung ein Neuladen übersteht, dass die
 Rechte am Server hängen und dass zwei Browser denselben Stand sehen.
 
 ```bash
-# Fenster 1 — im Server-Repo
+# Fenster 1, im Server-Repo
 npm start
 
-# Fenster 2 — hier
+# Fenster 2, hier
 VITE_API=http://localhost:4000 npm run build
 npx vite preview --port 4174 --strictPort
 node tools/gegen-server.mjs

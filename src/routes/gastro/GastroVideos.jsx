@@ -15,7 +15,7 @@ const STATUS_TONE = { published: 'success', pending_review: 'warning', rejected:
 const STATUS_KEY = { published: 'published', pending_review: 'review', rejected: 'rejected' }
 const FILTER_STATUS = { published: 'published', review: 'pending_review', rejected: 'rejected' }
 
-/** F.5 — Gastro-Videos */
+/** F.5, Gastro-Videos */
 export default function GastroVideos() {
   return (
     <GastroShell title={t('gastro.videos.title')}>
@@ -165,7 +165,7 @@ function VideosBody() {
               {(id) => (
                 <Select
                   id={id}
-                  placeholder="—"
+                  placeholder="–"
                   options={(dishes ?? []).map((d) => ({ value: d.id, label: d.name }))}
                   value={dishId}
                   onChange={(e) => setDishId(e.target.value)}

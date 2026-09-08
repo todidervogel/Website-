@@ -8,7 +8,7 @@ import { GastroShell, useMyPlace } from './GastroShell'
 import { api, useQuery } from '../../lib/store'
 import { t } from '../../design/i18n'
 
-/** F.4 — Gastro-Dashboard, Bereich „Übersicht“ */
+/** F.4, Gastro-Dashboard, Bereich „Übersicht“ */
 export default function GastroDashboard() {
   return (
     <GastroShell title={t('gastro.nav.overview')}>
@@ -70,7 +70,7 @@ function DashboardBody() {
             />
             <Kpi
               label={t('gastro.dashboard.kpiFood')}
-              value={stats.rating?.food ? stats.rating.food.toFixed(1).replace('.', ',') : '—'}
+              value={stats.rating?.food ? stats.rating.food.toFixed(1).replace('.', ',') : '–'}
             >
               {stats.rating?.food && <Stars value={stats.rating.food} size={16} />}
             </Kpi>

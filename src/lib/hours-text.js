@@ -4,7 +4,7 @@ import { t } from '../design/i18n'
 /**
  * Aus dem Öffnungszustand wird ein Satz.
  *
- * Die Fachlogik liefert nur Zahlen und Tageskürzel — sie kennt keine Sprache.
+ * Die Fachlogik liefert nur Zahlen und Tageskürzel, sie kennt keine Sprache.
  * Hier entsteht daraus „Jetzt geöffnet · bis 22:00" oder „Geschlossen ·
  * öffnet morgen 08:00".
  */
@@ -19,7 +19,7 @@ export function openSentence(place) {
   return t('hours.closedUntil', { day, time: place.nextAt })
 }
 
-/** Die sieben Zeilen für die Tabelle — geschlossene Tage ausgeschrieben. */
+/** Die sieben Zeilen für die Tabelle, geschlossene Tage ausgeschrieben. */
 export function weekRowsText(hours) {
   return weekRows(hours).map(([day, time]) => [day, time ?? t('hours.closed')])
 }

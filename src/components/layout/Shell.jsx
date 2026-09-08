@@ -4,7 +4,7 @@ import { Header } from './Header'
 import { Footer } from './Footer'
 import { BottomNav } from './BottomNav'
 import { SideNav } from './SideNav'
-import { BuildBanner, CookieBanner } from './Banners'
+import { CookieBanner } from './Banners'
 import { ConnectionBanner } from './ConnectionBanner'
 import { useDesignState } from '../../lib/design-state'
 
@@ -12,7 +12,7 @@ import { useDesignState } from '../../lib/design-state'
 export function useScreen(title) {
   const { pathname } = useLocation()
   useEffect(() => {
-    document.title = title ? `${title} — Design-Prototyp` : 'Design-Prototyp'
+    document.title = title ? `${title}, Design-Prototyp` : 'Design-Prototyp'
     window.scrollTo(0, 0)
   }, [title, pathname])
 }
@@ -26,7 +26,6 @@ export function Page({ title, children, footer = true, bottomNav = true, headerS
   return (
     <div className={`app-shell ${bottomNav ? 'has-side-nav' : ''}`}>
       <ConnectionBanner />
-      <BuildBanner />
       <Header suffix={headerSuffix} minimal={minimalHeader} />
       <div className="shell-body">
         {bottomNav && <SideNav />}
@@ -42,19 +41,18 @@ export function Page({ title, children, footer = true, bottomNav = true, headerS
 }
 
 /**
- * Seite ohne eigenen Container — für Karte, Konsolen und andere
+ * Seite ohne eigenen Container, für Karte, Konsolen und andere
  * Screens, die die volle Breite selbst verwalten.
  */
 export function BarePage({ title, children, bottomNav = true, headerSuffix, minimalHeader, chrome = true }) {
   useScreen(title)
   const { pureMap } = useDesignState()
-  /* `chrome={false}` blendet Banner und Kopfleiste aus — die reine Kartenansicht. */
+  /* `chrome={false}` blendet Banner und Kopfleiste aus, die reine Kartenansicht. */
   const bare = chrome === false || pureMap
 
   return (
     <div className={`app-shell ${bottomNav && !bare ? 'has-side-nav' : ''}`}>
       {!bare && <ConnectionBanner />}
-      {!bare && <BuildBanner />}
       {!bare && <Header suffix={headerSuffix} minimal={minimalHeader} />}
       <div className="shell-body">
         {bottomNav && !bare && <SideNav />}
@@ -67,13 +65,13 @@ export function BarePage({ title, children, bottomNav = true, headerSuffix, mini
 }
 
 /**
- * Vollbildseite ohne Kopf- und Fußleiste — Feed (C.6) und Aufnehmen (E.1).
+ * Vollbildseite ohne Kopf- und Fußleiste, Feed (C.6) und Aufnehmen (E.1).
  */
 export function FullscreenPage({ title, children, bottomNav = true, dark = true }) {
   useScreen(title)
   /*
    * Die Seitenleiste muss hier mit. Ab 1024px blendet das CSS die untere
-   * Leiste aus — ohne Ersatz käme man vom Feed nur noch mit dem Zurück-Knopf
+   * Leiste aus, ohne Ersatz käme man vom Feed nur noch mit dem Zurück-Knopf
    * des Browsers weg.
    */
   return (
@@ -90,13 +88,12 @@ export function FullscreenPage({ title, children, bottomNav = true, dark = true 
 }
 
 /**
- * Zentrierte Karte für Konto-Screens (TEIL D) — max. 420 px breit.
+ * Zentrierte Karte für Konto-Screens (TEIL D), max. 420 px breit.
  */
 export function CenteredPage({ title, children, width = 420, headerSuffix, minimalHeader }) {
   useScreen(title)
   return (
     <div className="app-shell">
-      <BuildBanner />
       <Header suffix={headerSuffix} minimal={minimalHeader} />
       <main className="app-main has-bottom-nav" style={{ display: 'grid', placeItems: 'start center', paddingBlock: 'var(--sp-12)' }}>
         <div className="container" style={{ maxWidth: width + 48 }}>{children}</div>

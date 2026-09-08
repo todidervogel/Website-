@@ -12,7 +12,7 @@ import { t, tNodes } from '../../design/i18n'
 const ROLES = ['owner', 'management', 'marketing', 'staff']
 const TYPES = ['restaurant', 'cafe', 'bar', 'imbiss', 'baeckerei', 'eisdiele', 'pub', 'sonstiges']
 
-/** F.14 — Betrieb eintragen */
+/** F.14, Betrieb eintragen */
 export default function GastroClaim() {
   const [mode, setMode] = useState(null) // null | 'claim' | 'new'
   const [target, setTarget] = useState(null)
@@ -124,7 +124,7 @@ export default function GastroClaim() {
               <Field label={t('gastro.claim.yourRole')} required>
                 {(id) => (
                   <Select
-                    id={id} placeholder="—"
+                    id={id} placeholder="–"
                     options={ROLES.map((r) => ({ value: r, label: t(`gastro.claim.roles.${r}`) }))}
                     value={form.values.role}
                     onChange={(e) => form.setValue('role', e.target.value)}
@@ -157,7 +157,7 @@ export default function GastroClaim() {
                   <Field label={t('gastro.claim.type')} required>
                     {(id) => (
                       <Select
-                        id={id} placeholder="—"
+                        id={id} placeholder="–"
                         options={TYPES.map((v) => ({ value: v, label: t(`categories.${v}`) }))}
                         value={form.values.type}
                         onChange={(e) => form.setValue('type', e.target.value)}

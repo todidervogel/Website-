@@ -12,7 +12,7 @@ import { api, useQuery } from '../../lib/store'
 import { MVP_STAGE } from '../../design/config'
 import { groupSizeLabel, t } from '../../design/i18n'
 
-/** C.7 — Videodetailseite /v/[id] */
+/** C.7, Videodetailseite /v/[id] */
 export default function VideoDetail() {
   const { id } = useParams()
   const { position } = useDesignState()

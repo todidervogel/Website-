@@ -9,7 +9,7 @@ import { t } from '../../design/i18n'
 
 const REASONS = ['spam', 'hate', 'sexual', 'violence', 'copyright', 'wrongPlace', 'quality', 'other']
 
-/** „vor 2 Std." — aus dem Anlagedatum gerechnet. */
+/** „vor 2 Std.", aus dem Anlagedatum gerechnet. */
 function since(date) {
   const then = new Date(date).getTime()
   if (Number.isNaN(then)) return ''
@@ -18,7 +18,7 @@ function since(date) {
   return t('admin.videos.since', { time: `${Math.round(hours / 24)} Tagen` })
 }
 
-/** G.3 — Admin Video-Freigabe */
+/** G.3, Admin Video-Freigabe */
 export default function AdminVideos() {
   const [selected, setSelected] = useState(null)
   const [rejecting, setRejecting] = useState(false)

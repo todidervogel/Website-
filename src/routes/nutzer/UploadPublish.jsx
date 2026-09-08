@@ -11,7 +11,7 @@ import { api, useQuery } from '../../lib/store'
 import { MVP_STAGE } from '../../design/config'
 import { t, tNodes } from '../../design/i18n'
 
-/** E.6 — Veröffentlichen, Schritt 5 */
+/** E.6, Veröffentlichen, Schritt 5 */
 export default function UploadPublish() {
   const { draft, save, reset } = useUpload()
   const { userId } = useSession()
@@ -25,7 +25,7 @@ export default function UploadPublish() {
   /*
    * Der Entwurf wird erst geleert, wenn diese Seite verlassen wird. Würde er
    * sofort nach dem Absenden verschwinden, schöbe der Schrittwächter uns
-   * zurück auf Schritt 1 — und die Erfolgsmeldung wäre nie zu sehen.
+   * zurück auf Schritt 1, und die Erfolgsmeldung wäre nie zu sehen.
    */
   useEffect(() => () => { if (published.current) reset() }, [])
 
@@ -37,7 +37,7 @@ export default function UploadPublish() {
 
   /**
    * Hier entsteht der Datensatz wirklich: Video mit Status „in Prüfung",
-   * dazu — falls ausgefüllt — die Bewertung. Beides taucht sofort im
+   * dazu, falls ausgefüllt, die Bewertung. Beides taucht sofort im
    * eigenen Profil und in der Admin-Warteschlange auf.
    */
   const publish = async () => {
@@ -128,7 +128,7 @@ export default function UploadPublish() {
             <div className="row-between" style={{ alignItems: 'flex-start' }}>
               <div className="stack-2">
                 <p className="t-body">
-                  📍 {place?.name ?? '—'}
+                  📍 {place?.name ?? '–'}
                   {draft.verifiedOnSite && ` · ✓ ${t('upload.publish.verifiedOnSite')}`}
                 </p>
                 {stars && <p className="t-body">{stars}</p>}

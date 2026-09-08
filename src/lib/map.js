@@ -3,7 +3,7 @@
  *
  * Bisher wurden Marker über eine flache Näherung platziert (Kilometer pro
  * Breitengrad, konstant). Das genügt, solange nichts darunter liegt. Sobald
- * echte Kacheln dazukommen, muss dieselbe Projektion gelten wie bei ihnen —
+ * echte Kacheln dazukommen, muss dieselbe Projektion gelten wie bei ihnen,
  * sonst sitzt das Restaurant zwei Straßen neben seinem Haus.
  *
  * Kartenkacheln der Welt benutzen Web-Mercator. Also rechnen wir auch so.
@@ -43,7 +43,7 @@ export function kartenblick({ center, spanKm, width, height }) {
 
   /*
    * Kacheln gibt es nur in ganzen Zoomstufen. Wir nehmen die nächstgelegene
-   * und gleichen den Rest über einen Maßstab aus — sonst springt die Karte
+   * und gleichen den Rest über einen Maßstab aus, sonst springt die Karte
    * beim Ändern des Umkreises in Stufen statt weich.
    */
   const zoom = Math.max(1, Math.min(19, Math.round(Math.log2(weltPx / KACHEL))))
@@ -106,7 +106,7 @@ export function kartenblick({ center, spanKm, width, height }) {
  * ein einziger Ausgang, ein Zwischenspeicher auf der Serverplatte, Höflichkeit
  * gegenüber den freien Kachelservern, und ein Stilwechsel bleibt eine Zeile.
  *
- * Ohne Server — Alleinbetrieb im Browser — geht es direkt zu OpenStreetMap.
+ * Ohne Server, Alleinbetrieb im Browser, geht es direkt zu OpenStreetMap.
  * Dann gibt es niemanden, der vermitteln könnte.
  *
  * Die Basis kommt als Angabe herein und wird nicht hier geholt: Diese Datei

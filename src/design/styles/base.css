@@ -1,5 +1,5 @@
 /* ==========================================================================
-   TEIL A.2 / A.3 — Typografie, Reset, Layout-Grundlagen
+   TEIL A.2 / A.3, Typografie, Reset, Layout-Grundlagen
    ========================================================================== */
 *, *::before, *::after { box-sizing: border-box; }
 
@@ -7,7 +7,7 @@ html, body, #root { height: 100%; }
 
 body {
   margin: 0;
-  /* Inter, wenn vorhanden — sonst die Systemschrift. Nichts wird nachgeladen. */
+  /* Inter, wenn vorhanden, sonst die Systemschrift. Nichts wird nachgeladen. */
   font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   font-size: 15px;
   line-height: 22px;
@@ -83,7 +83,7 @@ a { color: inherit; }
   .only-desktop { display: block; }
 }
 
-/* Volle Bildschirmhöhe — vh als Rückfallebene für ältere WebViews. */
+/* Volle Bildschirmhöhe, vh als Rückfallebene für ältere WebViews. */
 .fullheight { min-height: 100vh; min-height: 100dvh; }
 
 .sr-only {
@@ -113,7 +113,7 @@ a { color: inherit; }
 /* ==========================================================================
    iOS und Safari
    ==========================================================================
-   Sachen, die nur auf dem iPhone auffallen — und dort sofort.
+   Sachen, die nur auf dem iPhone auffallen, und dort sofort.
    ========================================================================== */
 
 html {
@@ -131,7 +131,7 @@ body {
 }
 
 /*
- * Ein Eingabefeld unter 16px lässt Safari beim Hineintippen hineinzoomen — die
+ * Ein Eingabefeld unter 16px lässt Safari beim Hineintippen hineinzoomen, die
  * Seite bleibt danach vergrößert stehen. 16px verhindert das. Am Rechner gibt
  * es das Verhalten nicht, dort bleibt die kleinere Schrift.
  */

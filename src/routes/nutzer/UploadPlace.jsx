@@ -12,7 +12,7 @@ import { t } from '../../design/i18n'
 /** Unter 150 m gilt das Video als „vor Ort" verifiziert (Konzept 8.5). */
 const ON_SITE_KM = 0.15
 
-/** E.3 — Restaurant auswählen, Schritt 3 */
+/** E.3, Restaurant auswählen, Schritt 3 */
 export default function UploadPlace() {
   const { position } = useDesignState()
   const { draft, save } = useUpload()
@@ -33,7 +33,7 @@ export default function UploadPlace() {
   const selected = draft.placeId
   const selectedPlace = (data ?? []).find((p) => p.id === selected)
 
-  /* Die Ortsprüfung hängt am gewählten Betrieb — sie wird hier festgehalten. */
+  /* Die Ortsprüfung hängt am gewählten Betrieb, sie wird hier festgehalten. */
   useEffect(() => {
     if (!selectedPlace) return
     const onSite = (selectedPlace.distanceKm ?? 99) <= ON_SITE_KM

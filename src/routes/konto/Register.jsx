@@ -11,7 +11,7 @@ const days = Array.from({ length: 31 }, (_, i) => String(i + 1))
 const months = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember']
 const years = Array.from({ length: 90 }, (_, i) => String(2010 - i))
 
-/** Grobe Stärkeeinschätzung — Länge plus Zeichenvielfalt. */
+/** Grobe Stärkeeinschätzung, Länge plus Zeichenvielfalt. */
 function strengthOf(password = '') {
   if (password.length < 8) return 1
   const variety = [/[a-zäöüß]/, /[A-ZÄÖÜ]/, /[0-9]/, /[^\w]/].filter((r) => r.test(password)).length
@@ -19,7 +19,7 @@ function strengthOf(password = '') {
   return variety >= 2 ? 2 : 1
 }
 
-/** D.1 — Registrierung */
+/** D.1, Registrierung */
 export default function Register() {
   const { startRegistration } = useSession()
   const navigate = useNavigate()
@@ -39,7 +39,7 @@ export default function Register() {
       location: [rules.required(t('auth.register.errors.terms'))],
     },
     onSubmit: async (values) => {
-      /* Altersgrenze 16 nach Art. 8 DSGVO — hier wirklich geprüft. */
+      /* Altersgrenze 16 nach Art. 8 DSGVO, hier wirklich geprüft. */
       const birth = new Date(Number(values.year), months.indexOf(values.month), Number(values.day || 1))
       const age = (Date.now() - birth.getTime()) / (365.25 * 24 * 3600 * 1000)
       if (Number.isFinite(age) && age < 16) {

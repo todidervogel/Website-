@@ -11,7 +11,7 @@ const BASE = process.env.PW_BASE ?? 'http://localhost:4173'
 
 /*
  * Die Routen kommen direkt aus dem Router. Vorher lagen sie in einer eigenen
- * Tabelle — die gehörte zum Screen-Index, und der ist mit den übrigen
+ * Tabelle, die gehörte zum Screen-Index, und der ist mit den übrigen
  * Entwicklersachen weggefallen. Eine Liste, die neben dem Router geführt wird,
  * hätte ohnehin irgendwann nicht mehr dazu gepasst.
  */
@@ -44,7 +44,7 @@ for (const testCase of CASES) {
    * dem Programm nichts zu tun; wo der Zugang gesperrt ist, wartet jeder
    * Kartenaufruf sonst auf vierzig Zeitüberschreitungen und der Durchlauf
    * dauert Minuten statt Sekunden. Die Karte fällt dann auf ihren
-   * Rasterhintergrund zurück — genau wie ohne Netz auf dem Gerät.
+   * Rasterhintergrund zurück, genau wie ohne Netz auf dem Gerät.
    */
   await context.route('**/tile.openstreetmap.org/**', (route) => route.abort())
 
@@ -53,7 +53,7 @@ for (const testCase of CASES) {
   let current = ''
   /*
    * Kartenkacheln kommen von außen. Ob sie durchkommen, hängt am Netz der
-   * Umgebung und nicht am Programm — hier ist der Zugang zu
+   * Umgebung und nicht am Programm, hier ist der Zugang zu
    * tile.openstreetmap.org gesperrt. Ein fehlgeschlagener Kachelabruf ist
    * deshalb keine Auffälligkeit; die Karte fällt dann auf ihren
    * Rasterhintergrund zurück, und die Marker sitzen trotzdem richtig.

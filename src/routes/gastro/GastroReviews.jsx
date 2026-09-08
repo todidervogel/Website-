@@ -11,7 +11,7 @@ import { t } from '../../design/i18n'
 
 const FILTERS = ['all', 'unanswered', 'withVideo', 'lowStars']
 
-/** F.7 — Gastro-Bewertungen */
+/** F.7, Gastro-Bewertungen */
 export default function GastroReviews() {
   return (
     <GastroShell title={t('gastro.reviews.title')}>
