@@ -1,6 +1,16 @@
 import { db, update } from './store.js'
 import { decoratePlace, dishRatingOf, publicUser } from './derive.js'
 
+/**
+ * Suche über Gerichte, Betriebe, Orte und Profile.
+ *
+ * ┌─ Wer benutzt diese Datei ────────────────────────────────────────────────┐
+ * │  src/domain/calls.js    search.run / popular / history / remember        │
+ * │  src/domain/derive.js   dekoriert die Treffer                            │
+ * │  src/data/seed.js       rechnet die häufigen Begriffe aus den Daten      │
+ * └──────────────────────────────────────────────────────────────────────────┘
+ */
+
 /** Vier Reiter über einer Abfrage (Konzept 8.8). */
 export function run(query, { position, viewerId } = {}) {
   const data = db()

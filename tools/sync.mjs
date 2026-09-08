@@ -31,10 +31,15 @@ const QUELLEN = {
     ziel: 'src/domain',
     teile: [
       ['src/domain', '.'],
-      ['src/data/seed.js', 'seed.js'],
-      /* Die echten Betriebe aus OpenStreetMap — seed.js importiert sie. */
-      ['src/data/orte.js', 'orte.js'],
-      ['src/data/anreicherung.js', 'anreicherung.js'],
+      /*
+       * Der ganze Datenordner, nicht einzelne Dateien.
+       *
+       * Zweimal ist es schon passiert, dass `seed.js` eine neue Nachbardatei
+       * bekam (`anreicherung.js`, `zustand.js`) und der Bau der Website an
+       * „Could not resolve" abbrach — weil hier eine Zeile fehlte. Eine Liste,
+       * die man pflegen muss, wird irgendwann nicht gepflegt.
+       */
+      ['src/data', '.'],
     ],
     /* Auf dem Server liegt der Ausgangsbestand eine Ebene höher. */
     nacharbeit: (ziel) => {

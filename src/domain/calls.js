@@ -14,6 +14,12 @@ import * as gastro from './gastro.js'
 /**
  * Die Aufrufliste — was es gibt und wer es darf.
  *
+ * ┌─ Wer benutzt diese Datei ────────────────────────────────────────────────┐
+ * │  src/http/rpc.js          der Server hinter der Anmeldung mit Token      │
+ * │  Website-/src/lib/store/api.js   die Website im Alleinbetrieb            │
+ * │  alle src/domain/*.js     stehen hier hinter genau einem Eintrag         │
+ * └──────────────────────────────────────────────────────────────────────────┘
+ *
  * Es gibt keinen freien Zugriff auf die Fachlogik: Jeder Aufruf muss hier
  * stehen, und zu jedem gehört eine Regel. Diese Datei benutzen beide Wirte —
  * der Server hinter der Anmeldung mit Token, die Website im Alleinbetrieb mit

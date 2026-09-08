@@ -71,6 +71,11 @@ pruefe('Adresse sieht aus wie eine Kachel',
   /^https:\/\/tile\.openstreetmap\.org\/\d+\/\d+\/\d+\.png$/.test(kachelAdresse(blick.kacheln[0])),
   kachelAdresse(blick.kacheln[0]))
 
+pruefe('Mit Server laufen die Kacheln über den Server',
+  kachelAdresse(blick.kacheln[0], 'https://beispiel.test')
+    .startsWith('https://beispiel.test/api/karte/kachel/'),
+  kachelAdresse(blick.kacheln[0], 'https://beispiel.test'))
+
 /* Auch ein sehr breiter Kasten darf nicht verzerren. */
 const breitesBild = kartenblick({ center: mitte, spanKm, width: 1600, height: 300 })
 const o2 = breitesBild.projizieren({ lat: mitte.lat, lng: mitte.lng + 1 / kmProGrad })

@@ -15,13 +15,22 @@ import { t } from '../i18n'
  * man liest.
  *
  * Diese Zeile kennt weder Daten noch Anmeldung. Ob gespeichert ist und was
- * beim Tippen passieren soll, gibt die Anwendung mit.
+ * beim Tippen passieren soll, gibt die Anwendung mit — und auch das Bild:
+ * `bild` ist eine fertige Adresse. Woher sie kommt (echtes Foto oder
+ * gezeichnetes Titelbild), entscheidet die Anwendung, nicht dieser Baustein.
+ *
+ * Ohne `bild` bleibt der graue Platzhalter mit dem durchgestrichenen Besteck.
+ * In einer langen Liste sieht das aus, als wären die Bilder kaputt — deshalb
+ * sollte die Anwendung immer eines mitgeben.
  */
-export function PlaceRow({ place, showSave = true, compact, saved, onToggleSave, openText }) {
+export function PlaceRow({ place, showSave = true, compact, saved, onToggleSave, openText, bild }) {
+  const kante = compact ? 56 : 72
   return (
     <div className="place-row">
       <Link to={`/g/${place.slug}`} className="place-thumb-wrap" aria-hidden="true" tabIndex={-1}>
-        <Thumb size={compact ? 56 : 72} icon={UtensilsCrossed} />
+        {bild
+          ? <img className="place-thumb" src={bild} alt="" width={kante} height={kante} loading="lazy" />
+          : <Thumb size={kante} icon={UtensilsCrossed} />}
         {place.videoCount > 0 && (
           <span className="place-video-badge">
             <Badge tone="dark" icon={Play}>{place.videoCount}</Badge>

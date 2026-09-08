@@ -1,5 +1,3 @@
-import { SERVER } from './store/api'
-
 /**
  * Kartenrechnung: Kacheln und Marker auf denselben Nenner bringen.
  *
@@ -101,14 +99,20 @@ export function kartenblick({ center, spanKm, width, height }) {
 /**
  * Die Adresse einer Kachel.
  *
- * Läuft ein Server, kommen die Kacheln von dort (`/api/karte/kachel/…`, siehe
+ * @param basis  Adresse des eigenen Servers, oder leer
+ *
+ * Mit Server kommen die Kacheln von dort (`/api/karte/kachel/…`, siehe
  * Server/src/http/karte.js). Das hat vier Gründe, die dort ausführlich stehen:
  * ein einziger Ausgang, ein Zwischenspeicher auf der Serverplatte, Höflichkeit
  * gegenüber den freien Kachelservern, und ein Stilwechsel bleibt eine Zeile.
  *
  * Ohne Server — Alleinbetrieb im Browser — geht es direkt zu OpenStreetMap.
  * Dann gibt es niemanden, der vermitteln könnte.
+ *
+ * Die Basis kommt als Angabe herein und wird nicht hier geholt: Diese Datei
+ * ist reine Rechnung, ohne Browser und ohne Zustand. Nur so lässt sie sich in
+ * `tools/karte-pruefen.mjs` unter Node nachrechnen.
  */
-export const kachelAdresse = ({ zoom, x, y }) => (SERVER
-  ? `${SERVER}/api/karte/kachel/${zoom}/${x}/${y}.png`
+export const kachelAdresse = ({ zoom, x, y }, basis = '') => (basis
+  ? `${basis}/api/karte/kachel/${zoom}/${x}/${y}.png`
   : `https://tile.openstreetmap.org/${zoom}/${x}/${y}.png`)

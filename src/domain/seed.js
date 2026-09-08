@@ -1,5 +1,6 @@
 import { betriebe as betriebeAusOsm, geholt, quelle, gegenden } from './orte.js'
 import { anreichern } from './anreicherung.js'
+import { nurBestehende } from './zustand.js'
 
 /**
  * Der Ausgangsbestand — was in der Datenbank steht, wenn sie neu ist.
@@ -68,8 +69,11 @@ export const HERKUNFT = { geholt, quelle, gegenden }
  *
  * Als Modul eingebunden, nicht als Datei gelesen: Dieselbe Fachlogik läuft im
  * Browser, und dort gibt es kein Dateisystem.
+ *
+ * `nurBestehende` wirft heraus, was dauerhaft geschlossen ist: Es soll keine
+ * Seite für einen Betrieb geben, den es nicht mehr gibt. Siehe zustand.js.
  */
-const betriebe = () => betriebeAusOsm.map(anreichern)
+const betriebe = () => nurBestehende(betriebeAusOsm).map(anreichern)
 
 /* ==========================================================================
    Konten

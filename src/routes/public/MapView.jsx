@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
-  ChevronLeft, Crosshair, Maximize2, Minimize2, Search, UtensilsCrossed, X,
+  ChevronLeft, Crosshair, Maximize2, Minimize2, Search, SquarePlay, UtensilsCrossed, X,
 } from 'lucide-react'
 import { Button, Chip, FilterChip, SkeletonRow, EmptyState, Checkbox, Radio, IconButton, ServingPicker, ServingRow, Spinner, RatingCompact, VerifiedMark,  } from '../../design/ui'
 import { PlaceRow } from '../../components/PlaceRowConnected'
@@ -235,14 +235,19 @@ export default function MapView() {
                 <button
                   key={p.id}
                   type="button"
-                  className="marker"
+                  className="marker marker-ort"
                   data-selected={selected === p.id}
                   style={{ top, left }}
                   aria-label={p.name}
                   onClick={() => setSelected(selected === p.id ? null : p.id)}
                 >
-                  <span className={p.videoCount > 0 ? 'marker-video' : 'marker-dot'}>
-                    <UtensilsCrossed size={p.videoCount > 0 ? 16 : 11} />
+                  {/*
+                    * Betriebe mit Videos sind größer und tragen die
+                    * Akzentfarbe — sie sind der Grund, warum man hier ist.
+                    * Der Rest steht in Grau daneben, ohne zu verschwinden.
+                    */}
+                  <span className={`marker-pin ${p.videoCount > 0 ? 'marker-pin-video' : ''}`}>
+                    {p.videoCount > 0 && <SquarePlay size={15} />}
                   </span>
                 </button>
               )

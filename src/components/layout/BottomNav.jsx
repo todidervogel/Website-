@@ -13,6 +13,10 @@ import { t } from '../../design/i18n'
  *
  * Am Rechner erscheint die Leiste gar nicht; dort führt die Kopfleiste (B.1/B.2).
  * In der reinen Kartenansicht verschwindet sie ebenfalls.
+ *
+ * Die Beschriftungen stehen in gewöhnlicher Schreibweise („Feed"), nicht in
+ * Großbuchstaben mit Sperrung. Das war vorher `.t-tiny` — eine Auszeichnung
+ * für Tabellenköpfe. Kein Telefon beschriftet seine Leiste so.
  */
 export function BottomNav({ dark }) {
   const { isApp, isDesktop, pureMap } = useDesignState()
@@ -26,28 +30,28 @@ export function BottomNav({ dark }) {
     <nav className={`bottom-nav ${dark ? 'bottom-nav-dark' : ''}`} aria-label={t('bottomNav.mainLabel')}>
       <NavLink to="/feed" className={active}>
         <SquarePlay size={22} />
-        <span className="t-tiny">{t('bottomNav.feed')}</span>
+        <span className="nav-label">{t('bottomNav.feed')}</span>
       </NavLink>
       <NavLink to="/karte" className={active}>
         <MapPin size={22} />
-        <span className="t-tiny">{t('bottomNav.map')}</span>
+        <span className="nav-label">{t('bottomNav.map')}</span>
       </NavLink>
 
       {/* Auch auf der Webseite — aber nur angemeldet. */}
       {(isApp || loggedIn) && (
         <NavLink to="/upload" className={active}>
           <span className="nav-capture"><Plus size={22} /></span>
-          <span className="t-tiny">{t('bottomNav.capture')}</span>
+          <span className="nav-label">{t('bottomNav.capture')}</span>
         </NavLink>
       )}
 
       <NavLink to="/suche" className={active}>
         <Search size={22} />
-        <span className="t-tiny">{t('bottomNav.search')}</span>
+        <span className="nav-label">{t('bottomNav.search')}</span>
       </NavLink>
       <NavLink to="/profil" className={active}>
         <User size={22} />
-        <span className="t-tiny">{t('bottomNav.profile')}</span>
+        <span className="nav-label">{t('bottomNav.profile')}</span>
       </NavLink>
     </nav>
   )

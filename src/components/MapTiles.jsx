@@ -89,7 +89,7 @@ export function MapTiles({ center, spanKm, onProject }) {
         <img
           key={k.schluessel}
           className="map-tile"
-          src={kachelAdresse(k)}
+          src={kachelAdresse(k, SERVER)}
           alt=""
           loading="lazy"
           draggable={false}

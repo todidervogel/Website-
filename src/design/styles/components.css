@@ -168,6 +168,15 @@
 }
 .chip-scroll::-webkit-scrollbar { display: none; }
 
+/*
+ * Am Rechner ist Platz. Dort wird umgebrochen statt gescrollt — die Maske
+ * hat sonst auch dann den letzten Chip ausgeblendet, wenn alles hineinpasste,
+ * und das sah aus, als wäre die Zeile abgeschnitten.
+ */
+@media (min-width: 1024px) {
+  .chip-scroll { flex-wrap: wrap; overflow-x: visible; mask-image: none; -webkit-mask-image: none; }
+}
+
 .badge {
   display: inline-flex; align-items: center; gap: 4px;
   padding: 2px var(--sp-2); border-radius: var(--r-pill);
