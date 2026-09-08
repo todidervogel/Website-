@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { CloudOff, Download, RotateCw, WifiOff } from 'lucide-react'
 import {
-  adresseHolen, beiVerbindungswechsel, changed, istOffline, MODE, request,
+  adresseHolen, beiVerbindungswechsel, changed, FRIST_PROBE, istOffline, MODE, request,
   serverPruefen, setServerAdresse,
 } from '../../lib/store'
 import { useDesignState } from '../../lib/design-state'
@@ -50,7 +50,14 @@ export function ConnectionBanner() {
    */
   useEffect(() => {
     if (MODE !== 'server') return
-    request('/api/health').catch(() => { /* `request` meldet die Störung selbst. */ })
+    /*
+     * Mit kurzer Frist. Vorher hing dieser Aufruf mit, wenn die Gegenstelle
+     * annahm und schwieg, und dann erschien das Band überhaupt nicht. Die
+     * Meldung, die es zeigen soll, fehlte damit genau in dem Fall, für den es
+     * gebaut ist.
+     */
+    request('/api/health', { frist: FRIST_PROBE })
+      .catch(() => { /* `request` meldet die Störung selbst. */ })
   }, [])
 
   const keinServer = MODE !== 'server'
@@ -63,7 +70,7 @@ export function ConnectionBanner() {
     setLaeuft(true)
     try {
       /* Kommt der Aufruf durch, meldet `request` die Verbindung selbst zurück. */
-      await request('/api/health')
+      await request('/api/health', { frist: FRIST_PROBE })
       changed()
     } catch {
       /* Weiterhin weg, das Band bleibt stehen. */

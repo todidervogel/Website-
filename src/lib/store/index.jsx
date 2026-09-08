@@ -4,7 +4,7 @@ import { subscribe, currentVersion } from './events'
 export {
   api, api as default, call, MODE, SERVER, SERVER_QUELLE,
   setServerAdresse, serverPruefen, adresseHolen,
-  resetLocalData, useLocalData, setAccount, getAccount, setToken, getToken, request,
+  resetLocalData, useLocalData, setAccount, getAccount, setToken, getToken, request, FRIST_PROBE,
 } from './api'
 export { subscribe, changed } from './events'
 export { istOffline, offlineSeit, beiVerbindungswechsel } from './connection'

@@ -116,6 +116,20 @@ export function useForm({ initial = {}, schema, onSubmit }) {
         return result
       }
       return result ?? { ok: true }
+    } catch (fehler) {
+      /*
+       * Ein Formular darf nie stumm bleiben.
+       *
+       * Vorher fing dieses `try` nur den Fall ab, dass `onSubmit` ordentlich
+       * `{ ok: false }` zurückgibt. Wirft es stattdessen, lief der Fehler an
+       * der Anzeige vorbei: Der Knopf hörte auf zu drehen und sonst passierte
+       * nichts. Wer davorsitzt, drückt noch einmal und noch einmal.
+       *
+       * Am Netz gescheitert bekommt seinen eigenen Satz, alles andere den
+       * allgemeinen. Sichtbar ist beides.
+       */
+      setFormError(fehler?.offline ? t('connection.short') : t('toast.error'))
+      return { ok: false, error: fehler?.message }
     } finally {
       setSubmitting(false)
     }

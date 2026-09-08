@@ -1,7 +1,7 @@
 import { hasCall, invoke, listCalls, setStore } from '../../domain'
 import { createLocalStore } from './local-store'
 import { changed } from './events'
-import { verbindungDa, verbindungWeg } from './connection'
+import { istOffline, verbindungDa, verbindungWeg } from './connection'
 
 /**
  * Der Zugang zur Fachlogik, in zwei Betriebsarten.
@@ -64,6 +64,54 @@ export function setServerAdresse(adresse) {
   return { ok: true }
 }
 
+/* ==========================================================================
+   Jeder Aufruf bekommt eine Frist
+   ========================================================================== */
+
+/**
+ * Wie lange auf den Server gewartet wird, bevor er als weg gilt.
+ *
+ * ┌─ Warum es das gibt ──────────────────────────────────────────────────────┐
+ * │  Ohne Frist wartet `fetch` unbegrenzt. Gemessen: Zeigt die App auf eine  │
+ * │  Adresse, die die Verbindung annimmt und dann nie antwortet (toter       │
+ * │  ngrok-Tunnel, WLAN mit Anmeldeseite, Funkloch mitten im Aufbau), dann   │
+ * │  dreht sich der Anmelde-Knopf für immer. Kein Fehler, keine Meldung,     │
+ * │  nichts. Genau so kam es auf dem Handy an: „Ich drücke auf Anmelden und  │
+ * │  es passiert nichts."                                                    │
+ * │                                                                          │
+ * │  Dasselbe traf das Verbindungsband: Es fragt beim Start `/api/health`.   │
+ * │  Hängt dieser Aufruf, erscheint das Band nie, und deshalb fehlte auch    │
+ * │  die Meldung, dass der Server nicht erreichbar ist.                      │
+ * └──────────────────────────────────────────────────────────────────────────┘
+ */
+const FRIST = 15000
+
+/** Kurze Frist für die Nachfragen, die nur „lebst du?" bedeuten. */
+export const FRIST_PROBE = 8000
+
+/** Lange Frist, wenn wirklich Daten hochgehen (Videos, Bilder). */
+const FRIST_GROSS = 60000
+
+/** Ab dieser Rumpfgröße gilt ein Aufruf als Hochladen. */
+const GROSS_AB = 100000
+
+/**
+ * Baut ein Abbruchsignal mit Uhr.
+ *
+ * Von Hand und nicht mit `AbortSignal.timeout`: Das gibt es erst in neueren
+ * Browsern, und die App läuft auch auf Geräten, deren WebView älter ist. Ein
+ * fehlendes `AbortSignal.timeout` wäre dort ein Fehler mitten im Aufruf, also
+ * genau die Stille, die wir gerade abstellen.
+ */
+function zeitwaechter(ms) {
+  const steuerung = new AbortController()
+  const uhr = setTimeout(() => steuerung.abort(), ms)
+  return { signal: steuerung.signal, fertig: () => clearTimeout(uhr) }
+}
+
+/** Ein Abbruch durch die Uhr sieht aus wie jeder andere Abbruch. */
+const istAbbruch = (fehler) => fehler?.name === 'AbortError' || fehler?.name === 'TimeoutError'
+
 /**
  * Wo der Server seine aktuelle Adresse hinterlegt.
  *
@@ -92,10 +140,11 @@ const ADRESSVERZEICHNIS = 'https://raw.githubusercontent.com/todidervogel/Server
  *   'fehler'     das Verzeichnis war nicht erreichbar
  */
 export async function adresseHolen() {
+  const wache = zeitwaechter(FRIST_PROBE)
   try {
     const antwort = await fetch(`${ADRESSVERZEICHNIS}?t=${Date.now()}`, {
       cache: 'no-store',
-      signal: AbortSignal.timeout(8000),
+      signal: wache.signal,
     })
     if (!antwort.ok) return { grund: 'fehler' }
 
@@ -105,6 +154,8 @@ export async function adresseHolen() {
     return { grund: 'gefunden', adresse: daten.adresse.replace(/\/$/, ''), laeuftBis: daten.laeuftBis }
   } catch {
     return { grund: 'fehler' }
+  } finally {
+    wache.fertig()
   }
 }
 
@@ -112,16 +163,21 @@ export async function adresseHolen() {
 export async function serverPruefen(adresse) {
   const sauber = String(adresse ?? '').trim().replace(/\/$/, '')
   if (!/^https?:\/\//.test(sauber)) return { ok: false, error: 'Die Adresse muss mit http:// oder https:// anfangen.' }
+  const wache = zeitwaechter(FRIST_PROBE)
   try {
     const antwort = await fetch(`${sauber}/api/health`, {
       headers: { 'ngrok-skip-browser-warning': '1' },
-      signal: AbortSignal.timeout(8000),
+      signal: wache.signal,
     })
     const daten = await antwort.json()
     if (!daten?.ok) return { ok: false, error: 'Dort antwortet etwas, aber nicht unser Server.' }
     return { ok: true, aufrufe: daten.aufrufe }
   } catch (fehler) {
+    /* Ein Abbruch durch die Uhr heißt: Die Adresse nimmt an und schweigt. */
+    if (istAbbruch(fehler)) return { ok: false, error: 'Dort antwortet niemand.' }
     return { ok: false, error: `Keine Antwort: ${fehler.message}` }
+  } finally {
+    wache.fertig()
   }
 }
 
@@ -185,38 +241,74 @@ export function getToken() {
   return token
 }
 
-export async function request(path, { method = 'GET', body } = {}) {
-  let res
+export async function request(path, { method = 'GET', body, frist } = {}) {
+  const rumpf = body ? JSON.stringify(body) : undefined
+
+  /*
+   * Wer wirklich etwas hochlädt, bekommt mehr Zeit. Ein Video als Datenstrom
+   * über eine Handyverbindung braucht länger als jede Abfrage, und eine Frist,
+   * die genau dabei zuschlägt, wäre schlimmer als keine.
+   */
+  const wache = zeitwaechter(frist ?? (
+    /* Steht die Störung schon fest, muss der nächste Versuch nicht wieder die
+       volle Frist ausreizen. Zwei Minuten Warten für dieselbe Auskunft wäre
+       Schikane. */
+    istOffline() ? FRIST_PROBE
+      : rumpf && rumpf.length > GROSS_AB ? FRIST_GROSS
+        : FRIST
+  ))
+
   try {
-    res = await fetch(`${SERVER}${path}`, {
-      method,
-      headers: {
-        ...(body ? { 'content-type': 'application/json' } : {}),
-        ...(getToken() ? { authorization: `Bearer ${getToken()}` } : {}),
-      },
-      body: body ? JSON.stringify(body) : undefined,
-    })
-  } catch (fehler) {
-    /*
-     * Hier landet alles, was gar nicht erst ankommt: Server aus, WLAN weg,
-     * ngrok-Tunnel abgelaufen. Das ist etwas anderes als „der Server sagt
-     * nein“ und muss auch anders aussehen.
-     */
-    verbindungWeg()
-    throw Object.assign(new Error('Keine Verbindung'), { offline: true, ursache: fehler })
+    let res
+    try {
+      res = await fetch(`${SERVER}${path}`, {
+        method,
+        headers: {
+          /*
+           * Ein kostenloser ngrok-Tunnel schiebt Browsern eine Warnseite
+           * dazwischen. Die kommt mit Status 200 und HTML, sieht für den Code
+           * also aus wie eine Antwort, ist aber keine: `res.json()` scheitert,
+           * und die Anmeldung bekäme ein leeres Ergebnis statt eines
+           * Zugangsmerkmals. Diese Kopfzeile überspringt die Seite. Der Server
+           * gibt sie in src/http/server.js frei, sonst lässt der Browser sie
+           * bei der Voranfrage nicht durch.
+           */
+          'ngrok-skip-browser-warning': '1',
+          ...(body ? { 'content-type': 'application/json' } : {}),
+          ...(getToken() ? { authorization: `Bearer ${getToken()}` } : {}),
+        },
+        body: rumpf,
+        signal: wache.signal,
+      })
+    } catch (fehler) {
+      /*
+       * Hier landet alles, was gar nicht erst ankommt: Server aus, WLAN weg,
+       * ngrok-Tunnel abgelaufen, und seit der Frist auch der Fall, dass die
+       * Gegenstelle annimmt und dann schweigt. Das ist etwas anderes als
+       * „der Server sagt nein“ und muss auch anders aussehen.
+       */
+      verbindungWeg()
+      throw Object.assign(
+        new Error(istAbbruch(fehler) ? 'Zeitüberschreitung' : 'Keine Verbindung'),
+        { offline: true, ursache: fehler },
+      )
+    }
+
+    /* Ein Server, der mit 5xx antwortet, ist auch nicht benutzbar. */
+    if (res.status >= 500) {
+      verbindungWeg()
+      throw Object.assign(new Error(`HTTP ${res.status}`), { offline: true, status: res.status })
+    }
+
+    verbindungDa()
+
+    const data = await res.json().catch(() => ({}))
+    if (!res.ok) throw Object.assign(new Error(data.error ?? `HTTP ${res.status}`), { status: res.status })
+    return data
+  } finally {
+    /* Auch der Rumpf hängt an diesem Signal, deshalb erst ganz am Ende. */
+    wache.fertig()
   }
-
-  /* Ein Server, der mit 5xx antwortet, ist auch nicht benutzbar. */
-  if (res.status >= 500) {
-    verbindungWeg()
-    throw Object.assign(new Error(`HTTP ${res.status}`), { offline: true, status: res.status })
-  }
-
-  verbindungDa()
-
-  const data = await res.json().catch(() => ({}))
-  if (!res.ok) throw Object.assign(new Error(data.error ?? `HTTP ${res.status}`), { status: res.status })
-  return data
 }
 
 async function invokeRemotely(method, args) {

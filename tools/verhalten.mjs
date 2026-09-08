@@ -1,3 +1,4 @@
+import { createServer } from 'node:http'
 import { chromium } from 'playwright'
 import { alsSpeicherstand } from './pruefbestand.mjs'
 
@@ -31,6 +32,9 @@ async function test(name, setup, body) {
    */
   await context.addInitScript((state) => {
     localStorage.setItem('app-ui', JSON.stringify(state.ui))
+    /* Mit Adresse läuft die Oberfläche im Serverbetrieb, ohne im Alleinbetrieb. */
+    if (state.adresse) localStorage.setItem('api-adresse', state.adresse)
+    else localStorage.removeItem('api-adresse')
     if (!sessionStorage.getItem('pruefung-vorbereitet')) {
       if (state.user) localStorage.setItem('app-session', JSON.stringify({ userId: state.user }))
       else localStorage.removeItem('app-session')
@@ -55,7 +59,7 @@ async function test(name, setup, body) {
   await context.close()
 }
 
-const lage = (platform, theme, user) => ({ ui: { platform, theme }, user, bestand: BESTAND })
+const lage = (platform, theme, user, adresse = null) => ({ ui: { platform, theme }, user, bestand: BESTAND, adresse })
 
 const web = lage('web', 'light', null)
 const webUser = lage('web', 'light', 'u1')
@@ -399,7 +403,64 @@ await test('Die Suche schlägt ohne Eingabe etwas vor', web, async (page) => {
   await page.waitForSelector('.video-grid .video-tile, .video-grid .thumb-placeholder')
 })
 
+/* ==========================================================================
+   Wenn der Server nicht antwortet
+   ==========================================================================
+
+   Beide Fälle kamen vom Handy zurück: „Ich drücke auf Anmelden und es
+   passiert nichts", und „die Fehlermeldung kommt nicht". Beides hatte
+   denselben Grund. `fetch` wartet ohne Frist unbegrenzt, und eine Adresse,
+   die die Verbindung annimmt und dann schweigt (toter ngrok-Tunnel, WLAN mit
+   Anmeldeseite), ließ den Knopf für immer drehen. Auch das Verbindungsband
+   fragt beim Start nach, und dieser Aufruf hing genauso.
+
+   Deshalb prüfen wir es hier mit zwei Aushilfen: einer, der annimmt und
+   schweigt, und einer, der wie ein abgelaufener Tunnel mit 404 antwortet. */
+
+const schweiger = createServer(() => {})
+await new Promise((fertig) => schweiger.listen(0, '127.0.0.1', fertig))
+const SCHWEIGER = `http://127.0.0.1:${schweiger.address().port}`
+
+const toterTunnel = createServer((_, res) => {
+  res.writeHead(404, { 'content-type': 'text/html' })
+  res.end('<html><body>endpoint offline</body></html>')
+})
+await new Promise((fertig) => toterTunnel.listen(0, '127.0.0.1', fertig))
+const TOT = `http://127.0.0.1:${toterTunnel.address().port}`
+
+const anmeldeversuch = async (page) => {
+  await page.goto(`${BASE}/anmelden`)
+  await page.fill('input[autocomplete="username"]', 'test@user.de')
+  await page.fill('input[type="password"]', '12345aA?')
+  await page.click('button[type="submit"]')
+}
+
+await test('Schweigt der Server, sagt die Anmeldung trotzdem Bescheid',
+  lage('app', 'light', null, SCHWEIGER), async (page) => {
+    await anmeldeversuch(page)
+    /* Die Frist steht in src/lib/store/api.js, deshalb hier großzügig warten. */
+    const meldung = await page.waitForSelector('.notice-danger', { timeout: 30000 })
+    const text = (await meldung.textContent()).trim()
+    if (!text.includes('nicht erreichbar')) throw new Error(`Meldung war: ${text}`)
+  })
+
+await test('Schweigt der Server, erscheint das Verbindungsband',
+  lage('app', 'light', null, SCHWEIGER), async (page) => {
+    await page.goto(`${BASE}/feed`)
+    await page.waitForSelector('.connection-banner', { timeout: 20000 })
+  })
+
+await test('Ein abgelaufener Tunnel ist kein Anmeldefehler',
+  lage('app', 'light', null, TOT), async (page) => {
+    await anmeldeversuch(page)
+    const meldung = await page.waitForSelector('.notice-danger', { timeout: 20000 })
+    const text = (await meldung.textContent()).trim()
+    if (!text.includes('nicht erreichbar')) throw new Error(`Meldung war: ${text}`)
+  })
+
 await browser.close()
+schweiger.close()
+toterTunnel.close()
 
 const failed = results.filter(([status]) => status !== 'ok')
 results.forEach(([status, name]) => console.log(`${status === 'ok' ? '  ok  ' : 'FEHLER'} ${name}`))
