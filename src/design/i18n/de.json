@@ -706,7 +706,9 @@
     "serverOkay": "Verbunden. Der Server kennt {{aufrufe}} Aufrufe.",
     "serverLocal": "Alleinbetrieb: alles bleibt auf diesem Gerät.",
     "serverFromBuild": "Beim Bauen festgelegt: {{adresse}}",
-    "serverActive": "Verbunden mit {{adresse}}"
+    "serverActive": "Verbunden mit {{adresse}}",
+    "serverFetch": "Aktuelle Adresse holen",
+    "serverFetchHint": "Der Server hinterlegt seine Adresse bei jedem Start. Ein Tipp genügt."
   },
   "notifications": {
     "title": "Benachrichtigungen",
@@ -1547,7 +1549,16 @@
   "connection": {
     "title": "Kein Kontakt zum Server.",
     "text": "Deshalb bleibt hier gerade alles leer. Sobald er wieder antwortet, ist alles da.",
-    "retry": "Erneut versuchen"
+    "retry": "Erneut versuchen",
+    "fetchAddress": "Aktuelle Adresse holen",
+    "checking": "Wird gesucht…",
+    "noServerTitle": "Kein Server eingestellt.",
+    "noServerText": "Die App arbeitet gerade nur mit den Daten auf diesem Gerät. Nichts davon wird geteilt.",
+    "foundNone": "Zurzeit läuft kein Server. Starte ihn im Repo Server unter Actions.",
+    "foundEnded": "Der letzte Lauf ist beendet. Starte den Server im Repo Server unter Actions neu.",
+    "foundError": "Die Adresse ließ sich nicht abrufen. Bist du im Netz?",
+    "foundOne": "Gefunden: {{adresse}}",
+    "settings": "Zu den Einstellungen"
   },
   "landing": {
     "eyebrow": "Im Aufbau, schon zum Ansehen",

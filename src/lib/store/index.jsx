@@ -3,7 +3,7 @@ import { subscribe, currentVersion } from './events'
 
 export {
   api, api as default, call, MODE, SERVER, SERVER_QUELLE,
-  setServerAdresse, serverPruefen,
+  setServerAdresse, serverPruefen, adresseHolen,
   resetLocalData, useLocalData, setAccount, getAccount, setToken, getToken, request,
 } from './api'
 export { subscribe, changed } from './events'

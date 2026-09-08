@@ -64,6 +64,50 @@ export function setServerAdresse(adresse) {
   return { ok: true }
 }
 
+/**
+ * Wo der Server seine aktuelle Adresse hinterlegt.
+ *
+ * ┌─ Woran das hängt ────────────────────────────────────────────────────────┐
+ * │  Server/adresse.json                    wird bei jedem Lauf geschrieben  │
+ * │  Server/.github/adresse-hochladen.sh    schreibt sie                     │
+ * │  Server/docs/ADRESSE.md                 erklärt das Format               │
+ * └──────────────────────────────────────────────────────────────────────────┘
+ *
+ * Über ngrok bekommt der Server bei jedem Start eine neue Adresse, wenn keine
+ * feste hinterlegt ist. Sie jedes Mal abzutippen ist auf einem Handy eine
+ * Zumutung, und eine tote Adresse fest in der APK wäre schlechter als keine.
+ * Also fragt die App nach.
+ */
+const ADRESSVERZEICHNIS = 'https://raw.githubusercontent.com/todidervogel/Server/main/adresse.json'
+
+/**
+ * Holt die zuletzt veröffentlichte Serveradresse.
+ *
+ * Gibt immer ein Ergebnis mit `grund` zurück, nie einen Fehler: Die
+ * Oberfläche soll sagen können, **warum** es nicht ging.
+ *
+ *   'gefunden'   es läuft einer, `adresse` steht drin
+ *   'beendet'    der letzte Lauf ist vorbei
+ *   'keiner'     es wurde noch nie einer veröffentlicht
+ *   'fehler'     das Verzeichnis war nicht erreichbar
+ */
+export async function adresseHolen() {
+  try {
+    const antwort = await fetch(`${ADRESSVERZEICHNIS}?t=${Date.now()}`, {
+      cache: 'no-store',
+      signal: AbortSignal.timeout(8000),
+    })
+    if (!antwort.ok) return { grund: 'fehler' }
+
+    const daten = await antwort.json()
+    if (!daten.adresse) return { grund: 'keiner' }
+    if (daten.beendet) return { grund: 'beendet', adresse: daten.adresse, lauf: daten.lauf }
+    return { grund: 'gefunden', adresse: daten.adresse.replace(/\/$/, ''), laeuftBis: daten.laeuftBis }
+  } catch {
+    return { grund: 'fehler' }
+  }
+}
+
 /** Sieht nach, ob unter dieser Adresse wirklich unser Server antwortet. */
 export async function serverPruefen(adresse) {
   const sauber = String(adresse ?? '').trim().replace(/\/$/, '')

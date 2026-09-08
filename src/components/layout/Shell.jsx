@@ -95,6 +95,12 @@ export function CenteredPage({ title, children, width = 420, headerSuffix, minim
   return (
     <div className="app-shell">
       <Header suffix={headerSuffix} minimal={minimalHeader} />
+      {/*
+        * Auch hier. Die Anmeldeseite ist oft der erste Bildschirm der App, und
+        * wer sich ohne Server anmeldet, meldet sich nur bei seinem eigenen
+        * Gerät an. Das gehört genau hier gesagt und nicht erst danach.
+        */}
+      <ConnectionBanner />
       <main className="app-main has-bottom-nav" style={{ display: 'grid', placeItems: 'start center', paddingBlock: 'var(--sp-12)' }}>
         <div className="container" style={{ maxWidth: width + 48 }}>{children}</div>
       </main>

@@ -119,6 +119,25 @@ await test('Abmelden führt zur Anmeldeseite', appUser, async (page) => {
   await page.waitForURL('**/anmelden')
 })
 
+/* --- Ohne Server ---------------------------------------------------------- */
+
+/*
+ * In der App ist der Alleinbetrieb kein Normalzustand, sondern etwas, das man
+ * wissen muss: Nichts wird geteilt. Auf der Webseite ist er der Normalfall für
+ * Besucher ohne Konto, dort wäre dieselbe Meldung nur Lärm.
+ */
+await test('Die App sagt, wenn kein Server eingestellt ist', app, async (page) => {
+  await page.goto(`${BASE}/anmelden`)
+  await page.waitForSelector('.connection-banner')
+  await page.getByRole('button', { name: /Aktuelle Adresse holen/ }).first().waitFor()
+})
+
+await test('Die Webseite zeigt diese Meldung nicht', web, async (page) => {
+  await page.goto(`${BASE}/`)
+  await page.waitForSelector('main')
+  if (await page.locator('.connection-banner').count()) throw new Error('Band sichtbar')
+})
+
 /* --- Registrierung ------------------------------------------------------- */
 
 await test('Registrierung prüft Pflichtfelder', web, async (page) => {

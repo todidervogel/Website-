@@ -72,6 +72,9 @@ const SCREENS = [
     await page.getByRole('button', { name: /Menü/i }).first().click()
     await page.waitForSelector('.dropdown')
   }, 'handy'],
+  /* Das Band, wenn kein Server eingestellt ist. Nur in der App sichtbar. */
+  ['ohne-server', '/anmelden', null, '.connection-banner', null, 'handy'],
+
   ['menue-darstellung', '/anmelden', null, 'main', async (page) => {
     await page.getByRole('button', { name: /Darstellung/i }).first().click()
     await page.waitForSelector('.dropdown')
@@ -97,12 +100,12 @@ for (const [breitenName, viewport] of Object.entries(BREITEN)) {
 
     const context = await browser.newContext({ viewport, deviceScaleFactor: 1 })
     await context.addInitScript((state) => {
-      localStorage.setItem('app-ui', JSON.stringify({ platform: 'web', theme: 'light' }))
+      localStorage.setItem('app-ui', JSON.stringify({ platform: state.platform ?? 'web', theme: 'light' }))
       if (state.user) localStorage.setItem('app-session', JSON.stringify({ userId: state.user }))
       else localStorage.removeItem('app-session')
       if (state.bestand) localStorage.setItem('app-db', JSON.stringify(state.bestand))
       else localStorage.removeItem('app-db')
-    }, { user, bestand: leer ? null : BESTAND })
+    }, { user, bestand: leer ? null : BESTAND, platform: name === 'ohne-server' ? 'app' : 'web' })
 
     /* Kacheln nicht anfragen, siehe routen-sweep.mjs. */
     await context.route('**/tile.openstreetmap.org/**', (route) => route.abort())

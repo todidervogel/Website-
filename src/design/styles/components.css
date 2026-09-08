@@ -549,11 +549,25 @@ body.map-pure { overflow: hidden; }
   font-size: 13px; line-height: 18px;
 }
 .connection-banner .connection-icon { color: var(--danger); margin-top: 1px; }
-.connection-banner .btn { grid-column: 2; justify-self: start; }
+
+/*
+ * Die Knöpfe stehen auf dem Handy unter dem Text, am Rechner daneben. Drei
+ * Knöpfe nebeneinander auf 390px würden umbrechen und dabei jeden einzelnen
+ * zu schmal machen.
+ */
+.connection-aktionen {
+  grid-column: 2; display: flex; flex-wrap: wrap; gap: var(--sp-2);
+  margin-top: var(--sp-1);
+}
+
+/* Warum es nicht ging. Steht unter dem Satz, nicht dahinter. */
+.connection-hinweis {
+  display: block; margin-top: 2px; font-style: normal; color: var(--danger);
+}
 
 @media (min-width: 640px) {
   .connection-banner { grid-template-columns: auto 1fr auto; align-items: center; }
-  .connection-banner .btn { grid-column: auto; }
+  .connection-aktionen { grid-column: auto; margin-top: 0; flex-wrap: nowrap; }
 }
 @keyframes dreh { to { transform: rotate(360deg); } }
 .spin { animation: dreh 900ms linear infinite; }
