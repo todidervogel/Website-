@@ -72,6 +72,12 @@ const SCREENS = [
     await page.getByRole('button', { name: /Menü/i }).first().click()
     await page.waitForSelector('.dropdown')
   }, 'handy'],
+  /* Das Drei-Punkte-Menü auf der Betriebsseite. */
+  ['menue-betrieb', '/g/pruef-trattoria', null, 'main', async (page) => {
+    await page.getByRole('button', { name: /Mehr/i }).first().click()
+    await page.waitForSelector('.dropdown')
+  }],
+
   /* Das Band, wenn kein Server eingestellt ist. Nur in der App sichtbar. */
   ['ohne-server', '/anmelden', null, '.connection-banner', null, 'handy'],
 

@@ -19,8 +19,18 @@ export function SideNav({ dark }) {
   const { loggedIn } = useSession()
   const active = ({ isActive }) => (isActive ? 'is-active' : '')
 
-  const Punkt = ({ to, icon: Icon, children, className = '' }) => (
-    <NavLink to={to} className={({ isActive }) => `${active({ isActive })} ${className}`.trim()}>
+  /*
+   * `ersetzen` wie in der unteren Leiste: Ein Wechsel des Bereichs ist kein
+   * Schritt vorwärts. Ohne das legt jeder Klick einen Verlaufseintrag an, und
+   * die Zurück-Taste läuft durch die Bereiche statt aus ihnen heraus.
+   * Aufnehmen ist ausgenommen, das ist ein Ablauf und kein Ort.
+   */
+  const Punkt = ({ to, icon: Icon, children, className = '', ersetzen = true }) => (
+    <NavLink
+      to={to}
+      replace={ersetzen}
+      className={({ isActive }) => `${active({ isActive })} ${className}`.trim()}
+    >
       <Icon size={22} />
       <span className="side-nav-label">{children}</span>
     </NavLink>
@@ -38,7 +48,7 @@ export function SideNav({ dark }) {
         * wollte, fand keinen Weg dorthin.
         */}
       {(isApp || loggedIn) && (
-        <Punkt to="/upload" icon={Plus} className="side-nav-capture">{t('bottomNav.capture')}</Punkt>
+        <Punkt to="/upload" icon={Plus} className="side-nav-capture" ersetzen={false}>{t('bottomNav.capture')}</Punkt>
       )}
       <Punkt to="/profil" icon={User}>{t('bottomNav.profile')}</Punkt>
     </nav>

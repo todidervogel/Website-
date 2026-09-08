@@ -29,8 +29,30 @@ const writeStored = (value) => {
   }
 }
 
-/** Fehlerschlüssel vom Server in einen deutschen Satz übersetzen. */
-const errorText = (key) => t(`auth.errors.${key}`)
+/**
+ * Fehlerschlüssel vom Server in einen deutschen Satz übersetzen.
+ *
+ * Zwei Fälle, die vorher beide falsch endeten:
+ *
+ *   **Netzfehler.** `request()` wirft „Keine Verbindung", und daraus wurde
+ *   `t('auth.errors.Keine Verbindung')`. Diesen Schlüssel gibt es nicht, also
+ *   stand er wörtlich im Anmeldeformular: „auth.errors.Keine Verbindung".
+ *   Wer das las, konnte sich nicht anmelden und erfuhr nicht, warum.
+ *
+ *   **Unbekannte Schlüssel.** Dasselbe für jeden Fehler, den der Server neu
+ *   erfindet. Ein Schlüssel im Formular ist immer ein Fehler in der Anzeige.
+ *
+ * `t()` gibt bei fehlendem Schlüssel den Schlüssel zurück. Genau daran wird
+ * das hier erkannt.
+ */
+const errorText = (key) => {
+  if (!key) return t('auth.errors.unknown')
+  const satz = t(`auth.errors.${key}`)
+  return satz === `auth.errors.${key}` ? t('auth.errors.unknown') : satz
+}
+
+/** Der Fehler kam vom Netz, nicht von der Anmeldung. */
+const netzText = () => t('connection.short')
 
 export function SessionProvider({ children }) {
   const [account, setLocalAccount] = useState(null)
@@ -82,7 +104,8 @@ export function SessionProvider({ children }) {
         setLocalAccount(me.account)
         return { ok: true, user: data.user, mustChangePassword: data.mustChangePassword }
       } catch (error) {
-        return { ok: false, error: errorText(error.message) }
+        /* `offline` setzt api.js, wenn der Aufruf am Netz scheiterte. */
+        return { ok: false, error: error.offline ? netzText() : errorText(error.message) }
       }
     }
 
@@ -140,7 +163,7 @@ export function SessionProvider({ children }) {
         setPending(null)
         return { ok: true, user: antwort.user }
       } catch (error) {
-        return { ok: false, error: errorText(error.message) }
+        return { ok: false, error: error.offline ? netzText() : errorText(error.message) }
       }
     }
 
@@ -181,7 +204,12 @@ export function SessionProvider({ children }) {
   const changePassword = useCallback(async (password) => {
     if (!account) return { ok: false }
     if (SERVER) {
-      await request('/api/auth/password', { method: 'POST', body: { password } })
+      try {
+        await request('/api/auth/password', { method: 'POST', body: { password } })
+      } catch (error) {
+        /* Vorher flog der Fehler ungefangen weiter und der Screen blieb hängen. */
+        return { ok: false, error: error.offline ? netzText() : errorText(error.message) }
+      }
     } else {
       domain.auth.changePassword(account.id, password)
     }

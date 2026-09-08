@@ -41,6 +41,14 @@ const QUELLEN = {
        */
       ['src/data', '.'],
     ],
+    /*
+     * Nicht mitnehmen: Die Betriebe aus ganz Deutschland liegen als JSON und
+     * gehören dem Server. Sie sind mehrere Megabyte und werden von der
+     * Weboberfläche nie gelesen; sie hier abzulegen kostet nur Platz im
+     * Repository. Warum die Aufteilung, steht in Server/src/data/gebiete.js.
+     */
+    nichtMitnehmen: ['deutschland.json'],
+
     /* Auf dem Server liegt der Ausgangsbestand eine Ebene höher. */
     nacharbeit: (ziel) => {
       const datei = resolve(ziel, 'index.js')
@@ -85,6 +93,11 @@ for (const [von, nach] of quelle.teile) {
     process.exit(1)
   }
   cpSync(quellPfad, resolve(quelle.ziel, nach), { recursive: true })
+}
+
+/* Was ausdrücklich nicht mitkommt. */
+for (const datei of quelle.nichtMitnehmen ?? []) {
+  rmSync(resolve(quelle.ziel, datei), { force: true })
 }
 
 if (temp) rmSync(temp, { recursive: true, force: true })

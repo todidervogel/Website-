@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import {
-  Bookmark, Camera, ChevronDown, ChevronLeft, ChevronRight, Globe, Info,
-  MapPin, Phone, Share2, Navigation, UtensilsCrossed, ClipboardList, AlertTriangle,
+  Bookmark, Camera, ChevronDown, ChevronLeft, ChevronRight, Flag, Globe, Info,
+  MapPin, MoreVertical, Phone, Share2, Navigation, UtensilsCrossed, ClipboardList,
+  AlertTriangle,
 } from 'lucide-react'
 import {
-  Badge, Button, Chip, EmptyState, IconButton, LoadingBlock, Menu, Notice, RatingFull,
+  Badge, Button, Chip, EmptyState, IconButton, LoadingBlock, Menu, MenuItem, MenuSeparator, Notice, RatingFull,
   ReviewCard, ReviewCardSkeleton, ServingRow, Skeleton, SkeletonTile, Spinner, Stars, Tabs,
   Thumb, VerifiedMark, VideoTile, useToast,
 } from '../../design/ui'
@@ -16,6 +17,7 @@ import { useDesignState } from '../../lib/design-state'
 import { useRequireLogin } from '../../lib/auth'
 import { useSession } from '../../lib/session'
 import { api, dayKeyOf, useQuery } from '../../lib/store'
+import { routeZu, teilen, zeigenIn } from '../../lib/karten-links'
 import { titelbild } from '../../domain'
 import { openSentence, weekRowsText } from '../../lib/hours-text'
 import { MVP_STAGE } from '../../design/config'
@@ -70,6 +72,22 @@ export default function PlacePage() {
     const now = await api.social.toggleSave(null, 'place', place.id)
     toast(now ? t('toast.saved') : t('common.removed'))
   })
+
+  /*
+   * Teilen über die Teilen-Funktion des Geräts, sonst in die Zwischenablage.
+   * Vorher meldete der Knopf „Link kopiert", ohne irgendetwas zu kopieren.
+   */
+  const teilenJetzt = async () => {
+    if (!place) return
+    const ergebnis = await teilen({
+      titel: place.name,
+      text: `${place.name}, ${place.address}${place.city ? `, ${place.city}` : ''}`,
+      adresse: window.location.href,
+    })
+    if (!ergebnis.ok) return
+    if (ergebnis.weg === 'kopiert') toast(t('toast.linkCopied'))
+    if (ergebnis.weg === 'geteilt') toast(t('toast.shared'))
+  }
 
   if (loading) {
     return (
@@ -127,7 +145,7 @@ export default function PlacePage() {
           <IconButton icon={ChevronLeft} label={t('common.back')} tone="glass" to="/karte" />
         </span>
         <span className="cover-actions">
-          <IconButton icon={Share2} label={t('common.share')} tone="glass" onClick={() => toast(t('toast.linkCopied'))} />
+          <IconButton icon={Share2} label={t('common.share')} tone="glass" onClick={teilenJetzt} />
           <IconButton
             icon={Bookmark}
             label={t('place.save')}
@@ -207,10 +225,52 @@ export default function PlacePage() {
         <div className="action-bar">
           {MVP_STAGE >= 2 && <Button variant="primary" onClick={() => toast(t('toast.noAction'), 'info')}>{t('place.order')}</Button>}
           <Button variant="secondary" icon={UtensilsCrossed} to={`/g/${place.slug}/speisekarte`}>{t('menu.title')}</Button>
-          <Button variant="secondary" icon={Navigation} onClick={() => toast(t('toast.noAction'), 'info')}>{t('place.route')}</Button>
+          {/*
+            * Führt wirklich los. Vorher stand hier ein Hinweis „hier passiert
+            * nichts", der Knopf sah also aus wie ein Knopf und war keiner.
+            * Navigation bauen wir nicht selbst, siehe lib/karten-links.js.
+            */}
+          <Button
+            variant="secondary"
+            icon={Navigation}
+            href={routeZu(place)}
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            {t('place.route')}
+          </Button>
           <Button variant="secondary" icon={Phone} href={place.phone ? `tel:${place.phone}` : undefined}>{t('place.call')}</Button>
-          <Button className="action-extra" variant="secondary" icon={Bookmark} onClick={toggleSave}>{t('place.save')}</Button>
-          <Button className="action-extra" variant="secondary" icon={Share2} onClick={() => toast(t('toast.linkCopied'))}>{t('common.share')}</Button>
+          {/*
+            * Alles Weitere in ein Menü. Fünf Knöpfe nebeneinander passen auf
+            * 390px nicht, und „Melden" gehörte vorher nur in den Reiter Infos,
+            * wo es niemand suchte.
+            */}
+          <Menu
+            align="right"
+            trigger={({ toggle }) => (
+              <Button variant="secondary" icon={MoreVertical} onClick={toggle} aria-label={t('place.moreLabel')} />
+            )}
+          >
+            {({ close }) => (
+              <>
+                <MenuItem icon={Navigation} onClick={() => { close(); window.open(routeZu(place), '_blank', 'noreferrer') }}>
+                  {t('place.routeGoogle')}
+                </MenuItem>
+                <MenuItem icon={MapPin} onClick={() => { close(); window.open(zeigenIn(place), '_blank', 'noreferrer') }}>
+                  {t('place.showGoogle')}
+                </MenuItem>
+                <MenuSeparator />
+                <MenuItem icon={Bookmark} onClick={() => { close(); toggleSave() }}>
+                  {saved ? t('common.removed') : t('place.save')}
+                </MenuItem>
+                <MenuItem icon={Share2} onClick={() => { close(); teilenJetzt() }}>{t('common.share')}</MenuItem>
+                <MenuSeparator />
+                <MenuItem icon={Flag} danger onClick={() => { close(); setReportOpen(true) }}>
+                  {t('place.reportProblem')}
+                </MenuItem>
+              </>
+            )}
+          </Menu>
         </div>
 
         <Tabs items={TABS} value={tab} onChange={setTab} />

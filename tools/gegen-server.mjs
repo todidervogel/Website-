@@ -62,12 +62,12 @@ await fetch(`${API}/api/reset`, { method: 'POST' }).catch(() => {})
 /* --- Anmeldung läuft über den Server ------------------------------------- */
 {
   const { page, ctx } = await seite()
-  await anmelden(page, 'max@beispiel.de', 'falsch')
+  await anmelden(page, 'test@user.de', 'falsch')
   await page.waitForSelector('.notice-danger')
   check('Falsches Passwort wird abgewiesen', true)
 
   await page.goto(`${WEB}/anmelden`)
-  await anmelden(page, 'max@beispiel.de', 'Passwort123')
+  await anmelden(page, 'test@user.de', '12345aA?')
   await page.waitForURL('**/feed')
   const token = await page.evaluate(() => localStorage.getItem('app-token'))
   check('Nach der Anmeldung liegt ein Zugangsmerkmal vor', !!token)
@@ -81,7 +81,7 @@ await fetch(`${API}/api/reset`, { method: 'POST' }).catch(() => {})
 /* --- Rechte hängen am Server -------------------------------------------- */
 {
   const { page, ctx } = await seite()
-  await anmelden(page, 'max@beispiel.de', 'Passwort123')
+  await anmelden(page, 'test@user.de', '12345aA?')
   await page.waitForURL('**/feed')
 
   /* Ein Nutzer versucht, an der Aufrufliste vorbei ein Video freizugeben. */
@@ -102,7 +102,7 @@ await fetch(`${API}/api/reset`, { method: 'POST' }).catch(() => {})
   const a = await seite()
   const b = await seite()
 
-  await anmelden(a.page, 'chef@trattoria-bella.de', 'Gastro123')
+  await anmelden(a.page, 'test@gastro.de', '12345aA?')
   await a.page.waitForURL('**/gastro')
   await a.page.goto(`${WEB}/gastro/speisekarte`)
   await a.page.waitForSelector('.list-row')
@@ -125,7 +125,7 @@ await fetch(`${API}/api/reset`, { method: 'POST' }).catch(() => {})
 /* --- Ein Ablauf über zwei Rollen ---------------------------------------- */
 {
   const nutzer = await seite('app')
-  await anmelden(nutzer.page, 'max@beispiel.de', 'Passwort123')
+  await anmelden(nutzer.page, 'test@user.de', '12345aA?')
   await nutzer.page.waitForURL('**/feed')
 
   await nutzer.page.goto(`${WEB}/upload`)
@@ -144,7 +144,7 @@ await fetch(`${API}/api/reset`, { method: 'POST' }).catch(() => {})
   await nutzer.page.waitForSelector('.empty-state')
 
   const admin = await seite()
-  await anmelden(admin.page, 'ana@intern', 'Admin1234')
+  await anmelden(admin.page, 'topic', 'admin')
   await admin.page.waitForURL('**/admin')
   await admin.page.goto(`${WEB}/admin/videos`)
   await admin.page.waitForSelector('.list-row')

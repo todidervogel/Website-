@@ -246,6 +246,38 @@ await test('Gastro legt ein Gericht an, es steht auf der Karte', gastro, async (
   await page.waitForSelector('text=Testgericht Ravioli')
 })
 
+/* --- Betriebsseite: das Menü --------------------------------------------- */
+
+await test('Das Drei-Punkte-Menü klappt nach oben auf und ist ganz sichtbar', web, async (page) => {
+  await page.goto(`${BASE}/g/pruef-trattoria`)
+  await page.waitForSelector('.action-bar')
+  await page.getByRole('button', { name: /Mehr/i }).first().click()
+  const menu = page.locator('.dropdown')
+  await menu.waitFor()
+
+  const kasten = await menu.boundingBox()
+  const hoehe = page.viewportSize().height
+  if (kasten.y < 0 || kasten.y + kasten.height > hoehe) {
+    throw new Error(`Menü ragt aus dem Bildschirm: y=${Math.round(kasten.y)} h=${Math.round(kasten.height)} von ${hoehe}`)
+  }
+})
+
+await test('Route führt wirklich zu Google Maps', web, async (page) => {
+  await page.goto(`${BASE}/g/pruef-trattoria`)
+  await page.waitForSelector('.action-bar')
+  const ziel = await page.locator('.action-bar a', { hasText: 'Route' }).first().getAttribute('href')
+  if (!/^https:\/\/www\.google\.com\/maps\/dir\/\?/.test(ziel ?? '')) throw new Error(`href=${ziel}`)
+  if (!/destination=48\.5333/.test(ziel)) throw new Error(`ohne Koordinaten: ${ziel}`)
+})
+
+await test('Melden steht im Menü und öffnet den Dialog', web, async (page) => {
+  await page.goto(`${BASE}/g/pruef-trattoria`)
+  await page.waitForSelector('.action-bar')
+  await page.getByRole('button', { name: /Mehr/i }).first().click()
+  await page.locator('.dropdown-item', { hasText: 'Problem melden' }).click()
+  await page.waitForSelector('.modal')
+})
+
 /* --- Feed und Beiträge --------------------------------------------------- */
 
 await test('Gast im Feed bekommt beim Liken den Anmeldehinweis', web, async (page) => {

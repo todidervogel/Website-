@@ -124,7 +124,8 @@
     "reportReceived": "Meldung eingegangen",
     "error": "Etwas ist schiefgelaufen. Bitte versuch es erneut.",
     "reportThanks": "Danke! Wir sehen uns das an.",
-    "noAction": "Nur Design, hier passiert nichts."
+    "noAction": "Nur Design, hier passiert nichts.",
+    "shared": "Geteilt"
   },
   "rating": {
     "food": "Essen",
@@ -288,7 +289,10 @@
     "notFoundTitle": "Betrieb nicht gefunden",
     "notFoundText": "Diese Seite gibt es nicht mehr oder die Adresse stimmt nicht.",
     "sourceNote": "Aus öffentlichen Quellen, nicht vom Betrieb bestätigt.",
-    "sourceDate": "Stand {{date}}"
+    "sourceDate": "Stand {{date}}",
+    "routeGoogle": "Route mit Google Maps",
+    "showGoogle": "In Google Maps ansehen",
+    "moreLabel": "Mehr"
   },
   "features": {
     "barrierefrei": "Barrierefrei",
@@ -464,7 +468,8 @@
       "accountExists": "Diese E-Mail oder dieser Benutzername ist schon vergeben.",
       "noPendingRegistration": "Es läuft gerade keine Registrierung. Fang bitte von vorn an.",
       "wrongCode": "Der Code stimmt nicht.",
-      "invalidUsername": "3–20 Zeichen, nur Kleinbuchstaben, Zahlen, Punkt und Unterstrich."
+      "invalidUsername": "3–20 Zeichen, nur Kleinbuchstaben, Zahlen, Punkt und Unterstrich.",
+      "unknown": "Das hat nicht geklappt. Bitte noch einmal versuchen."
     },
     "demoHint": "Testzugänge: topic · test@gastro.de · test@user.de. Die Passwörter stehen im Design-Panel.",
     "codeHint": "Im Test lautet der Code 123456.",
@@ -1547,18 +1552,19 @@
     "wrong": "Falsche Informationen"
   },
   "connection": {
-    "title": "Kein Kontakt zum Server.",
-    "text": "Deshalb bleibt hier gerade alles leer. Sobald er wieder antwortet, ist alles da.",
+    "title": "Server gerade nicht erreichbar.",
+    "text": "Wir arbeiten daran, bitte versuchen Sie es später noch einmal.",
     "retry": "Erneut versuchen",
     "fetchAddress": "Aktuelle Adresse holen",
     "checking": "Wird gesucht…",
-    "noServerTitle": "Kein Server eingestellt.",
-    "noServerText": "Die App arbeitet gerade nur mit den Daten auf diesem Gerät. Nichts davon wird geteilt.",
+    "noServerTitle": "Server gerade nicht erreichbar.",
+    "noServerText": "Wir arbeiten daran, bitte versuchen Sie es später noch einmal.",
     "foundNone": "Zurzeit läuft kein Server. Starte ihn im Repo Server unter Actions.",
     "foundEnded": "Der letzte Lauf ist beendet. Starte den Server im Repo Server unter Actions neu.",
     "foundError": "Die Adresse ließ sich nicht abrufen. Bist du im Netz?",
     "foundOne": "Gefunden: {{adresse}}",
-    "settings": "Zu den Einstellungen"
+    "settings": "Zu den Einstellungen",
+    "short": "Server gerade nicht erreichbar. Wir arbeiten daran, bitte versuchen Sie es später noch einmal."
   },
   "landing": {
     "eyebrow": "Im Aufbau, schon zum Ansehen",

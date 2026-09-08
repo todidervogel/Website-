@@ -17,6 +17,21 @@ import { t } from '../../design/i18n'
  * Die Beschriftungen stehen in gewöhnlicher Schreibweise („Feed"), nicht in
  * Großbuchstaben mit Sperrung. Das war vorher `.t-tiny`, eine Auszeichnung
  * für Tabellenköpfe. Kein Telefon beschriftet seine Leiste so.
+ *
+ * ── Warum die Leistenpunkte `replace` benutzen ────────────────────────────
+ *
+ * Ein Wechsel zwischen den Hauptbereichen ist kein Schritt vorwärts, sondern
+ * ein Wechsel des Ortes. Vorher legte jeder Tipp einen Verlaufseintrag an:
+ * Wer viermal zwischen Feed und Karte wechselte, musste viermal Zurück
+ * drücken, um aus der App zu kommen. Gemessen, nicht vermutet.
+ *
+ * Mit `replace` bleibt immer genau ein Eintrag für den aktuellen Bereich
+ * stehen, und was man darin öffnet (eine Betriebsseite, ein Video) legt sich
+ * darüber. Zurück führt dann dorthin zurück und beim nächsten Mal aus der App
+ * heraus. So verhalten sich alle Apps mit einer Leiste unten.
+ *
+ * **Aufnehmen ist ausgenommen.** Der Upload ist ein Ablauf über mehrere
+ * Schritte, kein Ort. Wer ihn abbricht, will dorthin zurück, wo er herkam.
  */
 export function BottomNav({ dark }) {
   const { isApp, isDesktop, pureMap } = useDesignState()
@@ -28,11 +43,11 @@ export function BottomNav({ dark }) {
 
   return (
     <nav className={`bottom-nav ${dark ? 'bottom-nav-dark' : ''}`} aria-label={t('bottomNav.mainLabel')}>
-      <NavLink to="/feed" className={active}>
+      <NavLink to="/feed" className={active} replace>
         <SquarePlay size={22} />
         <span className="nav-label">{t('bottomNav.feed')}</span>
       </NavLink>
-      <NavLink to="/karte" className={active}>
+      <NavLink to="/karte" className={active} replace>
         <MapPin size={22} />
         <span className="nav-label">{t('bottomNav.map')}</span>
       </NavLink>
@@ -45,11 +60,11 @@ export function BottomNav({ dark }) {
         </NavLink>
       )}
 
-      <NavLink to="/suche" className={active}>
+      <NavLink to="/suche" className={active} replace>
         <Search size={22} />
         <span className="nav-label">{t('bottomNav.search')}</span>
       </NavLink>
-      <NavLink to="/profil" className={active}>
+      <NavLink to="/profil" className={active} replace>
         <User size={22} />
         <span className="nav-label">{t('bottomNav.profile')}</span>
       </NavLink>

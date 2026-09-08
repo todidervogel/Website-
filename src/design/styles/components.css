@@ -342,6 +342,18 @@
 .dropdown-right { right: 0; }
 .dropdown-left { left: 0; }
 
+/*
+ * Nach oben aufgeklappt, wenn unten kein Platz ist. Menu.jsx misst das beim
+ * Öffnen. Ohne das steht ein Menü aus der Aktionsleiste einer Betriebsseite
+ * außerhalb des Bildschirms.
+ */
+.dropdown-oben { top: auto; bottom: calc(100% + 10px); animation-name: dropdown-auf-oben; }
+
+@keyframes dropdown-auf-oben {
+  from { opacity: 0; transform: translateY(4px) scale(.98); }
+  to { opacity: 1; transform: none; }
+}
+
 .dropdown-item {
   display: flex; align-items: center; gap: var(--sp-3); width: 100%;
   min-height: 48px; padding: var(--sp-2) var(--sp-3);

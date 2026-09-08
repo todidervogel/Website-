@@ -2,9 +2,23 @@ import { readFileSync, readdirSync, statSync } from 'node:fs'
 import { join } from 'node:path'
 
 /**
- * Prüft, ob jeder t('…')-Aufruf einen Text in de.json findet.
+ * Prüft, ob jeder Aufruf von t(…) einen Text in de.json findet.
  * Braucht keinen Browser und läuft in einer Sekunde.
+ *
+ * ── Kommentare zählen nicht ───────────────────────────────────────────────
+ *
+ * Wer in einem Kommentar erklärt, welcher Schlüssel früher einmal falsch war,
+ * schreibt ihn dabei hin. Die Prüfung hat das als fehlenden Schlüssel gemeldet
+ * und wurde rot, obwohl im Programm alles stimmte.
+ *
+ * Deshalb werden Kommentare vorher entfernt. Grob, aber ausreichend: Ein
+ * Schlüssel steht nie in einem String, der wie ein Kommentar aussieht.
  */
+
+/** Entfernt Block- und Zeilenkommentare. */
+const ohneKommentare = (code) => code
+  .replace(/\/\*[\s\S]*?\*\//g, ' ')
+  .replace(/(^|[^:])\/\/[^\n]*/g, '$1 ')
 const dict = JSON.parse(readFileSync('src/design/i18n/de.json', 'utf8'))
 const has = (key) => typeof key.split('.').reduce((acc, part) => (acc == null ? acc : acc[part]), dict) === 'string'
 
@@ -23,7 +37,7 @@ const roots = process.argv.slice(2).length ? process.argv.slice(2) : ['src']
 
 for (const root of roots) {
   for (const file of walk(root)) {
-    const code = readFileSync(file, 'utf8')
+    const code = ohneKommentare(readFileSync(file, 'utf8'))
     for (const match of code.matchAll(/\bt\(\s*'([^']+)'/g)) {
       if (!has(match[1])) missing.push(`${file}: ${match[1]}`)
     }
