@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
-  BadgeCheck, Bookmark, Camera, ChevronDown, ChevronRight, ChevronUp, Ellipsis, Heart, Lock,
+  BadgeCheck, Bookmark, Camera, ChevronDown, ChevronRight, ChevronUp, Ellipsis, Heart,
   MessageCircle, Plus, Search, Share2, SlidersHorizontal, UtensilsCrossed,
 } from 'lucide-react'
 import {
@@ -15,6 +15,7 @@ import { useRequireLogin } from '../../lib/auth'
 import { useSession } from '../../lib/session'
 import { api, formatDistance, useQuery } from '../../lib/store'
 import { RADIUS_OPTIONS, MVP_STAGE } from '../../design/config'
+import { useTeilen } from '../../lib/teilen'
 import { t } from '../../design/i18n'
 
 /** C.6, Video-Feed */
@@ -26,6 +27,7 @@ export default function Feed() {
   const [reportOpen, setReportOpen] = useState(false)
   const navigate = useNavigate()
   const toast = useToast()
+  const teilenJetzt = useTeilen()
   const requireLogin = useRequireLogin()
   const wheelLock = useRef(0)
   const touchStart = useRef(null)
@@ -95,16 +97,17 @@ export default function Feed() {
           <span style={{ width: 40 }} />
           <div className="feed-tabs">
             <button type="button" className="feed-tab" aria-selected="true">{t('feed.tabNearby')}</button>
-            <button
-              type="button"
-              className="feed-tab"
-              aria-selected="false"
-              disabled={MVP_STAGE < 2}
-              style={MVP_STAGE < 2 ? { opacity: 0.5, cursor: 'default' } : undefined}
-            >
-              {t('feed.tabFriends')}
-              {MVP_STAGE < 2 && <Lock size={12} />}
-            </button>
+            {/*
+              * „Freunde" gibt es erst, wenn man einander folgen kann und der
+              * Feed danach sortiert. Bis dahin steht der Reiter nicht mehr
+              * ausgegraut da: Ein Knopf mit Schloss ist ein Versprechen ohne
+              * Datum, und man tippt trotzdem darauf.
+              */}
+            {MVP_STAGE >= 2 && (
+              <button type="button" className="feed-tab" aria-selected="false">
+                {t('feed.tabFriends')}
+              </button>
+            )}
           </div>
           <div className="row" style={{ gap: 0 }}>
             <IconButton icon={Search} label={t('common.search')} tone="on-dark" to="/suche" />
@@ -189,15 +192,12 @@ export default function Feed() {
                 <span className="count">{video.likeCount}</span>
               </button>
 
-              <button
-                type="button"
-                className="feed-rail-item"
-                style={commentsEnabled ? undefined : { opacity: 0.5 }}
-                aria-disabled={!commentsEnabled}
-                aria-label={t('feed.comment')}
-              >
-                <MessageCircle size={28} />
-              </button>
+              {/* Kommentare kommen mit den echten Videos, siehe MVP_STAGE. */}
+              {commentsEnabled && (
+                <button type="button" className="feed-rail-item" aria-label={t('feed.comment')}>
+                  <MessageCircle size={28} />
+                </button>
+              )}
 
               <button
                 type="button"
@@ -212,7 +212,21 @@ export default function Feed() {
                 <Bookmark size={28} fill={saved ? 'currentColor' : 'none'} />
               </button>
 
-              <button type="button" className="feed-rail-item" onClick={() => toast(t('toast.linkCopied'))} aria-label={t('feed.share')}>
+              {/*
+                * Teilt wirklich. Vorher meldete der Knopf „Link kopiert" und
+                * kopierte nichts, in der Zwischenablage lag weiter, was vorher
+                * darin lag.
+                */}
+              <button
+                type="button"
+                className="feed-rail-item"
+                onClick={() => teilenJetzt({
+                  pfad: `/v/${video.id}`,
+                  titel: video.place?.name ?? t('feed.share'),
+                  text: video.caption,
+                })}
+                aria-label={t('feed.share')}
+              >
                 <Share2 size={28} />
               </button>
 
@@ -228,9 +242,21 @@ export default function Feed() {
                 {({ close }) => (
                   <>
                     <MenuItem onClick={() => { close(); api.videos.markSeen(video.id); go(1) }}>{t('feed.menu.notInterested')}</MenuItem>
-                    <MenuItem onClick={() => { close(); toast(t('toast.linkCopied')) }}>{t('feed.menu.copyLink')}</MenuItem>
+                    <MenuItem onClick={() => {
+                      close()
+                      teilenJetzt({ pfad: `/v/${video.id}`, titel: video.place?.name, text: video.caption })
+                    }}
+                    >
+                      {t('feed.menu.copyLink')}
+                    </MenuItem>
                     <MenuItem onClick={() => { close(); setReportOpen(true) }}>{t('feed.menu.reportVideo')}</MenuItem>
-                    <MenuItem danger onClick={close}>{t('feed.menu.blockAuthor')}</MenuItem>
+                    {/*
+                      * „Autor blockieren" stand hier und tat nichts. Blockieren
+                      * heißt: eine Liste je Konto, ein Filter im Feed, eine
+                      * Stelle in den Einstellungen, um es zurückzunehmen. Das
+                      * gehört zu den echten Videos und kommt mit ihnen. Bis
+                      * dahin führt „Melden" zur Moderation, und das wirkt.
+                      */}
                     <MenuSeparator />
                     <MenuItem onClick={close}>{t('common.cancel')}</MenuItem>
                   </>

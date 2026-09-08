@@ -25,21 +25,46 @@ function mercator({ lat, lng }) {
   }
 }
 
+/** Punkt im Einheitsquadrat (0…1) → Punkt auf der Erde. Die Umkehrung. */
+function unMercator({ x, y }) {
+  return {
+    lng: x * 360 - 180,
+    lat: (Math.atan(Math.sinh(Math.PI * (1 - 2 * y))) * 180) / Math.PI,
+  }
+}
+
+/** Zoomstufen, zwischen denen sich die Karte bewegen darf. */
+export const ZOOM_MIN = 2
+export const ZOOM_MAX = 19
+
+export const zoomBegrenzen = (z) => Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, z))
+
 /**
  * Alles, was zum Zeichnen einer Karte gebraucht wird.
  *
  * @param center   Mittelpunkt {lat, lng}
- * @param spanKm   Wie viele Kilometer die Breite des Kastens abdeckt
+ * @param zoom     Zoomstufe, darf gebrochen sein (weiches Zoomen)
+ * @param spanKm   Ersatzweise: wie viele Kilometer die Breite abdeckt
  * @param width    Breite des Kastens in Pixeln
  * @param height   Höhe des Kastens in Pixeln
+ *
+ * Zwei Wege hinein, weil es zwei Fragen gibt. „Zeig mir 8 km" ist die Frage
+ * einer Liste mit Umkreis, „zeig mir Stufe 14" die Frage einer Karte, die man
+ * schiebt und zieht. Beide enden in derselben Rechnung.
  */
-export function kartenblick({ center, spanKm, width, height }) {
+export function kartenblick({ center, spanKm, zoom: zoomWunsch, width, height }) {
   if (!center || !width || !height) return null
 
-  /* Wie viele Längengrade sind das auf dieser Breite? */
-  const spanGrad = spanKm / (111.32 * Math.cos(rad(center.lat)))
-  /* Wie breit wäre die ganze Welt, damit spanGrad genau `width` Pixel füllt? */
-  const weltPx = (width * 360) / spanGrad
+  let weltPx
+  if (Number.isFinite(zoomWunsch)) {
+    /* Wie breit ist die ganze Welt auf dieser Stufe? */
+    weltPx = KACHEL * 2 ** zoomWunsch
+  } else {
+    /* Wie viele Längengrade sind das auf dieser Breite? */
+    const spanGrad = spanKm / (111.32 * Math.cos(rad(center.lat)))
+    /* Wie breit wäre die ganze Welt, damit spanGrad genau `width` Pixel füllt? */
+    weltPx = (width * 360) / spanGrad
+  }
 
   /*
    * Kacheln gibt es nur in ganzen Zoomstufen. Wir nehmen die nächstgelegene
@@ -57,6 +82,34 @@ export function kartenblick({ center, spanKm, width, height }) {
   const projizieren = (punkt) => {
     const m = mercator(punkt)
     return { left: m.x * weltPx - ursprungX, top: m.y * weltPx - ursprungY }
+  }
+
+  /**
+   * Pixel im Kasten → Erdkoordinate. Die Gegenrichtung.
+   *
+   * Gebraucht, seit man die Karte schieben und zoomen kann: Beim Zoomen mit
+   * dem Rad oder zwei Fingern soll der Punkt unter dem Finger stehen bleiben.
+   * Dafür muss man wissen, welcher Ort das ist.
+   */
+  const entprojizieren = ({ left, top }) => unMercator({
+    x: (left + ursprungX) / weltPx,
+    y: (top + ursprungY) / weltPx,
+  })
+
+  /**
+   * Was gerade zu sehen ist, als Rechteck.
+   *
+   * Damit holt die Karte genau die Betriebe, die im Bild liegen, statt alle
+   * im Umkreis. Bei einem Bestand über ganz Deutschland ist das der
+   * Unterschied zwischen ein paar Dutzend und zwölftausend.
+   */
+  const nordwest = entprojizieren({ left: 0, top: 0 })
+  const suedost = entprojizieren({ left: width, top: height })
+  const grenzen = {
+    nord: nordwest.lat,
+    sued: suedost.lat,
+    west: nordwest.lng,
+    ost: suedost.lng,
   }
 
   /* Welche Kacheln liegen im Kasten? */
@@ -83,7 +136,32 @@ export function kartenblick({ center, spanKm, width, height }) {
     }
   }
 
-  return { zoom, kachelPx, kacheln, projizieren }
+  return {
+    zoom,
+    /* Die gebrochene Stufe, für das Weiterzoomen von hier aus. */
+    genauerZoom: Math.log2(weltPx / KACHEL),
+    kachelPx, kacheln, projizieren, entprojizieren, grenzen, weltPx,
+  }
+}
+
+/**
+ * Wo muss der Mittelpunkt liegen, damit ein Ort unter dem Finger bleibt?
+ *
+ * Beim Zoomen mit Rad oder zwei Fingern erwartet man, dass der Punkt, den man
+ * anfasst, sich nicht bewegt. Google Maps macht das so, jede Karte macht das
+ * so, und ohne diese Zeile springt der Ausschnitt bei jedem Zoomschritt.
+ *
+ * @param ort     Erdkoordinate, die stehen bleiben soll
+ * @param pixel   wo sie im Kasten liegt {left, top}
+ * @param zoom    die neue Zoomstufe
+ */
+export function zentrumHalten({ ort, pixel, zoom, width, height }) {
+  const weltPx = KACHEL * 2 ** zoom
+  const m = mercator(ort)
+  return unMercator({
+    x: m.x - (pixel.left - width / 2) / weltPx,
+    y: m.y - (pixel.top - height / 2) / weltPx,
+  })
 }
 
 /**

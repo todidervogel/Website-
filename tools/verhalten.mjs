@@ -24,7 +24,12 @@ const TIMEOUT = Number(process.env.PW_TIMEOUT ?? 15000)
 
 const results = []
 async function test(name, setup, body) {
-  const context = await browser.newContext({ viewport: { width: 390, height: 844 } })
+  const context = await browser.newContext({
+    viewport: { width: 390, height: 844 },
+    /* Ohne diese Erlaubnis wirft `clipboard.writeText`, und „Teilen" ließe
+       sich nicht prüfen, obwohl es im Browser eines Menschen funktioniert. */
+    permissions: ['clipboard-read', 'clipboard-write'],
+  })
   /*
    * Läuft vor jedem Seitenaufruf. Die Datenhaltung wird deshalb nur beim
    * ersten Mal geleert, sonst wäre nach jedem Klick auf einen Link alles
@@ -401,6 +406,146 @@ await test('In der App führt die Startseite direkt in den Feed', appUser, async
 await test('Die Suche schlägt ohne Eingabe etwas vor', web, async (page) => {
   await page.goto(`${BASE}/suche`)
   await page.waitForSelector('.video-grid .video-tile, .video-grid .thumb-placeholder')
+})
+
+/* ==========================================================================
+   Nichts verspricht mehr, was es nicht tut
+   ==========================================================================
+
+   Fünf Knöpfe meldeten „Link kopiert", ohne etwas zu kopieren, und der
+   QR-Bereich zeigte ein Symbol aus der Icon-Sammlung statt eines Codes. Wer
+   das ausgedruckt und aufgehängt hätte, hätte Gäste auf ein Bild scannen
+   lassen, in dem keine Adresse steht. */
+
+await test('Teilen legt die Adresse wirklich in die Zwischenablage', web, async (page) => {
+  await page.goto(`${BASE}/g/pruef-trattoria`)
+  await page.waitForSelector('.cover')
+  await page.locator('button[aria-label="Teilen"]').first().click()
+  await page.waitForSelector('.toast')
+  const inhalt = await page.evaluate(() => navigator.clipboard.readText())
+  if (!inhalt.includes('pruef-trattoria')) throw new Error(`Zwischenablage: ${inhalt || '(leer)'}`)
+})
+
+await test('Der QR-Code ist ein echter Code', gastro, async (page) => {
+  await page.goto(`${BASE}/gastro/qr`)
+  const bild = await page.waitForSelector('img.qr-bild')
+  const quelle = await bild.getAttribute('src')
+  if (!quelle?.startsWith('data:image/png')) throw new Error(`Quelle war ${quelle?.slice(0, 40)}`)
+  /* Ein leeres Bild wäre auch ein data:-Verweis, ein Code ist deutlich größer. */
+  if (quelle.length < 500) throw new Error(`nur ${quelle.length} Zeichen`)
+})
+
+/* ==========================================================================
+   Die Karte lässt sich bedienen
+   ==========================================================================
+
+   Der Wunsch war: „soll wie bei Maps sein, also nur im Umkreis geladen".
+   Dafür muss sie sich erst einmal schieben und zoomen lassen. Geprüft wird
+   an den Markern, denn sie kommen aus derselben Rechnung wie die Kacheln:
+   Bewegt sich die Karte, bewegen sie sich mit. */
+
+/**
+ * Ein Punkt auf der Karte, an dem wirklich die Karte liegt.
+ *
+ * Auf dem Handy deckt das Ergebnisblatt die untere Hälfte ab und die Leiste
+ * mit Suche und Filtern die obere. Beim ersten Anlauf zog die Prüfung am
+ * Blatt statt an der Karte, und es sah aus, als ließe sie sich nicht
+ * schieben. Deshalb wird der Punkt nicht geraten, sondern gesucht.
+ */
+const kartePunkt = async (page) => page.evaluate(() => {
+  const kasten = document.querySelector('.map-canvas').getBoundingClientRect()
+  for (const anteil of [0.3, 0.34, 0.26, 0.4, 0.22, 0.45]) {
+    const x = kasten.left + kasten.width * 0.6
+    const y = kasten.top + kasten.height * anteil
+    if (document.elementFromPoint(x, y)?.classList.contains('map-gesten')) return { x, y }
+  }
+  return null
+})
+
+const markerLinks = (page, name) =>
+  page.locator(`.marker-ort[aria-label="${name}"]`).evaluate((el) => el.getBoundingClientRect().left)
+
+/**
+ * Ein Marker, der weit genug von der Mitte weg liegt.
+ *
+ * Wichtig für die Zoomprüfung: Der Betrieb aus dem Prüfbestand sitzt genau
+ * auf der Ausgangsposition, also in der Bildmitte. Ein Punkt in der Mitte
+ * bleibt beim Zoomen liegen, das ist richtig so und taugt nur nicht zum
+ * Messen. Beim ersten Anlauf sah es deshalb aus, als zoome die Karte nicht.
+ */
+const markerWeitAussen = (page) => page.evaluate(() => {
+  const kasten = document.querySelector('.map-canvas').getBoundingClientRect()
+  const mitte = kasten.left + kasten.width / 2
+  const alle = [...document.querySelectorAll('.marker-ort')]
+    /* Die Mitte des Markers zählt, nicht seine linke Kante: Der Knopf ist
+       44 Pixel breit, und diese 22 Pixel Versatz verfälschen jeden Vergleich. */
+    .map((el) => {
+      const r = el.getBoundingClientRect()
+      return { name: el.getAttribute('aria-label'), abstand: r.left + r.width / 2 - mitte }
+    })
+    /*
+     * Nicht der äußerste: Beim Zoomen verdoppelt sich der Abstand, und wer
+     * ganz außen sitzt, liegt danach außerhalb des Bildes. Dann wird er auch
+     * nicht mehr geladen, denn geladen wird nur, was man sieht. Gesucht ist
+     * also ein Marker in der Nähe der Mitte, aber nicht darauf.
+     */
+    .filter((m) => Math.abs(m.abstand) > 10 && Math.abs(m.abstand) < kasten.width * 0.15)
+    .sort((a, b) => Math.abs(a.abstand) - Math.abs(b.abstand))
+  return alle[0] ?? null
+})
+
+await test('Die Karte lässt sich schieben', web, async (page) => {
+  await page.goto(`${BASE}/karte`)
+  await page.waitForSelector('.map-gesten')
+  const marker = page.locator('.marker-ort').first()
+  await marker.waitFor()
+  const name = await marker.getAttribute('aria-label')
+  const vorher = await markerLinks(page, name)
+
+  const von = await kartePunkt(page)
+  if (!von) throw new Error('Keine freie Stelle auf der Karte gefunden')
+  await page.mouse.move(von.x, von.y)
+  await page.mouse.down()
+  await page.mouse.move(von.x - 140, von.y, { steps: 10 })
+  await page.mouse.up()
+
+  const nachher = await markerLinks(page, name)
+  if (vorher - nachher < 100) {
+    throw new Error(`Marker wanderte nur ${(vorher - nachher).toFixed(0)} statt etwa 140 Pixel`)
+  }
+})
+
+await test('Die Karte lässt sich zoomen', web, async (page) => {
+  await page.goto(`${BASE}/karte`)
+  await page.waitForSelector('.map-gesten')
+  await page.waitForSelector('.marker-ort')
+  const aussen = await markerWeitAussen(page)
+  if (!aussen) throw new Error('Kein Marker außerhalb der Mitte gefunden')
+
+  await page.locator('button[aria-label="Näher heran"]').click()
+
+  /* Eine Stufe näher heißt: etwa doppelter Abstand von der Mitte. */
+  await page.waitForFunction(
+    ([kennung, vorher]) => {
+      const el = document.querySelector(`.marker-ort[aria-label="${kennung}"]`)
+      if (!el) return false
+      const kasten = document.querySelector('.map-canvas').getBoundingClientRect()
+      const r = el.getBoundingClientRect()
+      const jetzt = r.left + r.width / 2 - (kasten.left + kasten.width / 2)
+      return Math.abs(jetzt) > Math.abs(vorher) * 1.5
+    },
+    [aussen.name, aussen.abstand],
+    { timeout: 8000 },
+  )
+})
+
+await test('Ohne Standortfreigabe sagt die Karte Bescheid', web, async (page) => {
+  await page.goto(`${BASE}/karte`)
+  await page.waitForSelector('.map-gesten')
+  await page.locator('button[aria-label="Auf meinen Standort zentrieren"]').click()
+  const meldung = await page.waitForSelector('.toast', { timeout: 20000 })
+  const text = (await meldung.textContent()).trim()
+  if (!text) throw new Error('Meldung war leer')
 })
 
 /* ==========================================================================

@@ -114,7 +114,15 @@ export function Header({ suffix, minimal }) {
                           <MenuItem icon={Bookmark} onClick={() => { close(); navigate('/profil?tab=saved') }}>{t('header.avatarMenu.saved')}</MenuItem>
                           <MenuItem icon={Settings} onClick={() => { close(); navigate('/einstellungen') }}>{t('header.avatarMenu.settings')}</MenuItem>
                           <MenuSeparator />
-                          <MenuItem icon={CircleHelp} onClick={close}>{t('header.avatarMenu.help')}</MenuItem>
+                          {/*
+                            * „Hilfe" führte ins Leere: Der Punkt schloss nur
+                            * das Menü. Ein Hilfezentrum gibt es im MVP nicht,
+                            * die Richtlinien gibt es. Dorthin also, statt
+                            * einen Knopf stehen zu lassen, der nichts tut.
+                            */}
+                          <MenuItem icon={CircleHelp} onClick={() => { close(); navigate('/richtlinien') }}>
+                            {t('header.avatarMenu.help')}
+                          </MenuItem>
                           <MenuItem icon={LogOut} onClick={() => { close(); signOut() }}>{t('header.avatarMenu.logout')}</MenuItem>
                         </>
                       )}

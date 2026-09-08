@@ -98,6 +98,20 @@
     repeating-linear-gradient(90deg, var(--map-grid) 0 1px, transparent 1px 40px),
     var(--map-bg);
 }
+/*
+   Die Ebene für Finger und Maus.
+
+   Sie liegt über den Kacheln und unter allem, was man antippen können muss.
+   `touch-action: none` ist die entscheidende Zeile: Ohne sie behandelt der
+   Browser jede Wischbewegung als Scrollen der Seite, und die Karte bekommt
+   nur den ersten Zeigerbericht, danach nichts mehr.
+*/
+.map-gesten {
+  position: absolute; inset: 0; z-index: 2;
+  touch-action: none; cursor: grab;
+}
+.map-gesten.is-greifend { cursor: grabbing; }
+
 .map-overlay-top { position: absolute; top: var(--sp-3); left: var(--sp-3); right: var(--sp-3); z-index: 10; }
 .map-toolbar {
   background: var(--bg-light); border-radius: var(--r-card); box-shadow: var(--shadow-float);
@@ -120,7 +134,30 @@
   padding: 3px var(--sp-2); background: var(--map-veil);
   font-size: 11px; line-height: 15px; color: var(--text-secondary); text-align: right;
 }
-.marker { position: absolute; transform: translate(-50%, -50%); border: 0; cursor: pointer; background: transparent; }
+/*
+   Die Ebene, auf der die Marker liegen.
+
+   Sie beschneidet, was über den Rand hinausragt. Ohne das schiebt ein Marker
+   am rechten Bildrand die ganze Seite breiter: Gefunden im Bildschirmfoto,
+   „Seite ist 13px zu breit", seit die Karte lädt, was im Ausschnitt liegt,
+   und Marker deshalb bis an den Rand reichen.
+
+   `pointer-events: none` auf der Ebene, `auto` auf den Markern: So fängt die
+   Ebene keine Wischbewegung ab, die der Karte gilt, aber jeder Marker bleibt
+   antippbar.
+*/
+.map-marker-ebene {
+  position: absolute; inset: 0; overflow: hidden;
+  pointer-events: none; z-index: 3;
+}
+.map-marker-ebene .marker { pointer-events: auto; }
+
+.marker {
+  position: absolute; transform: translate(-50%, -50%); border: 0; cursor: pointer;
+  background: transparent;
+  /* Über der Gestenfläche, sonst ließe sich kein Marker antippen. */
+  z-index: 3;
+}
 
 /*
  * Ein Marker, wie ihn jede Karte hat: Tropfen mit der Spitze auf dem Punkt.
@@ -525,6 +562,9 @@
   width: 14px; height: 14px; border-radius: 50%;
   background: var(--tint-info-fg); border: 2px solid #fff;
   box-shadow: 0 0 0 6px rgba(31, 95, 168, .18);
+  /* Nur zum Ansehen. Sonst fängt der Punkt den Wisch ab, mit dem man die
+     Karte schieben will, und ausgerechnet in der Mitte ginge nichts. */
+  pointer-events: none;
 }
 
 /* Vorschaukarte zum angetippten Marker */

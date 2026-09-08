@@ -8,6 +8,7 @@ import { ReportContentDialog } from '../dialogs/ReportContentDialog'
 import { useSession } from '../../lib/session'
 import { useRequireLogin } from '../../lib/auth'
 import { api, useQuery } from '../../lib/store'
+import { useTeilen } from '../../lib/teilen'
 import { t } from '../../design/i18n'
 
 const TABS = [
@@ -22,6 +23,7 @@ export function OwnProfile() {
   const [tab, setTab] = useState(params.get('tab') === 'saved' ? 'saved' : 'videos')
   const { user: sessionUser, loggedIn, userId } = useSession()
   const toast = useToast()
+  const teilenJetzt = useTeilen()
   /*
    * Der Nutzer aus der Sitzung ist der rohe Datensatz, ohne Zahlen. Videos,
    * Follower und Folgt werden bei jeder Abfrage frisch gezählt und stehen
@@ -55,7 +57,11 @@ export function OwnProfile() {
         actions={
           <>
             <Button variant="secondary" to="/einstellungen/profil">{t('profile.edit')}</Button>
-            <IconButton icon={Share2} label={t('common.share')} onClick={() => toast(t('toast.linkCopied'))} />
+            <IconButton
+              icon={Share2}
+              label={t('common.share')}
+              onClick={() => teilenJetzt({ pfad: `/p/${user.username}`, titel: `@${user.username}` })}
+            />
             <IconButton icon={Settings} label={t('profile.settings')} to="/einstellungen" />
           </>
         }

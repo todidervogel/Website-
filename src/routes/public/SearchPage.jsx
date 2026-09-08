@@ -20,7 +20,15 @@ const TABS = [
 ]
 
 const RATING_LIMITS = { all: 0, from3: 3, from4: 4, from45: 4.5 }
-const CATEGORIES = ['restaurant', 'cafe', 'bar', 'imbiss']
+/*
+ * Die Kategorien, die es im Bestand wirklich gibt.
+ *
+ * Sie stehen genauso in tools/osm-import.mjs (KATEGORIE). Wer hier eine
+ * hinzufügt, die der Import nie vergibt, baut einen Filter, der auf nichts
+ * zeigt. „Sonstiges" fehlte umgekehrt: Metzgereien und Feinkost landen dort,
+ * und ohne den Eintrag ließen sie sich nicht auswählen.
+ */
+const CATEGORIES = ['restaurant', 'cafe', 'imbiss', 'baeckerei', 'eisdiele', 'bar', 'pub', 'sonstiges']
 
 /** C.5, Suchergebnisse */
 export default function SearchPage() {

@@ -17,7 +17,8 @@ import { useDesignState } from '../../lib/design-state'
 import { useRequireLogin } from '../../lib/auth'
 import { useSession } from '../../lib/session'
 import { api, dayKeyOf, useQuery } from '../../lib/store'
-import { routeZu, teilen, zeigenIn } from '../../lib/karten-links'
+import { routeZu, zeigenIn } from '../../lib/karten-links'
+import { useTeilen } from '../../lib/teilen'
 import { titelbild } from '../../domain'
 import { openSentence, weekRowsText } from '../../lib/hours-text'
 import { MVP_STAGE } from '../../design/config'
@@ -77,17 +78,12 @@ export default function PlacePage() {
    * Teilen über die Teilen-Funktion des Geräts, sonst in die Zwischenablage.
    * Vorher meldete der Knopf „Link kopiert", ohne irgendetwas zu kopieren.
    */
-  const teilenJetzt = async () => {
-    if (!place) return
-    const ergebnis = await teilen({
-      titel: place.name,
-      text: `${place.name}, ${place.address}${place.city ? `, ${place.city}` : ''}`,
-      adresse: window.location.href,
-    })
-    if (!ergebnis.ok) return
-    if (ergebnis.weg === 'kopiert') toast(t('toast.linkCopied'))
-    if (ergebnis.weg === 'geteilt') toast(t('toast.shared'))
-  }
+  const teilen = useTeilen()
+  const teilenJetzt = () => place && teilen({
+    pfad: `/g/${place.slug}`,
+    titel: place.name,
+    text: `${place.name}, ${place.address}${place.city ? `, ${place.city}` : ''}`,
+  })
 
   if (loading) {
     return (
@@ -461,9 +457,14 @@ function DishPreview({ dish }) {
 function ReviewsTab({ place }) {
   const requireLogin = useRequireLogin()
   const [filter, setFilter] = useState('all')
+  /* Das Menü stand vorher da und tat nichts. Jetzt sortiert es wirklich. */
+  const [sortierung, setSortierung] = useState('neu')
   const [reportTarget, setReportTarget] = useState(null)
-  const { data, loading } = 
-    useQuery(() => api.reviews.byPlace(place.id, { filter }), [place.id, filter], { initial: [] })
+  const { data, loading } = useQuery(
+    () => api.reviews.byPlace(place.id, { filter, sort: sortierung }),
+    [place.id, filter, sortierung],
+    { initial: [] },
+  )
   const list = data ?? []
 
   return (
@@ -477,13 +478,20 @@ function ReviewsTab({ place }) {
         <Menu
           align="right"
           trigger={({ toggle }) => (
-            <button type="button" className="chip" onClick={toggle}>{t('common.sortNewest')} <ChevronDown size={14} /></button>
+            <button type="button" className="chip" onClick={toggle}>
+              {sortierung === 'neu' ? t('common.sortNewest') : t('place.dishesSortOptions.best')}
+              <ChevronDown size={14} />
+            </button>
           )}
         >
           {({ close }) => (
             <>
-              <button type="button" className="menu-item" onClick={close}>{t('common.sortNewest')}</button>
-              <button type="button" className="menu-item" onClick={close}>{t('place.dishesSortOptions.best')}</button>
+              <button type="button" className="menu-item" onClick={() => { setSortierung('neu'); close() }}>
+                {t('common.sortNewest')} {sortierung === 'neu' && <span className="c-accent">✓</span>}
+              </button>
+              <button type="button" className="menu-item" onClick={() => { setSortierung('beste'); close() }}>
+                {t('place.dishesSortOptions.best')} {sortierung === 'beste' && <span className="c-accent">✓</span>}
+              </button>
             </>
           )}
         </Menu>

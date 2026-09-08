@@ -583,3 +583,41 @@ body.map-pure { overflow: hidden; }
 }
 @keyframes dreh { to { transform: rotate(360deg); } }
 .spin { animation: dreh 900ms linear infinite; }
+
+
+/* ==========================================================================
+   Aushang mit QR-Code (F.10)
+   ==========================================================================
+
+   Auf dem Bildschirm ist das die Vorschau in der Karte. Auf dem Papier ist
+   es das einzige, was übrig bleibt: Beim Drucken wird alles andere
+   ausgeblendet, und die Vorlage entscheidet über die Größe.
+
+   Warum kein PDF: Ein PDF müsste erzeugt, heruntergeladen und dann von Hand
+   gedruckt werden. Der Druckdialog des Systems kann selbst in eine PDF-Datei
+   drucken, kennt das Papierformat und braucht keine zusätzliche Bibliothek.
+   ========================================================================== */
+.qr-aushang { display: grid; justify-items: center; gap: var(--sp-2); text-align: center; }
+.qr-bild { width: 240px; height: 240px; background: #fff; border-radius: var(--r-control); }
+.qr-leer { border: 1px solid var(--border); }
+.qr-adresse { word-break: break-all; max-width: 240px; }
+
+@media print {
+  /* Alles weg, was nicht der Aushang ist. */
+  body * { visibility: hidden !important; }
+  .qr-aushang, .qr-aushang * { visibility: visible !important; }
+  .qr-aushang {
+    position: absolute; inset: 0; margin: auto; height: max-content;
+    color: #000; background: #fff;
+  }
+  .qr-aushang .qr-bild { border: 0; }
+
+  /* Die Vorlagen unterscheiden sich in genau einem: wie groß der Code wird. */
+  .qr-a6 .qr-bild { width: 70mm; height: 70mm; }
+  .qr-a4 .qr-bild { width: 140mm; height: 140mm; }
+  .qr-sticker .qr-bild { width: 45mm; height: 45mm; }
+  .qr-plain .qr-bild { width: 90mm; height: 90mm; }
+  .qr-plain .qr-adresse { display: none; }
+
+  @page { margin: 12mm; }
+}

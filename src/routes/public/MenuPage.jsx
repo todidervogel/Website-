@@ -12,6 +12,7 @@ import { api, useQuery } from '../../lib/store'
 import { openSentence } from '../../lib/hours-text'
 import { useDesignState } from '../../lib/design-state'
 import { ALLERGEN_KEYS } from '../../design/vocabulary'
+import { useTeilen } from '../../lib/teilen'
 import { t } from '../../design/i18n'
 
 /**
@@ -26,6 +27,7 @@ export default function MenuPage() {
   const { slug } = useParams()
   const { position } = useDesignState()
   const toast = useToast()
+  const teilenJetzt = useTeilen()
 
   const { data: place, loading: placeLoading } = useQuery(
     () => api.places.bySlug(slug, position), [slug, position],
@@ -220,7 +222,16 @@ export default function MenuPage() {
 
             <div className="row-wrap menu-foot-actions">
               <Button variant="secondary" icon={ArrowLeft} to={`/g/${place.slug}`}>{t('common.back')}</Button>
-              <Button variant="secondary" icon={Share2} onClick={() => toast(t('toast.linkCopied'))}>{t('menu.share')}</Button>
+              <Button
+                variant="secondary"
+                icon={Share2}
+                onClick={() => teilenJetzt({
+                  pfad: `/g/${place.slug}/speisekarte`,
+                  titel: `${place.name}, ${t('menu.title')}`,
+                })}
+              >
+                {t('menu.share')}
+              </Button>
               <Button variant="quiet" icon={Printer} onClick={() => window.print()}>{t('menu.print')}</Button>
             </div>
           </footer>

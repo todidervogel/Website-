@@ -125,7 +125,8 @@
     "error": "Etwas ist schiefgelaufen. Bitte versuch es erneut.",
     "reportThanks": "Danke! Wir sehen uns das an.",
     "noAction": "Nur Design, hier passiert nichts.",
-    "shared": "Geteilt"
+    "shared": "Geteilt",
+    "shareFailed": "Teilen hat nicht geklappt."
   },
   "rating": {
     "food": "Essen",
@@ -215,7 +216,15 @@
     "positionLabel": "Standort: {{name}}",
     "filterCount": "{{count}} Filter aktiv",
     "resetFilters": "Filter zurücksetzen",
-    "credit": "© OpenStreetMap-Mitwirkende"
+    "credit": "© OpenStreetMap-Mitwirkende",
+    "zoomIn": "Näher heran",
+    "zoomOut": "Weiter weg",
+    "locate": {
+      "abgelehnt": "Ohne Standortfreigabe können wir dich nicht finden. Du kannst sie in den Einstellungen deines Geräts erlauben.",
+      "zeit": "Das Gerät hat den Standort nicht rechtzeitig gefunden. Bitte versuche es noch einmal.",
+      "nichtVerfuegbar": "Dieses Gerät gibt keinen Standort heraus.",
+      "fehler": "Der Standort ließ sich gerade nicht bestimmen."
+    }
   },
   "categories": {
     "restaurant": "Restaurant",
@@ -974,7 +983,12 @@
       "preview": "Vorschau",
       "downloadPdf": "Als PDF herunterladen",
       "downloadPng": "PNG herunterladen",
-      "targetLabel": "Wohin soll der Code führen?"
+      "targetLabel": "Wohin soll der Code führen?",
+      "drucken": "Aushang drucken",
+      "speichern": "Als Bild speichern",
+      "speichernHinweis": "Das Bild liegt danach in deinen Downloads.",
+      "geteilt": "Bild weitergegeben.",
+      "scanHinweis": "Der Code führt auf diese Adresse. Scanne ihn einmal selbst, bevor du ihn aushängst."
     },
     "settings": {
       "title": "Einstellungen",

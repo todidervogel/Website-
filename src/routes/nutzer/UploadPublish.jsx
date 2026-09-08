@@ -157,10 +157,13 @@ export default function UploadPublish() {
             </div>
           </div>
 
-          <div className="row-between" style={{ opacity: MVP_STAGE >= 2 ? 1 : 0.4 }}>
-            <span className="t-body">{t('upload.publish.allowComments')}</span>
-            <Switch checked={comments} onChange={setComments} disabled={MVP_STAGE < 2} label={t('upload.publish.allowComments')} />
-          </div>
+          {/* Ein Schalter für etwas, das es nicht gibt, verspricht zu viel. */}
+          {MVP_STAGE >= 2 && (
+            <div className="row-between">
+              <span className="t-body">{t('upload.publish.allowComments')}</span>
+              <Switch checked={comments} onChange={setComments} label={t('upload.publish.allowComments')} />
+            </div>
+          )}
 
           <Notice>
             {tNodes('upload.publish.consent', {

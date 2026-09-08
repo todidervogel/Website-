@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { ChevronRight, Compass, Info, MapPin, Navigation, QrCode, SquarePlay, UtensilsCrossed } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Button, IconButton, ServingRow, Skeleton, VideoTile } from '../../design/ui'
@@ -6,6 +6,7 @@ import { Page } from '../../components/layout'
 import { useDesignState } from '../../lib/design-state'
 import { api, useQuery } from '../../lib/store'
 import { MapTiles } from '../../components/MapTiles'
+import { useKartenblick } from '../../lib/karten-blick'
 import { t } from '../../design/i18n'
 
 /**
@@ -29,7 +30,9 @@ export default function Landing() {
   const { position, radiusKm, setPosition } = useDesignState()
   const navigate = useNavigate()
   const [where, setWhere] = useState('')
-  const [projizieren, setProjizieren] = useState(null)
+  const kartenkasten = useRef(null)
+  /* Eine kleine Karte, sechs Kilometer breit, ohne Bedienung. */
+  const blick = useKartenblick(kartenkasten, { center: position, spanKm: 6 })
 
   const { data: feed, loading: feedLoading } = 
     useQuery(() => api.videos.feed({ position, radiusKm: Math.max(radiusKm, 10) }), [position, radiusKm], {
@@ -93,10 +96,10 @@ export default function Landing() {
           * Rechts keine Bühnengrafik, sondern die Karte mit echten Betrieben.
           * Auf dem Handy fällt sie unter den Text.
           */}
-        <div className="lp-hero-map map-canvas">
-          <MapTiles center={position} spanKm={6} onProject={setProjizieren} />
-          {!mapLoading && projizieren && markers.map((p) => (
-            <span key={p.id} className="marker marker-ort" style={{ top: projizieren(p).top, left: projizieren(p).left }}>
+        <div className="lp-hero-map map-canvas" ref={kartenkasten}>
+          <MapTiles blick={blick} />
+          {!mapLoading && blick && markers.map((p) => (
+            <span key={p.id} className="marker marker-ort" style={{ top: blick.projizieren(p).top, left: blick.projizieren(p).left }}>
               {/* Dieselbe Kartennadel wie auf der Karte selbst. */}
               <span className={`marker-pin ${p.videoCount > 0 ? 'marker-pin-video' : ''}`}>
                 {p.videoCount > 0 && <SquarePlay size={15} />}

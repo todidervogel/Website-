@@ -7,6 +7,17 @@
  */
 export const APP_NAME = 'Tellerrand'
 
+/**
+ * Wo die Web-App öffentlich liegt.
+ *
+ * Gebraucht beim Teilen: In der App steht im Fenster `https://localhost/...`,
+ * und mit dieser Adresse kann niemand etwas anfangen, der die Nachricht
+ * bekommt. Geteilt wird deshalb der Weg über die Webseite.
+ *
+ * Zieht die Veröffentlichung um, ändert sich hier eine Zeile.
+ */
+export const WEB_ADRESSE = 'https://todidervogel.github.io/Website-'
+
 /** MVP-Stufe. Steuert, was ausgegraut bzw. mit „Bald“ markiert wird. */
 export const MVP_STAGE = 0
 

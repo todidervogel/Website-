@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from 'react'
-import { kachelAdresse, kartenblick } from '../lib/map'
-import { SERVER } from '../lib/store/api'
+import { useEffect, useState } from 'react'
+import { kachelAdresse } from '../lib/map'
+import { request, SERVER } from '../lib/store'
 import { t } from '../design/i18n'
 
 /**
@@ -18,19 +18,111 @@ let nennungVersprechen = null
 
 function nennungHolen() {
   if (!SERVER) return Promise.resolve(null)
-  nennungVersprechen ??= fetch(`${SERVER}/api/karte/stil`)
-    .then((antwort) => (antwort.ok ? antwort.json() : null))
+  nennungVersprechen ??= request('/api/karte/stil')
     .then((stil) => stil?.nennung ?? null)
     .catch(() => null)
   return nennungVersprechen
+}
+
+/* ==========================================================================
+   Kacheln holen
+   ========================================================================== */
+
+/**
+ * ┌─ Warum die Kacheln nicht einfach in einem <img> stehen ──────────────────┐
+ * │  Weil zwischen App und Server ein ngrok-Tunnel liegt, und der schiebt    │
+ * │  Browsern eine Warnseite unter, statt das Bild durchzulassen. Sie kommt  │
+ * │  mit Status 200 und HTML. Ein <img> kann keine Kopfzeile mitschicken,    │
+ * │  also bekam es die Warnseite, konnte sie nicht anzeigen und blendete     │
+ * │  sich aus. Ergebnis auf dem Handy: keine Karte, nur der graue Raster-    │
+ * │  hintergrund. Genau so kam es zurück: „die map wird nicht vom Server     │
+ * │  geladen".                                                               │
+ * │                                                                          │
+ * │  Über `fetch` geht die Kopfzeile mit. Aus der Antwort wird eine          │
+ * │  Objekt-Adresse, und die versteht ein <img> wieder.                      │
+ * └──────────────────────────────────────────────────────────────────────────┘
+ *
+ * Nebenbei bekommen wir damit einen Zwischenspeicher im Gerät: Beim Schieben
+ * und Zoomen kommen dieselben Kacheln immer wieder vor. Ohne ihn wäre jede
+ * Bewegung ein neuer Aufruf über den Tunnel.
+ */
+const AUFBEWAHREN = 400
+
+const gespeichert = new Map()
+const unterwegs = new Map()
+
+const schluesselVon = (k, basis) => `${basis}|${k.zoom}/${k.x}/${k.y}`
+
+function merken(schluessel, adresse) {
+  gespeichert.set(schluessel, adresse)
+  /* Ältestes zuerst hinaus, `Map` behält die Reihenfolge des Einfügens. */
+  while (gespeichert.size > AUFBEWAHREN) {
+    const aeltestes = gespeichert.keys().next().value
+    const alt = gespeichert.get(aeltestes)
+    gespeichert.delete(aeltestes)
+    if (alt?.startsWith('blob:')) URL.revokeObjectURL(alt)
+  }
+}
+
+function kachelHolen(k, basis) {
+  /* Ohne Server geht es direkt zu OpenStreetMap, dort liegt kein Tunnel dazwischen. */
+  if (!basis) return Promise.resolve(kachelAdresse(k))
+
+  const schluessel = schluesselVon(k, basis)
+  if (gespeichert.has(schluessel)) return Promise.resolve(gespeichert.get(schluessel))
+  if (unterwegs.has(schluessel)) return unterwegs.get(schluessel)
+
+  const versprechen = fetch(kachelAdresse(k, basis), {
+    headers: { 'ngrok-skip-browser-warning': '1' },
+  })
+    .then((antwort) => (antwort.ok ? antwort.blob() : null))
+    .then((blob) => {
+      /*
+       * Kommt trotzdem etwas anderes als ein Bild zurück, ist es die
+       * Warnseite oder eine Fehlerseite. Beides ist keine Kachel.
+       */
+      if (!blob || !blob.type.startsWith('image/')) return null
+      const adresse = URL.createObjectURL(blob)
+      merken(schluessel, adresse)
+      return adresse
+    })
+    .catch(() => null)
+    .finally(() => unterwegs.delete(schluessel))
+
+  unterwegs.set(schluessel, versprechen)
+  return versprechen
+}
+
+/** Eine Kachel. Zeigt sich erst, wenn sie wirklich da ist. */
+function Kachel({ k, basis }) {
+  const [adresse, setAdresse] = useState(() => (basis ? gespeichert.get(schluesselVon(k, basis)) ?? null : null))
+
+  useEffect(() => {
+    let abgebrochen = false
+    kachelHolen(k, basis).then((gefunden) => { if (!abgebrochen) setAdresse(gefunden) })
+    return () => { abgebrochen = true }
+    /* Nur die Kachel selbst zählt, ihre Lage im Kasten ändert sich beim Schieben. */
+  }, [k.zoom, k.x, k.y, basis])
+
+  if (!adresse) return null
+
+  return (
+    <img
+      className="map-tile"
+      src={adresse}
+      alt=""
+      draggable={false}
+      style={{ left: k.left, top: k.top, width: k.groesse, height: k.groesse }}
+    />
+  )
 }
 
 /**
  * Die Karte darunter, echte Kacheln.
  *
  * ┌─ Woher die Kacheln kommen ───────────────────────────────────────────────┐
- * │  mit Server   Server/src/http/karte.js, zwischengespeichert, im Stil     │
- * │               „Voyager", der dem Bild von Google Maps am nächsten kommt  │
+ * │  mit Server   Server/src/http/karte.js, zwischengespeichert, im Stil,    │
+ * │               den KARTE_STIL vorgibt                                     │
  * │  ohne Server  direkt von tile.openstreetmap.org (siehe lib/map.js)       │
  * └──────────────────────────────────────────────────────────────────────────┘
  *
@@ -39,16 +131,18 @@ function nennungHolen() {
  * hier aber nur ein Raster aus Bildern an der richtigen Stelle, das sind
  * dreißig Zeilen Rechnung in `lib/map.js`.
  *
+ * Geladen wird nur, was im Bild liegt. Beim Schieben kommen die Kacheln am
+ * neuen Rand dazu, die alten bleiben im Zwischenspeicher.
+ *
  * Kommen die Kacheln nicht (kein Netz, App im Flugmodus), bleibt der graue
  * Rasterhintergrund von `.map-canvas` stehen. Die Marker sitzen trotzdem
  * richtig, weil sie aus derselben Rechnung kommen.
  *
- * `onProject` gibt die Projektion nach oben: Der Kartenschirm misst sich
- * selbst, und nur er weiß, wie groß er ist.
+ * Gemessen und gerechnet wird eine Ebene höher (src/lib/karten-blick.js).
+ * Diese Datei bekommt das Ergebnis und zeichnet es. So sitzen Kacheln und
+ * Marker im selben Bild, statt um einen Zeichenschritt versetzt.
  */
-export function MapTiles({ center, spanKm, onProject }) {
-  const kasten = useRef(null)
-  const [masse, setMasse] = useState(null)
+export function MapTiles({ blick }) {
   const [nennung, setNennung] = useState(null)
 
   useEffect(() => {
@@ -57,51 +151,9 @@ export function MapTiles({ center, spanKm, onProject }) {
     return () => { abgebrochen = true }
   }, [])
 
-  useEffect(() => {
-    const el = kasten.current
-    if (!el) return undefined
-    const messen = () => {
-      const { width, height } = el.getBoundingClientRect()
-      setMasse((alt) =>
-        alt && Math.abs(alt.width - width) < 1 && Math.abs(alt.height - height) < 1
-          ? alt
-          : { width, height })
-    }
-    messen()
-    const beobachter = new ResizeObserver(messen)
-    beobachter.observe(el)
-    return () => beobachter.disconnect()
-  }, [])
-
-  const blick = masse && kartenblick({ center, spanKm, ...masse })
-
-  /*
-   * Die Projektion nach oben reichen, sobald sie feststeht. Über einen Effekt,
-   * damit sie nicht mitten im Zeichnen den Zustand der Elternkomponente ändert.
-   */
-  useEffect(() => {
-    if (blick && onProject) onProject(() => blick.projizieren)
-  }, [blick, onProject])
-
   return (
-    <div className="map-tiles" ref={kasten} aria-hidden="true">
-      {blick?.kacheln.map((k) => (
-        <img
-          key={k.schluessel}
-          className="map-tile"
-          src={kachelAdresse(k, SERVER)}
-          alt=""
-          loading="lazy"
-          draggable={false}
-          /*
-           * Ohne Netz gibt es keine Kacheln. Ein kaputtes Bild zeigt sonst das
-           * Symbol des Browsers, vierzig kleine Symbole auf einer Karte sehen
-           * schlimmer aus als gar keine Karte.
-           */
-          onError={(e) => { e.currentTarget.hidden = true }}
-          style={{ left: k.left, top: k.top, width: k.groesse, height: k.groesse }}
-        />
-      ))}
+    <div className="map-tiles" aria-hidden="true">
+      {blick?.kacheln.map((k) => <Kachel key={k.schluessel} k={k} basis={SERVER} />)}
       <span className="map-credit">{nennung ?? t('map.credit')}</span>
     </div>
   )

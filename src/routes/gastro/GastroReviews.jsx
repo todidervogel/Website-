@@ -23,10 +23,11 @@ export default function GastroReviews() {
 function ReviewsBody() {
   const place = useMyPlace()
   const [filter, setFilter] = useState('all')
+  const [sortierung, setSortierung] = useState('neu')
   const [reportTarget, setReportTarget] = useState(null)
 
   const { data, loading } = 
-    useQuery(() => api.reviews.byPlace(place.id), [place.id], { initial: [] })
+    useQuery(() => api.reviews.byPlace(place.id, { sort: sortierung }), [place.id, sortierung], { initial: [] })
   const all = data ?? []
 
   const list = all.filter((r) => {
@@ -86,13 +87,20 @@ function ReviewsBody() {
         <Menu
           align="right"
           trigger={({ toggle }) => (
-            <button type="button" className="chip" onClick={toggle}>{t('common.sortNewest')} <ChevronDown size={14} /></button>
+            <button type="button" className="chip" onClick={toggle}>
+              {sortierung === 'neu' ? t('common.sortNewest') : t('place.dishesSortOptions.best')}
+              <ChevronDown size={14} />
+            </button>
           )}
         >
           {({ close }) => (
             <>
-              <button type="button" className="menu-item" onClick={close}>{t('common.sortNewest')}</button>
-              <button type="button" className="menu-item" onClick={close}>{t('place.dishesSortOptions.best')}</button>
+              <button type="button" className="menu-item" onClick={() => { setSortierung('neu'); close() }}>
+                {t('common.sortNewest')} {sortierung === 'neu' && <span className="c-accent">✓</span>}
+              </button>
+              <button type="button" className="menu-item" onClick={() => { setSortierung('beste'); close() }}>
+                {t('place.dishesSortOptions.best')} {sortierung === 'beste' && <span className="c-accent">✓</span>}
+              </button>
             </>
           )}
         </Menu>

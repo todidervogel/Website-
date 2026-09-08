@@ -10,6 +10,7 @@ import { useRequireLogin } from '../../lib/auth'
 import { useSession } from '../../lib/session'
 import { api, useQuery } from '../../lib/store'
 import { MVP_STAGE } from '../../design/config'
+import { useTeilen } from '../../lib/teilen'
 import { groupSizeLabel, t } from '../../design/i18n'
 
 /** C.7, Videodetailseite /v/[id] */
@@ -19,6 +20,7 @@ export default function VideoDetail() {
   const { userId, loggedIn } = useSession()
   const [reportOpen, setReportOpen] = useState(false)
   const toast = useToast()
+  const teilenJetzt = useTeilen()
   const requireLogin = useRequireLogin()
 
   const { data: video, loading } = 
@@ -124,7 +126,9 @@ export default function VideoDetail() {
             >
               {video.likeCount}
             </Button>
-            <Button variant="quiet" size="sm" icon={MessageCircle} disabled={MVP_STAGE < 2}>{t('videoDetail.comments')}</Button>
+            {MVP_STAGE >= 2 && (
+              <Button variant="quiet" size="sm" icon={MessageCircle}>{t('videoDetail.comments')}</Button>
+            )}
             <Button
               variant="quiet" size="sm" icon={Bookmark}
               className={saved ? 'c-accent' : ''}
@@ -135,7 +139,14 @@ export default function VideoDetail() {
             >
               {t('place.save')}
             </Button>
-            <Button variant="quiet" size="sm" icon={Share2} onClick={() => toast(t('toast.linkCopied'))}>{t('common.share')}</Button>
+            <Button
+              variant="quiet"
+              size="sm"
+              icon={Share2}
+              onClick={() => teilenJetzt({ pfad: `/v/${video.id}`, titel: video.place?.name, text: video.caption })}
+            >
+              {t('common.share')}
+            </Button>
             <Button variant="quiet" size="sm" icon={Flag} onClick={() => setReportOpen(true)}>{t('videoDetail.report')}</Button>
           </div>
 
