@@ -105,8 +105,30 @@ await fetch(`${API}/api/reset`, { method: 'POST' }).catch(() => {})
   await anmelden(a.page, 'test@gastro.de', '12345aA?')
   await a.page.waitForURL('**/gastro')
   await a.page.goto(`${WEB}/gastro/speisekarte`)
-  await a.page.waitForSelector('.list-row')
-  await a.page.locator('button', { hasText: 'Gericht hinzufügen' }).first().click()
+
+  /*
+   * Welcher Betrieb an diesem Konto hängt, entscheidet der Bestand und nicht
+   * dieser Test. Seit dem MVP-Bestand sind es echte Betriebe aus
+   * OpenStreetMap, und die heißen nach jedem Import anders. Vorher stand hier
+   * `trattoria-bella` fest im Text, und der Test lief in eine Zeitüberschreitung,
+   * weil es diesen Betrieb nicht mehr gibt. Also lesen wir die Adresse dort ab,
+   * wo die Seite selbst sie hinschreibt: im Link „öffentlich ansehen".
+   */
+  const oeffentlich = await a.page.locator('a[href^="/g/"]').first().getAttribute('href')
+  check('Am Gastro-Konto hängt ein Betrieb', !!oeffentlich, String(oeffentlich))
+
+  /* Ein frisch importierter Betrieb hat noch keine Speisekarte. Also zuerst
+     eine Kategorie, sonst bleibt „Gericht hinzufügen" ausgegraut. */
+  const gerichtKnopf = a.page.locator('button', { hasText: 'Gericht hinzufügen' }).first()
+  if (await gerichtKnopf.isDisabled()) {
+    await a.page.locator('button', { hasText: 'Kategorie hinzufügen' }).first().click()
+    await a.page.waitForSelector('.modal')
+    await a.page.locator('.modal .field input').first().fill('Server-Testkarte')
+    await a.page.locator('.modal-actions button', { hasText: 'Speichern' }).click()
+    await a.page.waitForSelector('.modal', { state: 'detached' })
+  }
+
+  await gerichtKnopf.click()
   await a.page.waitForSelector('.modal')
   await a.page.locator('.modal .field input').first().fill('Server-Testgericht')
   await a.page.locator('.modal .input-affix input').first().fill('7,50')
@@ -114,7 +136,7 @@ await fetch(`${API}/api/reset`, { method: 'POST' }).catch(() => {})
   await a.page.waitForSelector('.modal', { state: 'detached' })
 
   /* Der zweite Browser hat nie etwas davon gespeichert, er fragt den Server. */
-  await b.page.goto(`${WEB}/g/trattoria-bella/speisekarte`)
+  await b.page.goto(`${WEB}${oeffentlich}`)
   await b.page.waitForSelector('text=Server-Testgericht')
   check('Was der eine anlegt, sieht der andere', true)
 
